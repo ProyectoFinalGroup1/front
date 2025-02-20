@@ -5,7 +5,8 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <header className="inset-x-0 top-0 z-30 w-full py-3 backdrop-blur-lg">
+    <header className="absolute inset-x-0 top-0 z-30 w-full py-3 bg-white bg-opacity-30 shadow-md">
+
       <div className="px-4">
         <div className="flex items-center justify-between">
           <nav className="flex-1 flex justify-center gap-10">
@@ -32,7 +33,7 @@ const Navbar = () => {
               className="text-lg font-bold text-white rounded-xl px-4 py-2 transition-all duration-200 hover:bg-green-500 hover:text-gray-900"
               href="#"
             >
-              Virgen Ma. De San Nicolás
+              Virgen María De San Nicolás
             </Link>
           </nav>
           <div className="flex items-center">
