@@ -1,4 +1,5 @@
 "use client";
+import { validateLoginForm } from '@/helpers/validate';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const LoginView = () => {
@@ -7,7 +8,7 @@ const LoginView = () => {
         <h1>Iniciar Sesión</h1>
         <Formik
           initialValues={{ email: '', password: '' }}
-          validate={}
+          validate={validateLoginForm}
           onSubmit={(values, { setSubmitting }) => {
             console.log("Submit exitoso")
             // setTimeout(() => {
@@ -18,11 +19,13 @@ const LoginView = () => {
         >
           {({ isSubmitting }) => (
             <Form>
-              <Field type="email" name="email" />
-              <ErrorMessage name="email" component="div" />
-              <Field type="password" name="password" />
-              <ErrorMessage name="password" component="div" />
-              <button type="submit" disabled={isSubmitting}>
+                <label>Email: </label>
+                <Field type="email" name="email" />
+                <ErrorMessage name="email" component="div" />
+                <label>Contraseña: </label>
+                <Field type="password" name="password" />
+                <ErrorMessage name="password" component="div" />
+                <button type="submit" disabled={isSubmitting}>
                 Submit
               </button>
             </Form>
