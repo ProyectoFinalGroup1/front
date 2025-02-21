@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Valle de Paz - Cementerio Parque",
     description: "Un lugar de paz y descanso eterno. Atención las 24 hs.",
-    images: ["/images/logo.jpg"], // Reemplázalo con una imagen más representativa si tienes
+    images: ["/images/logo.jpg"], 
   },
 };
 

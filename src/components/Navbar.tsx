@@ -13,7 +13,7 @@ const Navbar = () => {
             <Link
               aria-current="page"
               className="text-lg font-bold text-white rounded-xl px-4 py-2 transition-all duration-200 hover:bg-green-500 hover:text-gray-900 "
-              href="#"
+              href="/"
             >
               Inicio
             </Link>
@@ -25,7 +25,7 @@ const Navbar = () => {
             </Link>
             <Link
               className="text-lg font-bold  text-white rounded-xl px-4 py-2 transition-all duration-200 hover:bg-green-500 hover:text-gray-900"
-              href="#"
+              href="/obituarios"
             >
               Obituarios
             </Link>
