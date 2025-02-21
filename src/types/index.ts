@@ -13,7 +13,8 @@ export interface IInhumado {
     simbolo: number;
     ncliente: number;
   }
-  export interface ILoginProps {
+  
+export interface ILoginProps {
     email: string;
     password: string;
 }
