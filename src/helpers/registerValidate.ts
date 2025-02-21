@@ -28,10 +28,17 @@ function validateName(name: string): string | undefined {
 }
 
 function validateLastName(lastname: string): string | undefined {
-    if (!lastname) return "El nombre es obligatorio";
+    if (!lastname) return "El apellido es obligatorio";
     if (lastname.length < 2) return "El nombre debe tener al menos 2 caracteres";
     if (!/^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s]+$/.test(lastname))
       return "El nombre solo puede contener letras y espacios";
+  }
+
+  function validateDni(dni: string): string | undefined {
+    if (!dni) return "El DNI es obligatorio";
+    if (!/^\d+$/.test(dni)) return "El DNI debe contener sólo números";
+    if (dni.length < 8) return "El DNI debe tener al menos 8 caracteres";
+    if (!/^\d{8}$/.test(dni)) return "El DNI debe tener 8 números";
   }
 
 export function validateRegisterForm(values: IRegisterProps) {
@@ -42,6 +49,9 @@ export function validateRegisterForm(values: IRegisterProps) {
 
   const lastnameError = validateLastName(values.lastname);
   if (lastnameError) errors.lastname = lastnameError;
+
+  const dniError = validateDni(values.dni);
+  if (dniError) errors.dni = dniError;
 
   const emailError = validateEmail(values.email);
   if (emailError) errors.email = emailError;

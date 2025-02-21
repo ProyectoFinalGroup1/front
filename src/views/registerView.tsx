@@ -16,6 +16,7 @@ const RegisterView: React.FC = () => {
             initialValues={{
               name: "",
               lastname: "",
+              dni: "",
               email: "",
               password: "",
               confirmPassword: "",
@@ -47,6 +48,16 @@ const RegisterView: React.FC = () => {
                       />
                       <ErrorMessage name="lastname" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
+                  </div>
+
+                  <div>
+                    <Field
+                      type="text"
+                      name="dni"
+                      placeholder="DNI"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                    <ErrorMessage name="dni" component="div" className="text-red-500 text-sm mt-1" />
                   </div>
 
                   <div>
