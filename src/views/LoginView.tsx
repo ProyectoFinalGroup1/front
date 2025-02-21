@@ -14,12 +14,12 @@ const LoginView = () => {
             <Formik
               initialValues={{ email: "", password: "" }}
               validate={validateLoginForm}
-              onSubmit={(values, { setSubmitting }) => {
+              onSubmit={async (values) => {
+                // const response = await Login(values)   //login es la funcion que hace la peticion al BACK, se crea en auth.helper.ts
+                // console.log(response);
+                
                 console.log("Submit exitoso");
-                // setTimeout(() => {
-                //   alert(JSON.stringify(values, null, 2));
-                //   setSubmitting(false);
-                // }, 400);
+  
               }}
             >
               {({ isSubmitting }) => (
