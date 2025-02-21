@@ -23,14 +23,14 @@ function validatePassword(password: string): string | undefined {
 function validateName(name: string): string | undefined {
   if (!name) return "El nombre es obligatorio";
   if (name.length < 2) return "El nombre debe tener al menos 2 caracteres";
-  if (!/^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s]+$/.test(name))
+  if (!/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/.test(name))
     return "El nombre solo puede contener letras y espacios";
 }
 
 function validateLastName(lastname: string): string | undefined {
     if (!lastname) return "El apellido es obligatorio";
     if (lastname.length < 2) return "El nombre debe tener al menos 2 caracteres";
-    if (!/^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s]+$/.test(lastname))
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/.test(lastname))
       return "El nombre solo puede contener letras y espacios";
   }
 
