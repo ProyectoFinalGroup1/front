@@ -113,14 +113,17 @@ const RegisterView: React.FC = () => {
 
      
       <div
-        className="hidden lg:block w-1/2 h-full bg-cover bg-center relative"
-        style={{ backgroundImage: "url('/flores.png')" }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <img src="/logo.png" alt="Valle de Paz" className="w-64" />
-        </div>
-      </div>
+  className="hidden lg:block w-1/2 h-full bg-cover bg-no-repeat relative"
+  style={{ backgroundImage: "url('/images/Login.png')" }}
+>
+ 
+
+ 
+  <div className="absolute inset-0 flex items-center justify-center">
+    <img src="/images/logo.jpg" alt="Valle de Paz" className="w-64 max-w-[80%] h-auto" />
+  </div>
+</div>
+
     </div>
   )
 }
