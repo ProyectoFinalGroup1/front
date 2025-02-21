@@ -1,4 +1,5 @@
 "use client";
+import { login } from '@/helpers/auth.helper';
 import { validateLoginForm } from '@/helpers/validate';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Image from 'next/image';
@@ -15,8 +16,8 @@ const LoginView = () => {
               initialValues={{ email: "", password: "" }}
               validate={validateLoginForm}
               onSubmit={async (values) => {
-                // const response = await Login(values)   //login es la funcion que hace la peticion al BACK, se crea en auth.helper.ts
-                // console.log(response);
+                const response = await login(values)   //login es la funcion que hace la peticion al BACK, se crea en auth.helper.ts
+                console.log(response);
                 
                 console.log("Submit exitoso");
   
