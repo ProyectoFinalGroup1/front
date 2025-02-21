@@ -1,7 +1,7 @@
 import {ReactNode} from "react";
 
 export interface IInhumado {
-    id: number;
+    id: number; //ahora es string(???)
     apellido: string;
     nombre: string;
     fnac: string; // Fecha de nacimiento
