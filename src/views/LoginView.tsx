@@ -10,8 +10,11 @@ const LoginView = () => {
         <div className="flex flex-row justify-center items-center
                         mt-20">
           <div>
-            <h1>Iniciar Sesión</h1>
-            <p>Ingrese sus datos para acceder</p>
+            <div>
+              <h1 className="text-xl font-bold text-gray-800 mb-2" >
+                Iniciá Sesión
+              </h1>
+            </div>
             <Formik
               initialValues={{ email: "", password: "" }}
               validate={validateLoginForm}
@@ -25,22 +28,46 @@ const LoginView = () => {
             >
               {({ isSubmitting }) => (
                 <Form>
-                  <div>
+                  <div className='pr-16 py-5'>
                     <div>
-                      <div>Email: </div>
-                      <Field type="email" name="email" />
-                      <ErrorMessage name="email" component="div" />
+                      <Field
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        className="w-full px-3 py-2
+                                  border border-gray-300 rounded-md
+                                  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      />
+                      <ErrorMessage name="email" component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
                     </div>
 
-                    <div>
-                      <div>Contraseña: </div>
-                      <Field type="password" name="password" />
-                      <ErrorMessage name="password" component="div" />
+                    <div className='py-5'>
+                      <Field
+                        type="password"
+                        name="password"
+                        placeholder="Contraseña"
+                        className="w-full px-3 py-2
+                                  border border-gray-300 rounded-md
+                                  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      />
+                      <ErrorMessage name="password" component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
                     </div>
 
-                    <button type="submit" disabled={isSubmitting}>
-                      Submit
-                    </button>
+                    <div className='pt-2'>
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full py-2 px-4
+                        bg-green-700 hover:bg-green-800 text-white font-bold
+                        rounded-md transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                        Ingresar
+                      </button>
+                    </div>
                   </div>
                 </Form>
               )}
