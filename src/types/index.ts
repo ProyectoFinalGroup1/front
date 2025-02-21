@@ -14,3 +14,12 @@ export interface IInhumado {
     ncliente: number;
   }
   
+export interface ILoginProps {
+    email: string;
+    password: string;
+}
+
+export interface ILoginPropsErrors {
+    email?: string;
+    password?: string;
+}
