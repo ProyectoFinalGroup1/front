@@ -19,7 +19,7 @@ const LoginView = () => {
               initialValues={{ email: "", password: "" }}
               validate={validateLoginForm}
               onSubmit={async (values) => {
-                const response = await login(values)   //login es la funcion que hace la peticion al BACK, se crea en auth.helper.ts
+                const response = await login(values)  
                 console.log(response);
                 
                 console.log("Submit exitoso");
