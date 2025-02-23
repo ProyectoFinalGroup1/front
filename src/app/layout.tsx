@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Valle de Paz - Cementerio Parque",
     description: "Un lugar de paz y descanso eterno. Atención las 24 hs.",
-    images: ["/images/logo.jpg"], // Reemplázalo con una imagen más representativa si tienes
+    images: ["/images/logo.jpg"], 
   },
 };
 
@@ -32,11 +32,11 @@ export default function RootLayout({
 
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
 
         <Navbar />
-        {children}
+        <main className="flex-1">{children}</main>
         <Footer />
 
       </body>
