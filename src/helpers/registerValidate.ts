@@ -44,11 +44,11 @@ function validateLastName(lastname: string): string | undefined {
 export function validateRegisterForm(values: IRegisterProps) {
   const errors: IRegisterPropsErrors = {};
 
-  const nameError = validateName(values.name);
-  if (nameError) errors.name = nameError;
+  const nameError = validateName(values.nombre);
+  if (nameError) errors.nombre = nameError;
 
-  const lastnameError = validateLastName(values.lastname);
-  if (lastnameError) errors.lastname = lastnameError;
+  const lastnameError = validateLastName(values.apellido);
+  if (lastnameError) errors.apellido = lastnameError;
 
   const dniError = validateDni(values.dni);
   if (dniError) errors.dni = dniError;
@@ -59,11 +59,11 @@ export function validateRegisterForm(values: IRegisterProps) {
   const passwordError = validatePassword(values.password);
   if (passwordError) errors.password = passwordError;
   
-  if (!values.confirmPassword) {
-    errors.confirmPassword = "La confirmación de contraseña es obligatoria";
+  if (!values.passwordConfirm) {
+    errors.passwordConfirm = "La confirmación de contraseña es obligatoria";
   }
-  if (values.password !== values.confirmPassword) {
-    errors.confirmPassword = "Las contraseñas no coinciden";
+  if (values.password !== values.passwordConfirm) {
+    errors.passwordConfirm = "Las contraseñas no coinciden";
   }
 
 

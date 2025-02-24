@@ -1,22 +1,22 @@
 
 
   export interface IRegisterProps {
-    name: string;
-    lastname: string;
+    nombre: string;
+    apellido: string;
     dni: string;
     email: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirm: string;
   
   }
 
   export interface IRegisterPropsErrors{
-    name?: string;
-    lastname?: string;
+    nombre?: string;
+    apellido?: string;
     dni?: string;
     email?: string;
     password?: string;
-    confirmPassword?: string;
+    passwordConfirm?: string;
    
   }
 
