@@ -9,15 +9,17 @@ import { useRouter } from 'next/navigation';
 const LoginView = () => {
   const router = useRouter();
     return (
-      <div className=''>
+      
         <div className="flex flex-row justify-center items-center
                         mt-20">
-          <div>
+          <div className="w-full md:w-1/2">
+
             <div>
-              <h1 className="text-xl font-bold text-gray-800 mb-2" >
+              <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center" >
                 Iniciá Sesión
-              </h1>
+              </h1>        
             </div>
+
             <Formik
               initialValues={{ email: "", password: "" }}
               validate={validateLoginForm}
@@ -36,7 +38,9 @@ const LoginView = () => {
             >
               {({ isSubmitting }) => (
                 <Form>
-                  <div className='pr-16 py-5'>
+
+                  <div className='px-28 py-5'>
+                    
                     <div>
                       <Field
                         type="email"
@@ -76,23 +80,27 @@ const LoginView = () => {
                         Ingresar
                       </button>
                     </div>
+
                   </div>
+
                 </Form>
               )}
             </Formik>
           </div>
 
-          <div>
+          <div className="w-full md:w-1/2
+                          ">
             <Image
-              src="/images/Login.png"
+              src="/images/fondo2.JPG"
               alt=""
-              width={300}
-              height={300}
-              className="box-border"
+              width={768}
+              height={768}
+              className="box-border rounded-tl-2xl rounded-bl-2xl"
             />
           </div>
+
         </div>
-      </div>
+      
     );
 }
 
