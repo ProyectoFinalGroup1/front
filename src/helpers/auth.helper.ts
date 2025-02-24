@@ -19,7 +19,7 @@ export async function login(userData: ILoginProps) {
         
         if(!response.ok){
             const errorData = await response.json()
-            throw new Error(errorData.message || "Error al Iniciar Seseión")
+            throw new Error(errorData.message || "Ocurrió un error al iniciar sesión. Intentá nuevamente")
         }
         
         toast.success("Haz Iniciado Sesión!", {
