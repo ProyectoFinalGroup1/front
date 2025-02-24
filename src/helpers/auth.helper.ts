@@ -7,22 +7,31 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function login(userData: ILoginProps) {
     try {
-        const response = await fetch(`${API_URL}/user/login`, {
+        const response = await fetch(`${API_URL}/auth/signin`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
             },
             body: JSON.stringify(userData)
-        })
-        if(response.ok){
-            alert("Haz iniciado sesión con éxito")
-            console.log(response)
-            return response.json();
-        } else {
-            throw new Error('User already exist')
+        });
+        
+        const data = response.json();
+        
+        if(!response.ok){
+            const errorData = await response.json()
+            throw new Error(errorData.message || "Error al Iniciar Seseión")
         }
+        
+        toast.success("Haz Iniciado Sesión!", {
+          position:"top-center"
+        });
+        return data
+
     } catch (error: any) {
-        alert("Ocurrió un error al iniciar sesión. Intenta nuevamente")
+        toast.error(error.message || "Ocurrió un error al iniciar sesión. Intentá nuevamente", {
+          position: "top-center"
+        })
+        throw error;
         
     }
 }
