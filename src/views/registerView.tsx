@@ -4,8 +4,12 @@ import type React from "react"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import { validateRegisterForm } from "@/helpers/registerValidate"
 import Link from "next/link"
+import { register } from "@/helpers/auth.helper"
+import { useRouter } from "next/navigation"
 
 const RegisterView: React.FC = () => {
+
+  const router = useRouter();
   return (
     <div className="flex w-full h-screen">
     
@@ -14,16 +18,24 @@ const RegisterView: React.FC = () => {
           <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">Registrate en Valle de Paz</h1>
           <Formik
             initialValues={{
-              name: "",
-              lastname: "",
+              nombre: "",
+              apellido: "",
               dni: "",
               email: "",
               password: "",
-              confirmPassword: "",
+              passwordConfirm: "",
             }}
             validate={validateRegisterForm}
-            onSubmit={(values) => {
-              console.log(values)
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                const response = await register(values);
+                console.log("Registro exitoso", response);
+                router.push("/login");
+              } catch (error) {
+                console.error("Error en el registro:", error);
+              } finally {
+                setSubmitting(false);
+              }
             }}
           >
             {({ isSubmitting, isValid, dirty }) => (
@@ -33,20 +45,20 @@ const RegisterView: React.FC = () => {
                     <div>
                       <Field
                         type="text"
-                        name="name"
-                        placeholder="Nombre"
+                        name="nombre"
+                        placeholder="nombre"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       />
-                      <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
+                      <ErrorMessage name="nombre" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
                     <div>
                       <Field
                         type="text"
-                        name="lastname"
+                        name="apellido"
                         placeholder="Apellido"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       />
-                      <ErrorMessage name="lastname" component="div" className="text-red-500 text-sm mt-1" />
+                      <ErrorMessage name="apellido" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
                   </div>
 
@@ -83,11 +95,11 @@ const RegisterView: React.FC = () => {
                   <div>
                     <Field
                       type="password"
-                      name="confirmPassword"
+                      name="passwordConfirm"
                       placeholder="Confirmar contraseña"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     />
-                    <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-sm mt-1" />
+                    <ErrorMessage name="passwordConfirm" component="div" className="text-red-500 text-sm mt-1" />
                   </div>
                 </div>
 
