@@ -3,8 +3,11 @@ import { login } from '@/helpers/auth.helper';
 import { validateLoginForm } from '@/helpers/validate';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 
 const LoginView = () => {
+  const router = useRouter();
     return (
       <div className=''>
         <div className="flex flex-row justify-center items-center
@@ -18,11 +21,16 @@ const LoginView = () => {
             <Formik
               initialValues={{ email: "", password: "" }}
               validate={validateLoginForm}
-              onSubmit={async (values) => {
+              onSubmit={async (values, { setSubmitting }) => {
+              try {
                 const response = await login(values)  
-                console.log(response);
-                
-                console.log("Submit exitoso");
+                console.log("Inicio de Sesión Exitoso",response);
+                router.push("/");
+              } catch (error) {
+                console.log("Error al Iniciar Sesión:", error); 
+              } finally {
+                setSubmitting(false);
+              }
   
               }}
             >
