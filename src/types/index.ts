@@ -23,3 +23,7 @@ export interface ILoginPropsErrors {
     email?: string;
     password?: string;
 }
+
+export interface IUserSession {
+    token: string;
+}
