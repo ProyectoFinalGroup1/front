@@ -43,3 +43,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+// HOOK
+export const useAuth = () => useContext(AuthContext)
