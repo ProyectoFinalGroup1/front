@@ -7,6 +7,23 @@ export const AuthContext = createContext({
 })
 
 export const AuthProvider = ({ children }) => {
+    // Estado con la info de usuario
+    const [userData, setUserData] = useState();
+    
+    // Hook para guardar en localStorage
+    useEffect(() => {
+        if(userData) {
+            localStorage.setItem("userSession", JSON.stringify({ token: userData.token, user: userData.user }))
+        }
+    }, [userData])
+
+    // Hook para setear el Estado
+    useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem("userSession")!)
+        setUserData(userData)
+    }, [])
+
+
 
     return (
         <AuthContext.Provider value>
