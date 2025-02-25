@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from '@/context/AuthContext';
 import { login } from '@/helpers/auth.helper';
 import { validateLoginForm } from '@/helpers/validate';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -7,6 +8,7 @@ import { useRouter } from 'next/navigation';
 
 
 const LoginView = () => {
+  const { setUserData } = useAuth();
   const router = useRouter();
     return (
       
@@ -27,6 +29,7 @@ const LoginView = () => {
               try {
                 const response = await login(values)  
                 console.log("Inicio de Sesión Exitoso",response);
+                setUserData({ token: response.token })
                 router.push("/");
               } catch (error) {
                 console.log("Error al Iniciar Sesión:", error); 
