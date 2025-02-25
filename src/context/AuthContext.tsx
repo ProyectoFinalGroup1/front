@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Hook para guardar en localStorage
     useEffect(() => {
         if(userData) {
-            localStorage.setItem("userSession", JSON.stringify({ token: userData.token, user: userData.user }))
+            localStorage.setItem("userSession", JSON.stringify({ token: userData.token}))
         }
     }, [userData])
 
