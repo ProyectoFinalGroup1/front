@@ -29,7 +29,7 @@ const LoginView = () => {
               try {
                 const response = await login(values)  
                 console.log("Inicio de Sesión Exitoso",response);
-                setUserData({ token: response.token })
+                setUserData({ token: response.token, user: response.userExisting })
                 router.push("/");
               } catch (error) {
                 console.log("Error al Iniciar Sesión:", error); 

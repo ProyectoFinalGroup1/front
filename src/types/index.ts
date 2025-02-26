@@ -26,4 +26,13 @@ export interface ILoginPropsErrors {
 
 export interface IUserSession {
     token: string;
+    user: {
+        apellido: string;
+        dni: number;
+        email: string;
+        idUser: string;
+        isAdmin: boolean;
+        nombre: string;
+        password: string;
+    }
 }
