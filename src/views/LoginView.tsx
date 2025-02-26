@@ -5,6 +5,7 @@ import { validateLoginForm } from '@/helpers/validate';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie'
 
 
 const LoginView = () => {
@@ -30,6 +31,7 @@ const LoginView = () => {
                 const response = await login(values)  
                 console.log("Inicio de Sesión Exitoso",response);
                 setUserData({ token: response.token, user: response.userExisting })
+                Cookies.set("userData", JSON.stringify({token: response.token, user: response.userExisting}))
                 router.push("/");
               } catch (error) {
                 console.log("Error al Iniciar Sesión:", error); 
