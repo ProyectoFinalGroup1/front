@@ -32,7 +32,7 @@ const LoginView = () => {
                 console.log("Inicio de Sesión Exitoso",response);
                 setUserData({ token: response.token, user: response.userExisting })
                 Cookies.set("userData", JSON.stringify({token: response.token, user: response.userExisting}))
-                router.push("/");
+                router.push("/dashboard/user");
               } catch (error) {
                 console.log("Error al Iniciar Sesión:", error); 
               } finally {
