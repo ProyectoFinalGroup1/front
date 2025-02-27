@@ -87,12 +87,12 @@ const LoginView = () => {
                       </button>
 
                       
-                <p className="text-center mt-4 text-sm text-gray-600">
-                  ¿Todavia no tenés cuenta?{" "}
-                  <Link href="/register" className="text-green-600 hover:text-green-700 font-medium">
-                    Registrate
-                  </Link>
-                </p>
+                      <p className="text-center mt-4 text-sm text-gray-600">
+                        ¿Todavia no tenés cuenta?{" "}
+                        <Link href="/register" className="text-green-600 hover:text-green-700 font-medium">
+                          Registrate
+                        </Link>
+                      </p>
                     </div>
 
                   </div>
@@ -102,15 +102,26 @@ const LoginView = () => {
             </Formik>
           </div>
 
-          <div className="w-full md:w-1/2
+          <div className="w-full md:w-1/2 h-full relative
                           ">
             <Image
               src="/images/fondo2.JPG"
               alt=""
-              width={768}
-              height={768}
+              width={900}
+              height={900}
               className="box-border rounded-tl-2xl rounded-bl-2xl"
             />
+            <Link href="/">
+              <Image
+                src="/images/logo.jpg"
+                alt=""
+                width={250}
+                height={250}
+                className="absolute
+                top-1/2 left-1/2
+                transform -translate-x-1/2 -translate-y-1/2"
+              />
+            </Link>
           </div>
 
         </div>
