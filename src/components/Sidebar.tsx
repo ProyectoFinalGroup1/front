@@ -2,6 +2,7 @@
 import { Home, MessageSquare, DollarSign } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import LogOutButton from "./LogOutButton";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -9,7 +10,7 @@ const Sidebar = () => {
   const menuItems = [
     { label: "Inicio", icon: Home, href: "/" },
     { label: "Obituarios", icon: MessageSquare, href: "/dashboard/user/obituarios" },
-    { label: "Donaciones", icon: DollarSign, href: "/dashboard/user/donaciones" }
+    { label: "Donaciones", icon: DollarSign, href: "/dashboard/user/donaciones" },
   ];
 
   return (
@@ -23,6 +24,9 @@ const Sidebar = () => {
           </Link>
         ))}
       </nav>
+      <div className="flex flex-col mt-4">
+        <LogOutButton />
+      </div>
     </aside>
   );
 };
