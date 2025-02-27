@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast"
 import { AuthProvider } from "@/context/AuthContext";
+import ExcludeWrapper from "@/components/ExcludeWrapper";
 
 
 const geistSans = Geist({
@@ -38,7 +39,9 @@ export default function RootLayout({
       >
         <AuthProvider>
           <Toaster position="top-right" />
-          <Navbar />
+          <ExcludeWrapper>
+            <Navbar />
+          </ExcludeWrapper>
             <main className="flex-1">{children}</main>
           <Footer />
         </AuthProvider>
