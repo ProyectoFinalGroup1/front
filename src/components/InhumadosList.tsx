@@ -19,8 +19,12 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
         if (!response.ok) throw new Error('Error al obtener los datos');
         const data: IInhumado[] = await response.json();
         setInhumados(data);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Ocurrió un error desconocido');
+        }
       } finally {
         setLoading(false);
       }
@@ -44,13 +48,12 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
         {filteredInhumados.length > 0 ? (
           filteredInhumados.map((inhumado) => (
             <li key={inhumado.id} className="p-4 border-b border-gray-300 flex flex-col items-center text-center">
-  <span className="font-bold text-lg">{inhumado.apellido}, {inhumado.nombre}</span>
-  <div className="text-gray-600 mt-1">
-    <p>Falleció el {inhumado.ffal}</p>
-    <p>Sector: {inhumado.sector}, Manzana {inhumado.manzana}, Parcela {inhumado.parcela}</p>
-  </div>
-</li>
-
+              <span className="font-bold text-lg">{inhumado.apellido}, {inhumado.nombre}</span>
+              <div className="text-gray-600 mt-1">
+                <p>Falleció el {inhumado.ffal}</p>
+                <p>Sector: {inhumado.sector}, Manzana {inhumado.manzana}, Parcela {inhumado.parcela}</p>
+              </div>
+            </li>
           ))
         ) : (
           <p className="text-center text-gray-500">No se encontraron resultados.</p>
@@ -59,7 +62,6 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
     </div>
   );
 }
-
 
 
 

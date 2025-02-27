@@ -14,21 +14,21 @@ const UserObituariosView = () => {
         {/* Lista de mensajes */}
         <div className="space-y-4">
           <div className="bg-white p-8 rounded-lg shadow">
-            <p className="text-gray-700">'Siempre estarás en nuestros corazones.'</p>
+            <p className="text-gray-700">&apos;Siempre estarás en nuestros corazones.&apos;</p>
             <span className="text-sm text-gray-500">- Familia Pérez</span>
           </div>
           <div className="bg-white p-4 rounded-lg shadow">
-            <p className="text-gray-700">'Te extrañamos cada día'</p>
+            <p className="text-gray-700">&apos;Te extrañamos cada día.&apos;</p>
             <span className="text-sm text-gray-500">- Juan y Ana</span>
           </div>
         </div>
         
-        {/* /* Botón para dejar un mensaje */
-        /* <div className="mt-10 text-center">
+        {/* Botón para dejar un mensaje */}
+        {/* <div className="mt-10 text-center">
           <button className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 transition">
             Dejar un mensaje
-          </button> */
-        /* </div> */}
+          </button>
+        </div> */}
       </div> 
     </div>
   );
