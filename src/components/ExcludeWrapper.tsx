@@ -1,0 +1,15 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
+const excludePaths = ["/login", "/register", "/dashboard/user"];
+
+const ExcludeWrapper = ({ children }: { children: React.ReactNode }) => {
+  const path = usePathname();
+  
+  if (excludePaths.includes(path)) return null;
+  
+  return <>{children}</>;
+};
+
+export default ExcludeWrapper;
