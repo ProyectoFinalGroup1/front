@@ -7,11 +7,24 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie'
 import Link from 'next/link';
+import { useEffect } from 'react';
+import toast, { Toast } from 'react-hot-toast';
 
 
 const LoginView = () => {
   const { setUserData } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    const authError = Cookies.get("authError");
+
+    if (authError) {
+      toast.error(authError, {
+        position: "top-center"
+      });
+      Cookies.remove("authError");
+    }
+  }, []);
     return (
       
         <div className="flex flex-row justify-center items-center
