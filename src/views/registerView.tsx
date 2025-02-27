@@ -132,7 +132,9 @@ const RegisterView: React.FC = () => {
 
  
   <div className="absolute inset-0 flex items-center justify-center">
-    <img src="/images/logo.jpg" alt="Valle de Paz" className="w-64 max-w-[80%] h-auto" />
+    <Link href="/">
+      <img src="/images/logo.jpg" alt="Valle de Paz" className="w-64 max-w-[80%] h-auto" />
+    </Link>
   </div>
 </div>
 
