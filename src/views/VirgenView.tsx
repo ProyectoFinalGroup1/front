@@ -25,13 +25,11 @@ const VirgenView = () => {
       reader.onload = () => {
         const newMessages = [...messages, { id: Date.now(), text: values.text, image: reader.result as string }];
         setMessages(newMessages);
-        localStorage.setItem('messages', JSON.stringify(newMessages));
         resetForm();
       };
     } else {
       const newMessages = [...messages, { id: Date.now(), text: values.text }];
       setMessages(newMessages);
-      localStorage.setItem('messages', JSON.stringify(newMessages));
       resetForm();
     }
   };
@@ -99,6 +97,7 @@ const VirgenView = () => {
 };
 
 export default VirgenView;
+
 
 
 

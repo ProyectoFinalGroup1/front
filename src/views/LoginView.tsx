@@ -6,6 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie'
+import Link from 'next/link';
 
 
 const LoginView = () => {
@@ -84,6 +85,14 @@ const LoginView = () => {
                         >
                         Ingresar
                       </button>
+
+                      
+                <p className="text-center mt-4 text-sm text-gray-600">
+                  ¿Todavia no tenés cuenta?{" "}
+                  <Link href="/register" className="text-green-600 hover:text-green-700 font-medium">
+                    Registrate
+                  </Link>
+                </p>
                     </div>
 
                   </div>
