@@ -18,7 +18,7 @@ const VirgenView = () => {
     localStorage.setItem('messages', JSON.stringify(messages));
   }, [messages]);
 
-  const handleSubmit = (values: { text: string; image?: File }, { resetForm }: any) => {
+  const handleSubmit = (values: { text: string; image?: File }, { resetForm }: { resetForm: () => void }) => {
     if (values.image) {
       const reader = new FileReader();
       reader.readAsDataURL(values.image);
