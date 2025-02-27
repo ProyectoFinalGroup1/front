@@ -49,25 +49,3 @@ export default Obituarios;
 
 
 
-
-
-
-// import InhumadosList from '@/components/InhumadosList';
-// import React from 'react';
-
-// const Obituarios = () => {
-//   return (
-//     <div className="min-h-screen bg-gradient-to-b from-green-900 via-green-700 to-green-500 text-white flex flex-col items-center justify-center p-8">
-//       <div className="mt-12 bg-black bg-opacity-50 p-6 rounded-2xl shadow-lg max-w-4xl text-center w-full">
-//         <h1 className="text-4xl font-bold text-fuchsia-400 mb-6">Obituarios</h1>
-//         <div className="bg-white bg-opacity-10 p-6 rounded-xl shadow-md w-full">
-//           <InhumadosList />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Obituarios;
-
-
