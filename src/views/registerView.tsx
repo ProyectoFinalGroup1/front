@@ -113,7 +113,7 @@ const RegisterView: React.FC = () => {
 
                 <p className="text-center mt-4 text-sm text-gray-600">
                   ¿Ya tenés cuenta?{" "}
-                  <Link href="#" className="text-green-600 hover:text-green-700 font-medium">
+                  <Link href="/login" className="text-green-600 hover:text-green-700 font-medium">
                     Iniciá sesión
                   </Link>
                 </p>

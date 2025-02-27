@@ -1,5 +1,3 @@
-import {ReactNode} from "react";
-
 export interface IInhumado {
     id: number; //ahora es string(???)
     apellido: string;
