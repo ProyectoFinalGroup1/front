@@ -15,8 +15,8 @@ export function validateLoginForm(values: ILoginProps) {
     // Validación contraseña
     if (!values.password) {
         errors.password = "Ingrese contraseña";
-    } else if (values.password.length < 8) {
-        errors.password = "La contraseña debe tener al menos 8 caracteres";
+    } else if (values.password.length < 5) {
+        errors.password = "La contraseña debe tener al menos 5 caracteres";
     } else if (!/[A-Z]/.test(values.password)) {
         errors.password = "La contraseña debe incluir al menos una letra mayúscula";
     } else if (!/[a-z]/.test(values.password)) {

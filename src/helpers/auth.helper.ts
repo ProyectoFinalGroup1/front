@@ -65,3 +65,4 @@ export async function register(userData: IRegisterProps) {
         throw new Error(errorMessage);
     }
 }
+
