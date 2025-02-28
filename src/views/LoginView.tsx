@@ -7,13 +7,26 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const LoginView = () => {
   const { setUserData, signInWithGoogle } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // MANEJO DE ERROR AL ENTRAR A RUTA PROTEGIDA
+  useEffect(() => {
+    const authError = Cookies.get("authError");
+
+    if (authError) {
+      toast.error(authError, {
+        position: "top-center"
+      });
+      Cookies.remove("authError");
+    }
+  }, []);
 
   // Function to handle Google login
   const handleGoogleLogin = async () => {
@@ -179,7 +192,9 @@ const LoginView = () => {
             height={250}
             className="absolute
             top-1/2 left-1/2
-            transform -translate-x-1/2 -translate-y-1/2"
+            transform -translate-x-1/2 -translate-y-1/2
+            transition-transform duration-300 ease-in-out 
+	          hover:scale-150"
           />
         </Link>
       </div>
