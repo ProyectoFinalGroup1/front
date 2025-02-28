@@ -2,17 +2,17 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Cookies from 'js-cookie'
+import { log } from "console";
 
 
 const LogOutButton = () => {
-    const { setUserData } = useAuth();
-    const router = useRouter();
-    const handleLogout = () => {
-        setUserData(null);
-        localStorage.removeItem("userSession")
-        Cookies.remove("userData", { path:''} )
-        router.push("/")
+    const {  logout } = useAuth();
+   
+   
 
+    const handleLogout = () => {
+        logout();
+        
     }
     return (
         <button onClick={handleLogout}
