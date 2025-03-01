@@ -52,44 +52,56 @@ const VirgenView = () => {
   };
 
   return (
-    <div className="min-h-screen bg-fixed bg-cover bg-center text-black flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/fondo.jpg)' }}>
-      <div className="bg-white bg-opacity-70 p-6 rounded-2xl shadow-lg max-w-2xl text-center mt-16">
-        <h1 className="text-4xl font-bold text-fuchsia-600 mb-4">Mensajes a la Virgen de San Nicolás</h1>
-        <p className="text-lg text-gray-800 mb-4">Un espacio para dejar tus plegarias y pensamientos a la Virgen de San Nicolás.</p>
+    <div className="min-h-screen bg-fixed bg-cover bg-center text-black flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/flores.jpg)' }}>
+      <div className="bg-white bg-opacity-70 p-6 rounded-2xl shadow-lg max-w-2xl text-center mt-16 flex">
         
-        <Formik initialValues={{ text: '', image: undefined }} onSubmit={handleSubmit}>
-          {({ setFieldValue }) => (
-            <Form className="mb-4 flex flex-col items-center">
-              <Field as="textarea" name="text" className="w-full p-2 border rounded-lg text-center" placeholder="Escribe tu mensaje..." rows={3} />
-              <div className="mt-2 flex flex-col items-center">
-                <input type="file" accept="image/*" className="p-2 border rounded-lg" onChange={(event) => setFieldValue("image", event.currentTarget.files?.[0])} />
-                <span className="text-gray-600">(Opcional)</span>
-              </div>
-              <button type="submit" className="mt-2 px-4 py-2 bg-fuchsia-600 text-white rounded-lg">Publicar</button>
-            </Form>
-          )}
-        </Formik>
-        
-        <div className="w-full mt-4">
-          {messages.map((msg) => (
-            <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
-              {editingId === msg.id ? (
-                <div>
-                  <textarea className="w-full p-2 border rounded-lg" value={editInput} onChange={(e) => setEditInput(e.target.value)}></textarea>
-                  <button onClick={handleSaveEdit} className="mt-2 px-3 py-1 bg-green-600 text-white rounded-lg">Guardar</button>
+        {/* Imagen al costado izquierdo */}
+        <div className="hidden md:block w-48  flex-shrink-0 p-3">
+          <img
+            src="/images/virgen.jpg"
+            alt="Virgen de San Nicolás"
+            className="w-full h-[400px] object-cover rounded-full shadow-lg border-4 border-white-300"
+          />
+        </div>
+
+        <div className="flex-1">
+          <h1 className="text-4xl font-bold text-fuchsia-600 mb-4">Mensajes a la Virgen de San Nicolás</h1>
+          <p className="text-lg text-gray-800 mb-4">Un espacio para dejar tus plegarias y pensamientos a la Virgen de San Nicolás.</p>
+
+          <Formik initialValues={{ text: '', image: undefined }} onSubmit={handleSubmit}>
+            {({ setFieldValue }) => (
+              <Form className="mb-4 flex flex-col items-center">
+                <Field as="textarea" name="text" className="w-full p-2 border rounded-lg text-center" placeholder="Escribe tu mensaje..." rows={3} />
+                <div className=" text-sm mt-2 flex flex-col items-center">
+                  <input type="file" accept="image/*" className="p-2 border rounded-lg" onChange={(event) => setFieldValue("image", event.currentTarget.files?.[0])} />
+                  <span className=" text-sm text-gray-600">(Opcional)</span>
                 </div>
-              ) : (
-                <>
-                  <p className="text-gray-800">{msg.text}</p>
-                  {msg.image && <img src={msg.image} alt="Mensaje adjunto" className="mt-2 w-32 h-auto rounded-lg mx-auto" />}
-                  <div className="mt-2 flex justify-center gap-4">
-                    <button onClick={() => handleEdit(msg.id, msg.text)} className="text-blue-500">Editar</button>
-                    <button onClick={() => handleDelete(msg.id)} className="text-red-500">Eliminar</button>
+                <button type="submit" className="mt-2 px-4 py-2 bg-fuchsia-600 text-white rounded-lg">Publicar</button>
+              </Form>
+            )}
+          </Formik>
+
+          <div className="w-full mt-4">
+            {messages.map((msg) => (
+              <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
+                {editingId === msg.id ? (
+                  <div>
+                    <textarea className="w-full p-2 border rounded-lg" value={editInput} onChange={(e) => setEditInput(e.target.value)}></textarea>
+                    <button onClick={handleSaveEdit} className="mt-2 px-3 py-1 bg-green-600 text-white rounded-lg">Guardar</button>
                   </div>
-                </>
-              )}
-            </div>
-          ))}
+                ) : (
+                  <>
+                    <p className="text-gray-800">{msg.text}</p>
+                    {msg.image && <img src={msg.image} alt="Mensaje adjunto" className="mt-2 w-32 h-auto rounded-lg mx-auto" />}
+                    <div className="mt-2 flex justify-center gap-4">
+                      <button onClick={() => handleEdit(msg.id, msg.text)} className="text-blue-500">Editar</button>
+                      <button onClick={() => handleDelete(msg.id)} className="text-red-500">Eliminar</button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -97,6 +109,7 @@ const VirgenView = () => {
 };
 
 export default VirgenView;
+
 
 
 
