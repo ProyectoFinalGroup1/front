@@ -1,8 +1,8 @@
 'use client'
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-import Cookies from 'js-cookie'
-import { log } from "console";
+// import { useRouter } from "next/navigation";
+// import Cookies from 'js-cookie'
+// import { log } from "console";
 
 
 const LogOutButton = () => {

@@ -39,7 +39,7 @@ export default function Home() {
           backgroundAttachment: 'fixed'
         }}
       >
-     <div className="absolute bottom-3 shadow-md rounded-xl p-2 bg-white bg-opacity-50 text-center">
+     <div className="w-1/2 ml-0 bg-white bg-opacity-30 shadow-md rounded-xl p-6 backdrop-blur-sm">
      
   <p className="text-xl font-medium leading-relaxed text-gray-900">
     Un momento triste e inevitable nos hace sentir desamparados. Por eso en 
@@ -65,7 +65,7 @@ export default function Home() {
       <div 
         className="relative px-6 py-10 text-center min-h-screen transition-opacity duration-1000 ease-in-out"
         style={{ 
-          backgroundImage: "url('/images/fondo6.jpg')", 
+          backgroundImage: "url('/images/fondo66.webp')", 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
