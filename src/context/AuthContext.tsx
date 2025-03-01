@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
-import { User, Session } from "@supabase/supabase-js";
+// import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 // Interface
 export interface IUserSession {
   token: string;
-  user: any;
+  user: unknown, //-->any;
 }
 
 export interface AuthContextProps {
