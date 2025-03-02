@@ -2,7 +2,7 @@
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import React from "react";
-import LogOutButton from "./LogOutButton";
+// import LogOutButton from "./LogOutButton";
 
 const Navbar = () => {
   const { userData } = useAuth();
