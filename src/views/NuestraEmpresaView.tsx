@@ -68,9 +68,8 @@ const NuestraEmpresaView = () => {
       <div className="w-full h-full rounded-2xl relative
                       ">
          <AnimatePresence>
-          <motion.img
+          <motion.div
             key={index}
-            src={images[index]}
             className="absolute w-full h-full object-cover rounded-2xl"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -79,7 +78,15 @@ const NuestraEmpresaView = () => {
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             onDragEnd={handleDragEnd}
+          >
+            <Image
+            src={images[index]}
+            alt={`Imagen ${index + 1}`}
+            layout="fill"
+            objectFit="cover"
+            className="rounded-2xl"
             />
+          </motion.div>
         </AnimatePresence>
       </div>
     </div>
@@ -119,7 +126,7 @@ const NuestraEmpresaView = () => {
                 bg-white bg-opacity-70 shadow-lg
                 ">
         <h1 className='font-bold text-gray-600 text-lg text-center'>
-          UBICACIÓN: "Autopista Ruta 2" Km. 43.
+          UBICACIÓN: Autopista Ruta 2, Km. 43.
         </h1>
         <div>
           <Image
