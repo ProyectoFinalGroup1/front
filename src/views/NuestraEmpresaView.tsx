@@ -2,6 +2,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
+import Image from 'next/image';
 
 const images = [
   "/images/fondo3.png",
@@ -34,7 +35,7 @@ const NuestraEmpresaView = () => {
   return (
     <div className="relative min-h-screen flex items-center flex-col justify-center px-8 py-12
                     bg-[url('/images/fondo3.png')] bg-cover bg-center bg-fixed" >
-      <div className="mt-10 p-8 rounded-2xl max-w-5xl
+      <div className="mt-28 mb-14 p-8 rounded-2xl max-w-5xl
                       bg-white bg-opacity-70 shadow-lg
                       text-center">
 
@@ -60,10 +61,11 @@ const NuestraEmpresaView = () => {
       </div>
       
 
+    <div className="mt-10 p-3 rounded-2xl max-w-5xl relative w-full h-[500px]
+                    bg-white bg-opacity-70 shadow-lg overflow-hidden">
 
       {/* Contenedor del carrusel */}
-      <div className="mt-10 rounded-2xl max-w-5xl relative w-full h-[500px]
-                      overflow-hidden shadow-lg
+      <div className="w-full h-full rounded-2xl relative
                       ">
          <AnimatePresence>
           <motion.img
@@ -77,9 +79,10 @@ const NuestraEmpresaView = () => {
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             onDragEnd={handleDragEnd}
-          />
+            />
         </AnimatePresence>
       </div>
+    </div>
 
       {/* Indicadores (puntos) */}
       <div className="mt-4 flex space-x-2">
@@ -96,7 +99,7 @@ const NuestraEmpresaView = () => {
 
 
 
-      <div className="mt-10 p-8 rounded-2xl max-w-4xl
+      <div className="mt-10 p-8 rounded-2xl max-w-5xl
                 bg-white bg-opacity-70 shadow-lg
                 ">  
         <ul className="text-lg text-gray-700 
@@ -107,29 +110,64 @@ const NuestraEmpresaView = () => {
           <li className='font-bold text-gray-600'>
             Las casi 50 especies, plantadas hace mas de 35 años, han conformado valles naturales, cada uno de ellos luciendo infinitos tonos y texturas, lo que hace que Valle de Paz sea único.
           </li>
-          <li>
-            En los últimos años se ha producido una sensible transformación cultural en nuestra sociedad.
-          </li>
         </ul>
 
       </div>
 
-      <div className="mt-10 p-8 rounded-2xl max-w-4xl
+      
+      <div className="my-28 p-8 rounded-2xl max-w-4xl
                 bg-white bg-opacity-70 shadow-lg
                 ">
-        <h1>UBICACIÓN [MAPA]</h1>  //mapa.jpg
+        <h1 className='font-bold text-gray-600 text-lg text-center'>
+          UBICACIÓN: "Autopista Ruta 2" Km. 43.
+        </h1>
+        <div>
+          <Image
+          src="/images/mapa.jpg"
+          alt=""
+          width={650}
+          height={650}
+          className='rounded-2xl my-5' 
+          />
+        </div>
       </div>
     
-      <div className="mt-10 p-8 rounded-2xl max-w-4xl
+      <div className="my-7 p-8 rounded-2xl max-w-5xl
                 bg-white bg-opacity-70 shadow-lg
                 ">
-        <h1>[INFO Sobre PARCELAS]</h1>  
+        <h1 className='font-bold text-gray-600 text-lg text-center'>
+          NUESTRAS PARCELAS
+        </h1>
+        <ul className="text-lg text-gray-700 
+                      list-inside leading-loose
+                      mt-3">
+          <li>
+            Todas las parcelas de Valle de Paz son de igual tamaño y una misma calidad de césped y parquización, aunque su precio varía en función de la ubicación.
+            Por todo esto Valle de Paz ha demostrado ser la única alternativa realmente valida al momento de buscar soluciones dignas y para siempre.        
+          </li>  
+        </ul>  
       </div>
 
-      <div className="mt-10 p-8 rounded-2xl max-w-5xl
+      <div className="my-28 p-8 rounded-2xl max-w-3xl
                 bg-white bg-opacity-70 shadow-lg
                 ">
-        <h1>[CERTIFICADO DE APTITUD AMBIENTAL]</h1>  
+        <h1 className='font-bold text-gray-600 text-lg text-center mb-3'>
+            CERTIFICADO DE APTITUD AMBIENTAL
+        </h1>
+        <p  className="text-lg text-gray-700 leading-loose">
+          En los últimos años se ha producido una sensible transformación cultural en nuestra sociedad.
+          Por un lado respecto a los requerimientos de excelencia en los servicios,
+          pero también respecto al tan importante aspecto ecológico y la calidad del medio ambiente.
+        </p>
+        <div className='flex justify-center'>
+        <Image
+          src="/images/CertificadoAmbiental.png"
+          alt=""
+          width={650}
+          height={650}
+          className='rounded-2xl my-5' 
+          />
+        </div>
       </div>
     </div>
   );
