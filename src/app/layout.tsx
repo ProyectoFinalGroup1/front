@@ -18,8 +18,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-import { useEffect } from "react";
-
 export const metadata: Metadata = {
   title: "Valle de Paz - Cementerio Parque",
   description: "Un lugar de paz y descanso eterno. Atención las 24 hs.",
