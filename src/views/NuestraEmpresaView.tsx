@@ -1,6 +1,25 @@
+'use client';
 import React from 'react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from "framer-motion";
+
+const images = [
+  "/images/fondo3.png",
+  "/images/fondo5.png",
+  "/images/fondo4.png",
+  "/images/fondo66.webp",
+];
 
 const NuestraEmpresaView = () => {
+  const [index, setIndex] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+}, []);
+
   return (
     <div className="relative min-h-screen flex items-center flex-col justify-center px-8 py-12
                     bg-[url('/images/fondo3.png')] bg-cover bg-center bg-fixed" >
@@ -29,19 +48,37 @@ const NuestraEmpresaView = () => {
         </ul>
       </div>
       
-      <div className="mt-10 p-8 rounded-2xl max-w-5xl
-                      bg-white bg-opacity-70 shadow-lg
-                      text-center">
-        
-        <div className="overflow-x-auto w-full scroll-smooth">
-          <div className="flex space-x-4">
-            <img src="/images/fondo3.png" className="w-100 h-67 rounded-lg shadow-md" alt="Imagen 1" />
-            <img src="/images/fondo5.png" className="w-100 h-67 rounded-lg shadow-md" alt="Imagen 2" />
-            <img src="/images/fondo4.png" className="w-100 h-67 rounded-lg shadow-md" alt="Imagen 3" />
-            <img src="/images/fondo66.webp" className="w-100 h-67 rounded-lg shadow-md" alt="Imagen 4" />
-          </div>
-        </div>
+
+
+
+      <div className="mt-10 rounded-2xl max-w-5xl relative w-full h-[500px]
+                      overflow-hidden shadow-lg
+                      bg-white">
+         <AnimatePresence>
+          <motion.img
+            key={index}
+            src={images[index]}
+            className="absolute w-full h-full object-cover rounded-2xl"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.8 }}
+          />
+        </AnimatePresence>
       </div>
+      <div className="mt-4 flex space-x-2">
+        {images.map((_, i) => (
+          <div
+            key={i}
+            className={`w-3 h-3 rounded-full ${
+              i === index ? "bg-gray-800" : "bg-gray-400"
+            }`}
+          />
+        ))}
+      </div>
+
+
+
 
       <div className="mt-10 p-8 rounded-2xl max-w-4xl
                 bg-white bg-opacity-70 shadow-lg
