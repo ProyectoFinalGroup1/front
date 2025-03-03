@@ -1,4 +1,6 @@
-import React from 'react';
+'use client'
+import React from "react";
+import DonationForm from "@/app/dashboard/user/components/DonationForm";
 
 const UserDonacionesView = () => {
   return (
@@ -10,23 +12,26 @@ const UserDonacionesView = () => {
         <p className="text-gray-600 text-center mb-6">
           Tu donación ayuda a mantener este espacio de memoria y paz. Agradecemos tu generosidad y apoyo.
         </p>
-        
-        {/* Opciones de donación */}
+
+        {/* Opción de donación única */}
         <div className="space-y-4">
-          <div className="bg-gray-50 p-4 rounded-lg shadow flex justify-between items-center">
-            <span className="text-gray-700">Donación única</span>
-            <button className="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition">
-              Donar
-            </button>
+          <div className="bg-gray-50 p-4 rounded-lg shadow">
+            <h2 className="text-gray-700 font-medium mb-2">Donación única</h2>
+            <DonationForm />
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg shadow flex justify-between items-center">
-            <span className="text-gray-700">Suscripción mensual</span>
-            <button className="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition">
-              Suscribirse
+
+          {/* Opción de suscripción (futura implementación) */}
+          <div className="bg-gray-50 p-4 rounded-lg shadow">
+            <h2 className="text-gray-700 font-medium mb-2">Suscripción mensual</h2>
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition w-full"
+              disabled
+            >
+              Próximamente
             </button>
           </div>
         </div>
-        
+
         {/* Mensaje de agradecimiento */}
         <div className="mt-6 text-center">
           <p className="text-gray-600 text-sm">Cada contribución es un acto de amor. Gracias por tu apoyo.</p>
@@ -37,7 +42,6 @@ const UserDonacionesView = () => {
 };
 
 export default UserDonacionesView;
-
 
 
 
