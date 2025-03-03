@@ -1,4 +1,3 @@
-'use client' //sacarlo, es solo para testear API
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -20,12 +19,6 @@ const geistMono = Geist_Mono({
 });
 
 import { useEffect } from "react";
-
-///////////////////////////////////
-useEffect(() => {
-  console.log("API URL en producción:", process.env.NEXT_PUBLIC_API_URL);
-}, []);
-//////////////////////////// testeo API
 
 export const metadata: Metadata = {
   title: "Valle de Paz - Cementerio Parque",
