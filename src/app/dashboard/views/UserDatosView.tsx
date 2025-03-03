@@ -12,7 +12,7 @@ const UserDatosView = () => {
         
         <div className="space-y-4">
           <div className="p-3 border rounded-lg bg-gray-50">
-            <p className="text-gray-600 text-sm">Nombre</p>
+            <p className="text-gray-600 text-sm">Nombre de usuario</p>
             {/* <p className="text-lg font-medium text-gray-800">{userData?.user?.nombre || "No disponible"}</p> */}
           </div>
 
