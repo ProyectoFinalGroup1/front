@@ -20,10 +20,21 @@ const NuestraEmpresaView = () => {
     return () => clearInterval(interval);
 }, []);
 
+  // Función para deslizar manualmente
+  const handleDragEnd = (event, info) => {
+    if (info.offset.x < -50) {
+      // Deslizar a la izquierda → siguiente imagen
+      setIndex((prevIndex) => (prevIndex + 1) % images.length);
+    } else if (info.offset.x > 50) {
+      // Deslizar a la derecha → imagen anterior
+      setIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    }
+  };
+
   return (
     <div className="relative min-h-screen flex items-center flex-col justify-center px-8 py-12
                     bg-[url('/images/fondo3.png')] bg-cover bg-center bg-fixed" >
-      <div className="p-8 rounded-2xl max-w-5xl
+      <div className="mt-10 p-8 rounded-2xl max-w-5xl
                       bg-white bg-opacity-70 shadow-lg
                       text-center">
 
@@ -50,10 +61,10 @@ const NuestraEmpresaView = () => {
       
 
 
-
+      {/* Contenedor del carrusel */}
       <div className="mt-10 rounded-2xl max-w-5xl relative w-full h-[500px]
                       overflow-hidden shadow-lg
-                      bg-white">
+                      ">
          <AnimatePresence>
           <motion.img
             key={index}
@@ -63,15 +74,20 @@ const NuestraEmpresaView = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8 }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={handleDragEnd}
           />
         </AnimatePresence>
       </div>
+
+      {/* Indicadores (puntos) */}
       <div className="mt-4 flex space-x-2">
         {images.map((_, i) => (
           <div
             key={i}
-            className={`w-3 h-3 rounded-full ${
-              i === index ? "bg-gray-800" : "bg-gray-400"
+            className={`w-3 h-3 rounded-full transition-all ${
+              i === index ? "bg-gray-800 scale-125" : "bg-gray-400"
             }`}
           />
         ))}
@@ -97,7 +113,24 @@ const NuestraEmpresaView = () => {
         </ul>
 
       </div>
+
+      <div className="mt-10 p-8 rounded-2xl max-w-4xl
+                bg-white bg-opacity-70 shadow-lg
+                ">
+        <h1>UBICACIÓN [MAPA]</h1>  //mapa.jpg
+      </div>
     
+      <div className="mt-10 p-8 rounded-2xl max-w-4xl
+                bg-white bg-opacity-70 shadow-lg
+                ">
+        <h1>[INFO Sobre PARCELAS]</h1>  
+      </div>
+
+      <div className="mt-10 p-8 rounded-2xl max-w-5xl
+                bg-white bg-opacity-70 shadow-lg
+                ">
+        <h1>[CERTIFICADO DE APTITUD AMBIENTAL]</h1>  
+      </div>
     </div>
   );
 };
