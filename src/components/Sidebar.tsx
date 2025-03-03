@@ -9,6 +9,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { label: "Inicio", icon: Home, href: "/" },
+    { label: "Mis datos", icon: MessageSquare, href: "/dashboard/user/misdatos" },
     { label: "Obituarios", icon: MessageSquare, href: "/dashboard/user/obituarios" },
     { label: "Donaciones", icon: DollarSign, href: "/dashboard/user/donaciones" },
   ];
