@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (userData) {
       localStorage.setItem(
         "userSession",
-        JSON.stringify({ token: userData.token })
+        JSON.stringify({ token: userData.token, user: userData.user })
       );
       Cookies.set("userData", JSON.stringify(userData));
     }
