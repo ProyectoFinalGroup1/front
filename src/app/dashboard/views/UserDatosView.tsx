@@ -1,9 +1,9 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 
 const UserDatosView = () => {
-  const { userData } = useAuth();
+  // const { userData } = useAuth();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -12,18 +12,18 @@ const UserDatosView = () => {
         
         <div className="space-y-4">
           <div className="p-3 border rounded-lg bg-gray-50">
-            <p className="text-gray-600 text-sm">Nombre</p>
-            <p className="text-lg font-medium text-gray-800">{userData?.user?.nombre || "No disponible"}</p>
+            <p className="text-gray-600 text-sm">Nombre de usuario</p>
+            {/* <p className="text-lg font-medium text-gray-800">{userData?.user?.nombre || "No disponible"}</p> */}
           </div>
 
           <div className="p-3 border rounded-lg bg-gray-50">
             <p className="text-gray-600 text-sm">Apellido</p>
-            <p className="text-lg font-medium text-gray-800">{userData?.user?.apellido || "No disponible"}</p>
+            {/* <p className="text-lg font-medium text-gray-800">{userData?.user?.apellido || "No disponible"}</p> */}
           </div>
 
           <div className="p-3 border rounded-lg bg-gray-50">
             <p className="text-gray-600 text-sm">Email</p>
-            <p className="text-lg font-medium text-gray-800">{userData?.user?.email || "No disponible"}</p>
+            {/* <p className="text-lg font-medium text-gray-800">{userData?.user?.email || "No disponible"}</p> */}
           </div>
         </div>
       </div>
