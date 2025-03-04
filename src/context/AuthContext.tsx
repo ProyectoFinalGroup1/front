@@ -4,12 +4,11 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { IUserSession } from "@/types";
+
 
 // Interface
-export interface IUserSession {
-  token: string;
-  user: unknown, //-->any;
-}
+
 
 export interface AuthContextProps {
   userData: IUserSession | null;
@@ -64,7 +63,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const userInfo = {
             token: session.access_token,
             user: {
-              email: session.user.email,
+              email: session.user.email ?? "",
               nombre:
                 session.user.user_metadata?.nombre ||
                 session.user.user_metadata?.name ||
@@ -74,6 +73,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 session.user.user_metadata?.family_name ||
                 "",
               idUser: session.user.id,
+              dni: session.user.user_metadata?.dni || 0,
+              isAdmin: session.user.user_metadata?.isAdmin || false,
+              password: session.user.user_metadata?.password || "",
             },
           };
           setUserData(userInfo);
@@ -93,7 +95,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const userInfo = {
           token: session.access_token,
           user: {
-            email: session.user.email,
+            email: session.user.email ?? "",
             nombre:
               session.user.user_metadata?.nombre ||
               session.user.user_metadata?.name ||
@@ -103,6 +105,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               session.user.user_metadata?.family_name ||
               "",
             idUser: session.user.id,
+            dni: session.user.user_metadata?.dni || 0,
+            isAdmin: session.user.user_metadata?.isAdmin || false,
+            password: session.user.user_metadata?.password || "",
           },
         };
 
