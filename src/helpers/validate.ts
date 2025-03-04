@@ -19,12 +19,6 @@ export function validateLoginForm(values: ILoginProps) {
         errors.password = "La contraseña debe tener al menos 5 caracteres";
     } else if (!/[A-Z]/.test(values.password)) {
         errors.password = "La contraseña debe incluir al menos una letra mayúscula";
-    } else if (!/[a-z]/.test(values.password)) {
-        errors.password = "La contraseña debe incluir al menos una letra minúscula";
-    } else if (!/[0-9]/.test(values.password)) {
-        errors.password = "La contraseña debe incluir al menos un número";
-    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
-    errors.password = "La contraseña debe incluir al menos un carácter especial";
-    }
+    } 
     return errors;
 }
