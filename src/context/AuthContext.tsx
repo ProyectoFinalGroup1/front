@@ -12,6 +12,7 @@ export interface IUserSession {
     email: string;
     nombre: string;
     apellido: string;
+    isAdmin?: boolean;
   };
 }
 
