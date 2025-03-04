@@ -1,26 +1,37 @@
 "use client";
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const DashboardAdminView = () => {
-     
-    const { userData } = useAuth();
+  const { userData, setUserData } = useAuth()
+   
   const router = useRouter();
+  
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Redirige si no es un admin
-    if (!userData || userData?.user?.isAdmin !== true) {
-      router.push('/'); // Redirige al inicio o a un acceso no autorizado
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
     }
-  }, [userData, router]);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (!loading && (!userData || userData?.user?.isAdmin !== true)) {
+      router.push("/"); // Redirige al inicio
+    }
+  }, [loading, userData, router]);
+
+  if (loading) {
+    return <p>Cargando...</p>; // Muestra algo mientras se carga la info
+  }
 
   if (!userData || userData?.user?.isAdmin !== true) {
-    return null; // O una pantalla de carga/espera mientras se verifica el rol
+    return null;
   }
-  
-
 
     return (
       <div className="p-6">
@@ -28,7 +39,7 @@ const DashboardAdminView = () => {
         <p className="mt-2 text-gray-600">Aquí puedes ver estadísticas y gestionar tu cuenta.</p>
       </div>
     );
-  };
+  }
   
   export default DashboardAdminView;
   
