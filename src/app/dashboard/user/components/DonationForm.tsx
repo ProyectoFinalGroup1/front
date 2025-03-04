@@ -5,7 +5,8 @@ import { IUserSession } from "@/types/index";
 const DonationForm = () => {
   const { userData } = useAuth() as { userData: IUserSession | null };
   const [amount, setAmount] = useState<number | "">("");
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  //const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const handleDonation = async () => {
     if (!amount || amount <= 0) {
@@ -24,7 +25,8 @@ const DonationForm = () => {
     };
 
     try {
-      const response = await fetch(`${apiUrl}/mercadopago/donar`, {
+      const response = await fetch(`${API_URL}/mercadopago/donar`, {
+      // const response = await fetch(`${apiUrl}/mercadopago/donar`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
