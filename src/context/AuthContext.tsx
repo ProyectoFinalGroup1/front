@@ -163,6 +163,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isAuthenticated,
         logout,
         signInWithGoogle,
+    
       }}
     >
       {children}
