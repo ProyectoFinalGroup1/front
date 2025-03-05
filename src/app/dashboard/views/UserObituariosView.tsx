@@ -1,6 +1,45 @@
-import React from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { IObituario, IInhumado } from '@/types/index'; // Asegúrate de tener la ruta correcta a tu archivo de tipos
+import MensajesForm from '@/app/dashboard/components/MensajesForm';
 
 const UserObituariosView = () => {
+  const [obituarios, setObituarios] = useState<IObituario[]>([]);
+  const [inhumados, setInhumados] = useState<IInhumado[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   const fetchInhumados = async () => {
+  //     try {
+  //       const userId = '123'; 
+  //       const inhumadosResponse = await axios.get(`/usuario-inhumado/usuario/${userId}`);
+  //       setInhumados(inhumadosResponse.data);
+
+  //       // Obtener los mensajes por el nombre del inhumado
+  //       const messagesPromises = inhumadosResponse.data.map(inhumado => 
+  //         axios.get(`/publicaciones/${inhumado.nombre}`)
+  //       );
+
+  //       // Esperar que todas las peticiones a las publicaciones se resuelvan
+  //       const messagesResponse = await Promise.all(messagesPromises);
+  //       const allMessages = messagesResponse.map(res => res.data);
+        
+  //       // Guardamos los mensajes en el estado
+  //       setObituarios(allMessages.flat()); // Aplanamos el array de mensajes si es necesario
+        
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchInhumados();
+  // }, []);
+
+  // if (loading) return <div>Cargando...</div>;
+
   return (
     <div className="min-h-screen bg-white py-10 px-4 mt-6 md:px-10">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-2xl p-6">
@@ -8,28 +47,29 @@ const UserObituariosView = () => {
           Recuerdos de nuestros seres queridos
         </h1>
         <p className="text-gray-600 text-center mb-6">
-          Aquí puedes ver los mensajes que han dejado en memoria de tus seres queridos. Comparte tus recuerdos y deja unas palabras en su honor.
+          Aquí puedes ver los mensajes que has dejado en memoria de tus seres queridos.
         </p>
-        
+
+        {/* Formulario para enviar mensajes */}
+        <MensajesForm/>
+
         {/* Lista de mensajes */}
-        <div className="space-y-4">
-          <div className="bg-white p-8 rounded-lg shadow">
-            <p className="text-gray-700">&apos;Siempre estarás en nuestros corazones.&apos;</p>
-            <span className="text-sm text-gray-500">- Familia Pérez</span>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow">
-            <p className="text-gray-700">&apos;Te extrañamos cada día.&apos;</p>
-            <span className="text-sm text-gray-500">- Juan y Ana</span>
-          </div>
+        <div className="space-y-4 mt-6">
+          {obituarios.map((obituario) => {
+            const inhumado = inhumados.find(inhumado => String(inhumado.id) === obituario.inhumadoId);
+            return (
+              <div key={obituario.id} className="bg-white p-8 rounded-lg shadow">
+                <p className="text-gray-700">"{obituario.mensaje}"</p>
+                {inhumado && (
+                  <div>
+                    <span className="text-sm text-gray-500">- {inhumado.nombre} {inhumado.apellido}</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
-        
-        {/* Botón para dejar un mensaje */}
-        {/* <div className="mt-10 text-center">
-          <button className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 transition">
-            Dejar un mensaje
-          </button>
-        </div> */}
-      </div> 
+      </div>
     </div>
   );
 };

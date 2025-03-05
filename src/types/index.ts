@@ -11,6 +11,12 @@ export interface IInhumado {
     simbolo: number;
     ncliente: number;
   }
+
+export interface IObituario {
+    id: string;
+    mensaje: string;
+    inhumadoId: string; // Relacionado con el inhumado
+  }
   
 export interface ILoginProps {
     email: string;
@@ -32,5 +38,6 @@ export interface IUserSession {
         isAdmin: boolean;
         nombre: string;
         password: string;
+        provider?: string;
     }
 }
