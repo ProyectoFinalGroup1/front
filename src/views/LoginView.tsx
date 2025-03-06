@@ -28,18 +28,30 @@ const LoginView = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Check for error query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorParam = urlParams.get('error');
+    
+    if (errorParam === 'user-creation-failed') {
+      setError('Error al crear el usuario. Por favor, intente nuevamente.');
+    } else if (errorParam === 'auth-failed') {
+      setError('Error de autenticación. Por favor, intente nuevamente.');
+    } else if (errorParam === 'unexpected') {
+      setError('Error inesperado. Por favor, intente nuevamente.');
+    }
+  }, []);
+
+
   // Function to handle Google login
   const handleGoogleLogin = async () => {
     try {
-      setIsLoading(true);
       setError(null);
-      await signInWithGoogle();
-      // Redirect happens in the auth context after successful sign-in
+      await signInWithGoogle(); 
+      // No es necesario activar isLoading porque la redirección ocurre en otro lado
     } catch (error) {
       console.error('Error signing in with Google:', error);
       setError('Error al iniciar sesión con Google');
-    } finally {
-      setIsLoading(false);
     }
   };
 

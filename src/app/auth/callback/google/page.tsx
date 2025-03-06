@@ -1,33 +1,56 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase, checkAndCreateUser } from "@/lib/supabase";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        
-        const { data, error } = await supabase.auth.getSession();
-        
-        if (error) {
-          console.error('Error during auth callback:', error);
-          router.push('/login?error=auth-failed');
+        console.log("Auth callback started");
+        const { data, error: sessionError } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          console.error("Error getting session:", sessionError);
+          setError("Error de autenticación");
+          setTimeout(() => router.push("/login?error=auth-failed"), 2000);
           return;
         }
-        
-        if (data.session) {
-       
-          router.push('/dashboard/user');
-        } else {
-          router.push('/login');
+
+        if (!data.session) {
+          console.error("No session found");
+          setError("No se encontró sesión");
+          setTimeout(() => router.push("/login"), 2000);
+          return;
         }
-      } catch (error) {
-        console.error('Unexpected error during auth callback:', error);
-        router.push('/login?error=unexpected');
+
+        console.log("Session found, checking user");
+
+        try {
+          // Check if user exists in custom table and create if not
+          const dbUser = await checkAndCreateUser(data.session.user);
+          console.log("User check/create completed:", dbUser);
+
+          if (dbUser) {
+            // Redirige al dashboard solo si el usuario fue creado/verificado correctamente
+            setTimeout(() => router.push("/dashboard/user"), 1000);
+          } else {
+            setError("Error al crear usuario");
+            setTimeout(() => router.push("/login?error=user-creation-failed"), 2000);
+          }
+        } catch (userError: any) {
+          console.error("Error checking/creating user:", userError);
+          setError(`Error al crear usuario: ${userError.message || "Error desconocido"}`);
+          setTimeout(() => router.push("/login?error=user-creation-failed"), 2000);
+        }
+      } catch (error: any) {
+        console.error("Unexpected error during auth callback:", error);
+        setError(`Error inesperado: ${error.message || "Error desconocido"}`);
+        setTimeout(() => router.push("/login?error=unexpected"), 2000);
       }
     };
 
@@ -37,8 +60,14 @@ export default function AuthCallbackPage() {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">Procesando tu inicio de sesión...</h1>
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500 mx-auto"></div>
+        <h1 className="text-2xl font-bold mb-4">
+          {error ? "Error de autenticación" : "Procesando tu inicio de sesión..."}
+        </h1>
+        {error ? (
+          <div className="text-red-500 mb-4">{error}</div>
+        ) : (
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500 mx-auto"></div>
+        )}
       </div>
     </div>
   );
