@@ -10,7 +10,7 @@ const VirgenView = () => {
 
   const { userData } = useAuth();
   // console.log("id de usuario:", userData?.user.idUser);
-  console.log("token de usuario", userData?.token);
+  // console.log("token de usuario", userData?.token);
   
   
   const [messages, setMessages] = useState<{ id: number; text: string }[]>([]);
@@ -80,16 +80,27 @@ const VirgenView = () => {
         },
         body: formData,
       });
-      const data = await response.json();
-      console.log("Respuesta del servidor:", data);
+
+      // Verificar si la respuesta es texto plano
+      const responseText = await response.text();
+      console.log("Respuesta del servidor:", responseText);
       
       if (!response.ok) {
-        const errorText = await response.formData();                    
-        throw new Error(`Error al guardar el mensaje: ${errorText}`);
+        //const errorText = await response.text();                    
+        throw new Error(`Error al guardar el mensaje: ${responseText}`);
       }
       
-      const newMessage = await response.json();
-      setMessages([...messages, newMessage]); // setMessages([...messages, { ...newMessage, pending: true }]); -----------------CONSULTAR EL PENDING TRUE
+      // Si esperas JSON pero el backend envía texto plano, intenta convertirlo solo si es válido
+      let newMessage;
+      try {
+        newMessage = JSON.parse(responseText);
+      } catch (error) {
+        console.warn("La respuesta del servidor no es un JSON válido.");
+        newMessage = { id: Date.now(), text: values.texto }; // Usar valores temporales
+      }
+
+      setMessages([...messages, newMessage]);
+
       
       toast.success("Tu mensaje fue enviado y está en espera de aprobación.", {
         position: "top-center"
