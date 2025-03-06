@@ -81,7 +81,7 @@ const VirgenView = () => {
         body: formData,
       });
 
-      // Verificar si la respuesta es texto plano
+      // Se verifica si la respuesta es texto plano
       const responseText = await response.text();
       console.log("Respuesta del servidor:", responseText);
       
@@ -90,13 +90,13 @@ const VirgenView = () => {
         throw new Error(`Error al guardar el mensaje: ${responseText}`);
       }
       
-      // Si esperas JSON pero el backend envía texto plano, intenta convertirlo solo si es válido
+      // Si el servidor envía texto plano, se intenta convertirlo solo si es válido
       let newMessage;
       try {
         newMessage = JSON.parse(responseText);
       } catch (error) {
         console.warn("La respuesta del servidor no es un JSON válido.");
-        newMessage = { id: Date.now(), text: values.texto }; // Usar valores temporales
+        newMessage = { id: Date.now(), text: values.texto };                  // se usan valores temporales
       }
 
       setMessages([...messages, newMessage]);
