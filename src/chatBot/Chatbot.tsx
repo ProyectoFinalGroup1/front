@@ -1,59 +1,163 @@
 "use client"; 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useChatbot from "./HookChatbot";
-import { MessageCircle, X } from "lucide-react";
+import { MessageCircle, X, Send } from "lucide-react";
 
 const ChatbotComponent: React.FC = () => {
-  const { messages, sendMessage } = useChatbot();
+  const { messages, sendMessage, isLoading } = useChatbot();
   const [input, setInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Función para detectar dispositivo móvil
+  const isMobile = () => {
+    return typeof window !== 'undefined' && window.innerWidth < 768;
+  };
+
+  // Obtener solo el último par de mensajes (pregunta del usuario y respuesta del bot)
+  const getLatestExchange = () => {
+    if (messages.length === 0) return [];
+    
+    // Si el último mensaje es del usuario, solo mostrar ese
+    if (messages[messages.length - 1].sender === "user") {
+      return [messages[messages.length - 1]];
+    }
+    
+    // Si el último mensaje es del bot, mostrar la pregunta anterior del usuario y la respuesta
+    if (messages.length >= 2 && messages[messages.length - 1].sender === "bot") {
+      // Buscar el mensaje de usuario más reciente
+      for (let i = messages.length - 2; i >= 0; i--) {
+        if (messages[i].sender === "user") {
+          return [messages[i], messages[messages.length - 1]];
+        }
+      }
+      // Si no se encuentra un mensaje de usuario, solo mostrar la respuesta del bot
+      return [messages[messages.length - 1]];
+    }
+    
+    return [];
+  };
+
+  const latestExchange = getLatestExchange();
+
+  // Enfocar el input cuando se abre el chat
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen]);
 
   const handleSendMessage = () => {
-    if (input.trim() === "") return;
+    if (input.trim() === "" || isLoading) return;
     sendMessage(input);
     setInput("");
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  // Formatear la hora
+  const formatTimestamp = (timestamp?: number): string => {
+    if (!timestamp) return "";
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
   return (
-    <div className="fixed bottom-4 right-4">
+    <div className="fixed bottom-4 right-4 z-50">
       {isOpen ? (
-        <div className="w-96 bg-white p-4 rounded-2xl shadow-2xl border border-gray-300">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-green-600">Chatbot</h2>
-            <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-red-600 transition-colors">
+        <div className="bg-white rounded-2xl shadow-2xl border border-gray-300 flex flex-col w-full sm:w-96 max-w-full" 
+             style={{ 
+               maxHeight: "80vh",
+               position: isMobile() ? "fixed" : "relative",
+               bottom: isMobile() ? "0" : "auto",
+               right: isMobile() ? "0" : "auto",
+               left: isMobile() ? "0" : "auto", 
+               margin: isMobile() ? "10px" : "0",
+               width: isMobile() ? "calc(100% - 20px)" : "24rem" // 24rem = w-96
+             }}>
+          {/* Cabecera */}
+          <div className="flex justify-between items-center p-4 border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-green-600">Asistente Virtual</h2>
+            <button 
+              onClick={() => setIsOpen(false)} 
+              className="text-gray-500 hover:text-red-600 transition-colors"
+            >
               <X size={20} />
             </button>
           </div>
 
-          <div className="h-72 overflow-y-auto border-t border-b border-gray-200 p-4 bg-gray-50 rounded-lg space-y-4">
-            {messages.map((msg, index) => (
-              <div key={index} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
-                <span
-                  className={`inline-block max-w-xs px-4 py-2 rounded-2xl text-sm ${
-                    msg.sender === "user" ? "bg-green-200 text-green-800" : "bg-gray-200 text-gray-800"
-                  }`}
-                >
-                  {msg.text}
-                </span>
+          {/* Área de mensajes con solo el último intercambio */}
+          <div className="flex-1 p-4 bg-gray-50 space-y-4" 
+               style={{ maxHeight: "calc(80vh - 130px)", overflowY: "auto" }}>
+            {latestExchange.length === 0 ? (
+              <div className="text-center text-gray-500">
+                ¡Hola! Soy el asistente virtual de Valle de Paz. ¿En qué puedo ayudarte hoy?
               </div>
-            ))}
+            ) : (
+              latestExchange.map((msg, index) => (
+                <div key={index} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className="flex flex-col max-w-[90%] sm:max-w-[80%]">
+                    <span
+                      className={`inline-block px-4 py-2 rounded-2xl text-sm ${
+                        msg.sender === "user" ? "bg-green-200 text-green-800" : "bg-gray-200 text-gray-800"
+                      }`}
+                    >
+                      {msg.text}
+                    </span>
+                    {msg.timestamp && (
+                      <span className="text-xs text-gray-500 mt-1 px-1">
+                        {formatTimestamp(msg.timestamp)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-gray-200 text-gray-800 px-4 py-2 rounded-2xl text-sm">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
-          <div className="flex mt-4 space-x-2">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-              className="flex-1 p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
-              placeholder="Escribe un mensaje..."
-            />
-            <button
-              onClick={handleSendMessage}
-              className="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition-colors"
-            >
-              ➤
-            </button>
+          {/* Área de input */}
+          <div className="p-4 border-t border-gray-200 bg-white rounded-b-2xl">
+            <div className="flex space-x-2">
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                disabled={isLoading}
+                className="flex-1 p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
+                placeholder={isLoading ? "Enviando..." : "Escribe un mensaje..."}
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={isLoading || input.trim() === ""}
+                className={`p-3 rounded-full ${
+                  isLoading || input.trim() === ""
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-700"
+                } text-white transition-colors flex-shrink-0`}
+              >
+                <Send size={20} />
+              </button>
+            </div>
           </div>
         </div>
       ) : (

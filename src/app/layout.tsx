@@ -3,11 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Toaster } from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/AuthContext";
 import ExcludeWrapper from "@/components/ExcludeWrapper";
 import ChatbotComponent from "@/chatBot/Chatbot";
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Valle de Paz - Cementerio Parque",
     description: "Un lugar de paz y descanso eterno. Atención las 24 hs.",
-    images: ["/images/logo.jpg"], 
+    images: ["/images/logo.jpg"],
   },
 };
 
@@ -33,7 +32,6 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
@@ -43,18 +41,15 @@ export default function RootLayout({
           <ExcludeWrapper>
             <Navbar />
           </ExcludeWrapper>
-            <main className="flex-1">{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer />
+
           <ChatbotComponent />
         </AuthProvider>
-
       </body>
     </html>
   );
 }
-
-
-
 
 // import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
