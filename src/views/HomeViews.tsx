@@ -1,12 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
-
 export default function Home() {
-  useEffect(() => {
-    console.log("API URL en producción:", process.env.NEXT_PUBLIC_API_URL);
-  }, []);
-
   return (
     <div className="relative min-h-screen flex flex-col">
       

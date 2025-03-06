@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast"
 import { AuthProvider } from "@/context/AuthContext";
 import ExcludeWrapper from "@/components/ExcludeWrapper";
+import ChatbotComponent from "@/chatBot/Chatbot";
 
 
 const geistSans = Geist({
@@ -44,6 +45,7 @@ export default function RootLayout({
           </ExcludeWrapper>
             <main className="flex-1">{children}</main>
           <Footer />
+          <ChatbotComponent />
         </AuthProvider>
 
       </body>

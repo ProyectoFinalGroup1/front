@@ -1,13 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { IObituario, IInhumado } from '@/types/index'; // Asegúrate de tener la ruta correcta a tu archivo de tipos
+import React, { useState } from 'react'; //agregar useEffect antes de useState
+// import axios from 'axios';
+import { IObituario, IInhumado } from '@/types/index'; 
 import MensajesForm from '@/app/dashboard/components/MensajesForm';
 
 const UserObituariosView = () => {
-  const [obituarios, setObituarios] = useState<IObituario[]>([]);
-  const [inhumados, setInhumados] = useState<IInhumado[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [obituarios] = useState<IObituario[]>([]); //agregar setObituarios entre los corchetes (cuando siga)
+  const [inhumados] = useState<IInhumado[]>([]); //agregar setInhumados idem arriba(cuando siga)
+  // const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
   //   const fetchInhumados = async () => {
@@ -59,7 +59,7 @@ const UserObituariosView = () => {
             const inhumado = inhumados.find(inhumado => String(inhumado.id) === obituario.inhumadoId);
             return (
               <div key={obituario.id} className="bg-white p-8 rounded-lg shadow">
-                <p className="text-gray-700">"{obituario.mensaje}"</p>
+                <p className="text-gray-700">`{obituario.mensaje}`</p>
                 {inhumado && (
                   <div>
                     <span className="text-sm text-gray-500">- {inhumado.nombre} {inhumado.apellido}</span>
