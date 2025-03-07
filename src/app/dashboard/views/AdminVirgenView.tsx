@@ -1,3 +1,4 @@
+'use client';
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 
@@ -43,6 +44,14 @@ useEffect(() => {
     }
 }, [userData?.user.idUser]);
 
+
+const handleAccept = (id: string) => {
+    const updatedMessages = messages.map(msg =>
+      msg.id === id ? { ...msg, estado: true } : msg
+    );
+    setMessages(updatedMessages);
+  };
+
     return (
         <div>
             <h1>
@@ -71,7 +80,9 @@ useEffect(() => {
                 ) : (
                   <div className="flex flex-row">
                     <div className="flex items-center">
-                        <h1>ACEPTAR</h1>
+                        <button onClick={() => handleAccept(msg.id)}>
+                            ACEPTAR
+                        </button>
                     </div>
                     <div>
 
