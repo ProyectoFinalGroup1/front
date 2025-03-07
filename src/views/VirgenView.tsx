@@ -170,11 +170,19 @@ const VirgenView = () => {
           <div className="w-full mt-4">
             {messages.map((msg) => (
               <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
-                <p className={`text-gray-800 ${msg.estado ? '' : 'opacity-50'}`}>
+
+                <p className={`text-gray-800 font-bold text-lg ${msg.estado ? '' : 'opacity-50'}`}>
                   {msg.texto}
                 </p>
-                {msg.imagenUrl && <img src={msg.imagenUrl} alt="Imagen del mensaje" className="mt-2 max-w-xs rounded-lg" />}
-                <p className="text-sm text-gray-500">{new Date(msg.fechaPublicacion).toLocaleString()}</p>
+
+                {msg.imagenUrl && (
+                  <div className="flex justify-center">
+                    <img src={msg.imagenUrl} alt="Imagen del mensaje" className="mt-2 max-w-xs rounded-lg" />
+                  </div>
+                )}
+                <p className="text-xs text-gray-500">
+                Mensaje de {userData?.user.nombre} {userData?.user.apellido}. {new Date(msg.fechaPublicacion).toLocaleString()}
+                </p>
               </div>
             ))}
           </div>
