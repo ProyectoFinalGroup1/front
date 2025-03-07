@@ -13,7 +13,12 @@ const VirgenView = () => {
   // console.log("token de usuario", userData?.token);
   
   
-  const [messages, setMessages] = useState<{ id: number; text: string }[]>([]);
+  const [messages, setMessages] = useState<{id: string;
+                                            texto: string;
+                                            imagenUrl?: string;
+                                            fechaPublicacion: string;
+                                            estado: boolean
+                                          }[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editInput, setEditInput] = useState('');  
 
@@ -118,22 +123,22 @@ const VirgenView = () => {
     }
   };
 
-  const handleDelete = (id: number) => {
-    const updatedMessages = messages.filter(msg => msg.id !== id);
-    setMessages(updatedMessages);
-  };
+  // const handleDelete = (id: number) => {
+  //   const updatedMessages = messages.filter(msg => msg.id !== id);
+  //   setMessages(updatedMessages);
+  // };
 
-  const handleEdit = (id: number, text: string) => {
-    setEditingId(id);
-    setEditInput(text);
-  };
+  // const handleEdit = (id: number, text: string) => {
+  //   setEditingId(id);
+  //   setEditInput(text);
+  // };
 
-  const handleSaveEdit = () => {
-    const updatedMessages = messages.map(msg => (msg.id === editingId ? { ...msg, text: editInput } : msg));
-    setMessages(updatedMessages);
-    setEditingId(null);
-    setEditInput('');
-  };
+  // const handleSaveEdit = () => {
+  //   const updatedMessages = messages.map(msg => (msg.id === editingId ? { ...msg, text: editInput } : msg));
+  //   setMessages(updatedMessages);
+  //   setEditingId(null);
+  //   setEditInput('');
+  // };
 
   return (
     <div className="min-h-screen bg-fixed bg-cover bg-center text-black flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/flores.webp)' }}>
@@ -165,20 +170,11 @@ const VirgenView = () => {
           <div className="w-full mt-4">
             {messages.map((msg) => (
               <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
-                {editingId === msg.id ? (
-                  <div>
-                    <textarea className="w-full p-2 border rounded-lg" value={editInput} onChange={(e) => setEditInput(e.target.value)}></textarea>
-                    <button onClick={handleSaveEdit} className="mt-2 px-3 py-1 bg-green-600 text-white rounded-lg">Guardar</button>
-                  </div>
-                ) : (
-                  <>
-                    <p className="text-gray-800">{msg.text}</p>
-                    <div className="mt-2 flex justify-center gap-4">
-                      <button onClick={() => handleEdit(msg.id, msg.text)} className="text-blue-500">Editar</button>
-                      <button onClick={() => handleDelete(msg.id)} className="text-red-500">Eliminar</button>
-                    </div>
-                  </>
-                )}
+                <p className={`text-gray-800 ${msg.estado ? '' : 'opacity-50'}`}>
+                  {msg.texto}
+                </p>
+                {msg.imagenUrl && <img src={msg.imagenUrl} alt="Imagen del mensaje" className="mt-2 max-w-xs rounded-lg" />}
+                <p className="text-sm text-gray-500">{new Date(msg.fechaPublicacion).toLocaleString()}</p>
               </div>
             ))}
           </div>
@@ -189,3 +185,19 @@ const VirgenView = () => {
 };
 
 export default VirgenView;
+
+
+// {editingId === msg.id ? (
+//   <div>
+//     <textarea className="w-full p-2 border rounded-lg" value={editInput} onChange={(e) => setEditInput(e.target.value)}></textarea>
+//     <button onClick={handleSaveEdit} className="mt-2 px-3 py-1 bg-green-600 text-white rounded-lg">Guardar</button>
+//   </div>
+// ) : (
+//   <>
+//     <p className="text-gray-800">{msg.text}</p>
+//     <div className="mt-2 flex justify-center gap-4">
+//       <button onClick={() => handleEdit(msg.id, msg.text)} className="text-blue-500">Editar</button>
+//       <button onClick={() => handleDelete(msg.id)} className="text-red-500">Eliminar</button>
+//     </div>
+//   </>
+// )}
