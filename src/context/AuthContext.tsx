@@ -1,21 +1,35 @@
-"use client";
-import { createContext, useContext, useState, useEffect } from "react";
-// import { User, Session } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabase";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
-import { IUserSession } from "@/types";
+"use client"
+import { createContext, useContext, useState, useEffect } from "react"
+import type React from "react"
+
+import { supabase, checkAndCreateUser } from "@/lib/supabase"
+import Cookies from "js-cookie"
+import { useRouter } from "next/navigation"
 
 
-// Interface
-
+// Ensure IUserSession matches our DbUser structure
+export interface IUserSession {
+  token: string;
+  user: {
+    email: string;
+    nombre: string;
+    apellido: string;
+    idUser: string;
+    dni: string | number;
+    isAdmin: boolean;
+ 
+    fechaPago: string | null;
+    imagenUrl: string | null;
+    recibirRecordatoriosAniversarios: boolean;
+  };
+}
 
 export interface AuthContextProps {
-  userData: IUserSession | null;
-  setUserData: (userData: IUserSession | null) => void;
-  isAuthenticated: boolean;
-  logout: () => void;
-  signInWithGoogle: () => Promise<void>;
+  userData: IUserSession | null
+  setUserData: (userData: IUserSession | null) => void
+  isAuthenticated: boolean
+  logout: () => void
+  signInWithGoogle: () => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -24,118 +38,130 @@ export const AuthContext = createContext<AuthContextProps>({
   isAuthenticated: false,
   logout: () => {},
   signInWithGoogle: async () => {},
-});
+})
 
-// Interface
 export interface AuthProviderProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  // Estado con la info de usuario
-  const [userData, setUserData] = useState<IUserSession | null>(null);
-  const isAuthenticated = !!userData?.token;
-  const router = useRouter();
+  const [userData, setUserData] = useState<IUserSession | null>(null)
+  const isAuthenticated = !!userData?.token
+  const router = useRouter()
 
-  // Hook para guardar en localStorage
   useEffect(() => {
     if (userData) {
-      localStorage.setItem(
-        "userSession",
-        JSON.stringify({ token: userData.token, user: userData.user })
-      );
-      Cookies.set("userData", JSON.stringify(userData));
+      localStorage.setItem("userSession", JSON.stringify({ token: userData.token, user: userData.user }))
+      Cookies.set("userData", JSON.stringify(userData))
     }
-  }, [userData]);
+  }, [userData])
 
   useEffect(() => {
-    const storedUserData = localStorage.getItem("userSession");
+    const storedUserData = localStorage.getItem("userSession")
     if (storedUserData) {
-      const parsedUserData = JSON.parse(storedUserData);
-      setUserData(parsedUserData);
+      const parsedUserData = JSON.parse(storedUserData)
+      setUserData(parsedUserData)
     } else {
       const initializeAuth = async () => {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
+        try {
+          const {
+            data: { session },
+          } = await supabase.auth.getSession()
 
-        if (session) {
-          const userInfo = {
-            token: session.access_token,
-            user: {
-              email: session.user.email ?? "",
-              nombre:
-                session.user.user_metadata?.nombre ||
-                session.user.user_metadata?.name ||
-                "",
-              apellido:
-                session.user.user_metadata?.apellido ||
-                session.user.user_metadata?.family_name ||
-                "",
-              idUser: session.user.id,
-              dni: session.user.user_metadata?.dni || 0,
-              isAdmin: session.user.user_metadata?.isAdmin || false,
-              password: session.user.user_metadata?.password || "",
-            },
-          };
-          setUserData(userInfo);
-          Cookies.set("userData", JSON.stringify(userInfo));
+          if (session) {
+            try {
+              // Check if user exists in custom table and create if not
+              const dbUser = await checkAndCreateUser(session.user)
+              console.log("User check/create completed in AuthContext:", dbUser)
+
+              const userInfo: IUserSession = {
+                token: session.access_token,
+                user: {
+                  email: dbUser.email || "",
+                  nombre: dbUser.nombre || "",
+                  apellido: dbUser.apellido || "",
+                  idUser: dbUser.idUser,
+                  dni: dbUser.dni || 0,
+                  isAdmin: dbUser.isAdmin || false,
+           
+                  fechaPago: dbUser.fechaPago || null,
+                  imagenUrl: dbUser.imagenUrl || null,
+                  recibirRecordatoriosAniversarios: dbUser.recibirRecordatoriosAniversarios || true,
+                },
+              };
+              
+              setUserData(userInfo)
+              Cookies.set("userData", JSON.stringify(userInfo))
+            } catch (error) {
+              console.error("Error checking/creating user in initializeAuth:", error)
+            }
+          }
+        } catch (error) {
+          console.error("Error in initializeAuth:", error)
         }
-      };
+      }
 
-      initializeAuth();
+      initializeAuth()
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" && session) {
-        const userInfo = {
-          token: session.access_token,
-          user: {
-            email: session.user.email ?? "",
-            nombre:
-              session.user.user_metadata?.nombre ||
-              session.user.user_metadata?.name ||
-              "",
-            apellido:
-              session.user.user_metadata?.apellido ||
-              session.user.user_metadata?.family_name ||
-              "",
-            idUser: session.user.id,
-            dni: session.user.user_metadata?.dni || 0,
-            isAdmin: session.user.user_metadata?.isAdmin || false,
-            password: session.user.user_metadata?.password || "",
-          },
-        };
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth state changed:", event)
 
-        setUserData(userInfo);
-        Cookies.set("userData", JSON.stringify(userInfo));
-        router.push("/dashboard/user");
+      if (event === "SIGNED_IN" && session) {
+        try {
+          // Check if user exists in custom table and create if not
+          const dbUser = await checkAndCreateUser(session.user)
+          console.log("User check/create completed in onAuthStateChange:", dbUser)
+
+          const userInfo: IUserSession = {
+            token: session.access_token,
+            user: {
+              email: dbUser.email || "",
+              nombre: dbUser.nombre || "",
+              apellido: dbUser.apellido || "",
+              idUser: dbUser.idUser,
+              dni: dbUser.dni || 0,
+              isAdmin: dbUser.isAdmin || false,
+           
+              fechaPago: dbUser.fechaPago || null,
+              imagenUrl: dbUser.imagenUrl || null,
+              recibirRecordatoriosAniversarios: dbUser.recibirRecordatoriosAniversarios || true,
+            },
+          };
+
+          setUserData(userInfo)
+          Cookies.set("userData", JSON.stringify(userInfo))
+
+          // Don't redirect here - let the callback page handle it
+        } catch (error) {
+          console.error("Error checking/creating user in onAuthStateChange:", error)
+        }
       }
 
       if (event === "SIGNED_OUT") {
-        setUserData(null);
-        Cookies.remove("userData");
-        router.push("/login");
+        setUserData(null)
+        Cookies.remove("userData")
+        router.push("/login")
       }
-    });
+    })
 
     return () => {
-      subscription.unsubscribe();
-    };
-  }, [router]);
+      subscription.unsubscribe()
+    }
+  }, [router])
 
   const logout = async () => {
-    await supabase.auth.signOut();
-    setUserData(null);
-    Cookies.remove("userData", { path: "" });
-    localStorage.removeItem("sb-wbdarmsigbqzvkvcezkt-auth-token");
-    localStorage.removeItem("userSession");
-    router.push("/login");
-  };
+    await supabase.auth.signOut()
+    setUserData(null)
+    Cookies.remove("userData", { path: "" })
+    localStorage.removeItem("sb-wbdarmsigbqzvkvcezkt-auth-token")
+    localStorage.removeItem("userSession")
+    router.push("/login")
+  }
 
   const signInWithGoogle = async () => {
     try {
@@ -144,16 +170,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         options: {
           redirectTo: `${window.location.origin}/auth/callback/google`,
         },
-      });
+      })
 
       if (error) {
-        throw error;
+        throw error
       }
     } catch (error) {
-      console.error("Error signing in with Google:", error);
-      throw error;
+      console.error("Error signing in with Google:", error)
+      throw error
     }
-  };
+  }
 
   return (
     <AuthContext.Provider
@@ -168,8 +194,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
-// HOOK
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext)

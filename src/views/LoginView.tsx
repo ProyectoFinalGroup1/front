@@ -13,8 +13,9 @@ import toast from 'react-hot-toast';
 const LoginView = () => {
   const { setUserData, signInWithGoogle } = useAuth();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);; // Estado para procesar el login de Google
 
   // MANEJO DE ERROR AL ENTRAR A RUTA PROTEGIDA
   useEffect(() => {
@@ -28,19 +29,34 @@ const LoginView = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Check for error query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorParam = urlParams.get('error');
+
+    if (errorParam === 'user-creation-failed') {
+      setError('Error al crear el usuario. Por favor, intente nuevamente.');
+    } else if (errorParam === 'auth-failed') {
+      setError('Error de autenticación. Por favor, intente nuevamente.');
+    } else if (errorParam === 'unexpected') {
+      setError('Error inesperado. Por favor, intente nuevamente.');
+    }
+  }, []);
+
   // Function to handle Google login
   const handleGoogleLogin = async () => {
     try {
       setIsLoading(true);
       setError(null);
+      // Don't use router.push here - let the OAuth flow handle redirection
       await signInWithGoogle();
-      // Redirect happens in the auth context after successful sign-in
+      // Don't navigate here - let the callback handle it
     } catch (error) {
       console.error('Error signing in with Google:', error);
       setError('Error al iniciar sesión con Google');
-    } finally {
       setIsLoading(false);
     }
+    // Note: We don't set isLoading(false) here because the page will redirect
   };
 
   return (
@@ -64,16 +80,17 @@ const LoginView = () => {
           validate={validateLoginForm}
           onSubmit={async (values, { setSubmitting }) => {
             try {
-              const response = await login(values)  
+              const response = await login(values);
               console.log("Inicio de Sesión Exitoso", response);
-              setUserData({ token: response.token, user: response.userExisting })
-              Cookies.set("userData", JSON.stringify({token: response.token, user: response.userExisting}))
+              setUserData({ token: response.token, user: response.userExisting });
+              Cookies.set("userData", JSON.stringify({ token: response.token, user: response.userExisting }));
               if (response.userExisting.isAdmin) {
                 router.push("/dashboard/admin");
-              } else 
-              router.push("/dashboard/user");
+              } else {
+                router.push("/dashboard/user");
+              }
             } catch (error) {
-              console.log("Error al Iniciar Sesión:", error); 
+              console.log("Error al Iniciar Sesión:", error);
               setError('Error al iniciar sesión. Verifique sus credenciales.');
             } finally {
               setSubmitting(false);
@@ -83,7 +100,7 @@ const LoginView = () => {
           {({ isSubmitting }) => (
             <Form>
               <div className='px-28 py-5'>
-                
+
                 <div>
                   <Field
                     type="email"
@@ -115,7 +132,7 @@ const LoginView = () => {
                 <div className='pt-2'>
                   <button
                     type="submit"
-                    disabled={isSubmitting || isLoading}
+                    disabled={isSubmitting}
                     className="w-full py-2 px-4
                     bg-green-700 hover:bg-green-800 text-white font-bold
                     rounded-md transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
@@ -123,7 +140,6 @@ const LoginView = () => {
                     {isSubmitting ? 'Ingresando...' : 'Ingresar'}
                   </button>
 
-                  
                   <button
                     type="button"
                     onClick={handleGoogleLogin}
@@ -165,7 +181,7 @@ const LoginView = () => {
                       </>
                     )}
                   </button>
-                  
+
                   <p className="text-center mt-4 text-sm text-gray-600">
                     ¿Todavia no tenés cuenta?{" "}
                     <Link href="/register" className="text-green-600 hover:text-green-700 font-medium">
@@ -197,7 +213,7 @@ const LoginView = () => {
             top-1/2 left-1/2
             transform -translate-x-1/2 -translate-y-1/2
             transition-transform duration-300 ease-in-out 
-	          hover:scale-150"
+            hover:scale-150"
           />
         </Link>
       </div>
