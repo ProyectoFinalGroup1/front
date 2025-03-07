@@ -9,29 +9,29 @@ const ChatbotComponent: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Función para detectar dispositivo móvil
+ 
   const isMobile = () => {
     return typeof window !== 'undefined' && window.innerWidth < 768;
   };
 
-  // Obtener solo el último par de mensajes (pregunta del usuario y respuesta del bot)
+ 
   const getLatestExchange = () => {
     if (messages.length === 0) return [];
     
-    // Si el último mensaje es del usuario, solo mostrar ese
+    
     if (messages[messages.length - 1].sender === "user") {
       return [messages[messages.length - 1]];
     }
     
-    // Si el último mensaje es del bot, mostrar la pregunta anterior del usuario y la respuesta
+   
     if (messages.length >= 2 && messages[messages.length - 1].sender === "bot") {
-      // Buscar el mensaje de usuario más reciente
+   
       for (let i = messages.length - 2; i >= 0; i--) {
         if (messages[i].sender === "user") {
           return [messages[i], messages[messages.length - 1]];
         }
       }
-      // Si no se encuentra un mensaje de usuario, solo mostrar la respuesta del bot
+      
       return [messages[messages.length - 1]];
     }
     
@@ -40,7 +40,7 @@ const ChatbotComponent: React.FC = () => {
 
   const latestExchange = getLatestExchange();
 
-  // Enfocar el input cuando se abre el chat
+  
   useEffect(() => {
     if (isOpen && inputRef.current) {
       setTimeout(() => {
@@ -62,7 +62,7 @@ const ChatbotComponent: React.FC = () => {
     }
   };
 
-  // Formatear la hora
+  
   const formatTimestamp = (timestamp?: number): string => {
     if (!timestamp) return "";
     const date = new Date(timestamp);
@@ -70,7 +70,9 @@ const ChatbotComponent: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div style={{ position: "fixed", bottom: "1rem", right: "1rem", zIndex: 50 }}>
+
+
       {isOpen ? (
         <div className="bg-white rounded-2xl shadow-2xl border border-gray-300 flex flex-col w-full sm:w-96 max-w-full" 
              style={{ 
@@ -82,7 +84,7 @@ const ChatbotComponent: React.FC = () => {
                margin: isMobile() ? "10px" : "0",
                width: isMobile() ? "calc(100% - 20px)" : "24rem" // 24rem = w-96
              }}>
-          {/* Cabecera */}
+          
           <div className="flex justify-between items-center p-4 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-green-600">Asistente Virtual</h2>
             <button 
@@ -93,7 +95,7 @@ const ChatbotComponent: React.FC = () => {
             </button>
           </div>
 
-          {/* Área de mensajes con solo el último intercambio */}
+          
           <div className="flex-1 p-4 bg-gray-50 space-y-4" 
                style={{ maxHeight: "calc(80vh - 130px)", overflowY: "auto" }}>
             {latestExchange.length === 0 ? (

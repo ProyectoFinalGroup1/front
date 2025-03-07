@@ -3,8 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 // URL de la API en Render
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://cementerio-parque-api.onrender.com";
+  process.env.NEXT_PUBLIC_API_URL || "https://cementerio-parque-api.onrender.com";
 
 type MessageType = {
   text: string;
