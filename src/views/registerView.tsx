@@ -16,19 +16,20 @@ const RegisterView: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to handle Google login
+  // Modified function to handle Google login
   const handleGoogleLogin = async () => {
     try {
       setIsLoading(true);
       setError(null);
+      // Don't use router.push here - let the OAuth flow handle redirection
       await signInWithGoogle();
-      router.push("/dashboard/user"); // Redirigir después del login
+      // Don't navigate here - let the callback handle it
     } catch (error) {
       console.error('Error signing in with Google:', error);
       setError('Error al iniciar sesión con Google');
-    } finally {
       setIsLoading(false);
     }
+    // Note: We don't set isLoading(false) here because the page will redirect
   };
 
   return (

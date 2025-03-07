@@ -5,7 +5,24 @@ import type React from "react"
 import { supabase, checkAndCreateUser } from "@/lib/supabase"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
-import type { IUserSession } from "@/types"
+
+
+// Ensure IUserSession matches our DbUser structure
+export interface IUserSession {
+  token: string;
+  user: {
+    email: string;
+    nombre: string;
+    apellido: string;
+    idUser: string;
+    dni: string | number;
+    isAdmin: boolean;
+ 
+    fechaPago: string | null;
+    imagenUrl: string | null;
+    recibirRecordatoriosAniversarios: boolean;
+  };
+}
 
 export interface AuthContextProps {
   userData: IUserSession | null
@@ -57,21 +74,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               const dbUser = await checkAndCreateUser(session.user)
               console.log("User check/create completed in AuthContext:", dbUser)
 
-              const userInfo = {
+              const userInfo: IUserSession = {
                 token: session.access_token,
                 user: {
-                  email: dbUser.email ?? "",
-                  nombre: dbUser.nombre ?? "",
-                  apellido: dbUser.apellido ?? "",
+                  email: dbUser.email || "",
+                  nombre: dbUser.nombre || "",
+                  apellido: dbUser.apellido || "",
                   idUser: dbUser.idUser,
-                  dni: dbUser.dni ?? 0,
-                  isAdmin: dbUser.isAdmin ?? false,
-                  password: dbUser.password ?? "",
-                  fechaPago: dbUser.fechaPago ?? null,
-                  imagenUrl: dbUser.imagenUrl ?? null,
-                  recibirRecordatoriosAniversarios: dbUser.recibirRecordatoriosAniversarios ?? true,
-
-
+                  dni: dbUser.dni || 0,
+                  isAdmin: dbUser.isAdmin || false,
+           
+                  fechaPago: dbUser.fechaPago || null,
+                  imagenUrl: dbUser.imagenUrl || null,
+                  recibirRecordatoriosAniversarios: dbUser.recibirRecordatoriosAniversarios || true,
                 },
               };
               
@@ -102,18 +117,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const dbUser = await checkAndCreateUser(session.user)
           console.log("User check/create completed in onAuthStateChange:", dbUser)
 
-          const userInfo = {
+          const userInfo: IUserSession = {
             token: session.access_token,
             user: {
-              email: session.user.email ?? "",
-              nombre: session.user.user_metadata?.nombre || session.user.user_metadata?.name || "",
-              apellido: session.user.user_metadata?.apellido || session.user.user_metadata?.family_name || "",
-              idUser: session.user.id,
-              dni: session.user.user_metadata?.dni || 0,
-              isAdmin: session.user.user_metadata?.isAdmin || false,
-              password: session.user.user_metadata?.password || "",
+              email: dbUser.email || "",
+              nombre: dbUser.nombre || "",
+              apellido: dbUser.apellido || "",
+              idUser: dbUser.idUser,
+              dni: dbUser.dni || 0,
+              isAdmin: dbUser.isAdmin || false,
+           
+              fechaPago: dbUser.fechaPago || null,
+              imagenUrl: dbUser.imagenUrl || null,
+              recibirRecordatoriosAniversarios: dbUser.recibirRecordatoriosAniversarios || true,
             },
-          }
+          };
 
           setUserData(userInfo)
           Cookies.set("userData", JSON.stringify(userInfo))
@@ -179,4 +197,3 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 }
 
 export const useAuth = () => useContext(AuthContext)
-

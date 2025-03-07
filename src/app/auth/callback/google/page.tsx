@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase, checkAndCreateUser } from "@/lib/supabase";
+import toast from "react-hot-toast";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
@@ -36,20 +37,31 @@ export default function AuthCallbackPage() {
           console.log("User check/create completed:", dbUser);
 
           if (dbUser) {
+            // Muestra el toast de éxito
+            toast.success('¡Has iniciado sesión!');
+
             // Redirige al dashboard solo si el usuario fue creado/verificado correctamente
             setTimeout(() => router.push("/dashboard/user"), 1000);
           } else {
             setError("Error al crear usuario");
             setTimeout(() => router.push("/login?error=user-creation-failed"), 2000);
           }
-        } catch (userError: any) {
+        } catch (userError: unknown) {
           console.error("Error checking/creating user:", userError);
-          setError(`Error al crear usuario: ${userError.message || "Error desconocido"}`);
+          if (userError instanceof Error) {
+            setError(`Error al crear usuario: ${userError.message || "Error desconocido"}`);
+          } else {
+            setError("Error desconocido al crear usuario");
+          }
           setTimeout(() => router.push("/login?error=user-creation-failed"), 2000);
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Unexpected error during auth callback:", error);
-        setError(`Error inesperado: ${error.message || "Error desconocido"}`);
+        if (error instanceof Error) {
+          setError(`Error inesperado: ${error.message || "Error desconocido"}`);
+        } else {
+          setError("Error inesperado");
+        }
         setTimeout(() => router.push("/login?error=unexpected"), 2000);
       }
     };
@@ -69,6 +81,8 @@ export default function AuthCallbackPage() {
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500 mx-auto"></div>
         )}
       </div>
+
+     
     </div>
   );
 }
