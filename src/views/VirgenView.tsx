@@ -19,8 +19,8 @@ const VirgenView = () => {
                                             fechaPublicacion: string;
                                             estado: boolean
                                           }[]>([]);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editInput, setEditInput] = useState('');  
+  // const [editingId, setEditingId] = useState<number | null>(null);
+  // const [editInput, setEditInput] = useState('');  
 
   // Se cargan los mensajes desde el back
   useEffect(() => {
@@ -49,7 +49,7 @@ const VirgenView = () => {
     if (userData?.user.idUser) {
       fetchMessages();
     }
-  }, [userData?.user.idUser]);  // Dependencia en el idUser
+  }, [userData?.user.idUser]);  // Se volverá a montar cuando se loguee otro idUser
 
   const handleSubmit = async (values: { texto: string }, { resetForm }: { resetForm: () => void }) => {
     if (!userData || !userData.user || !userData.user.idUser) {
