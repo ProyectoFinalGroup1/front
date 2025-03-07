@@ -17,31 +17,34 @@ const VirgenView = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editInput, setEditInput] = useState('');  
 
-  // // Se cargan los mensajes desde el back
-  // useEffect(() => {
-  //   const fetchMessages = async () => {
-  //     try {
-  //       const response = await fetch(`${API_URL}/mensajesVirgen`, {
-  //         method: "GET",
-  //         headers: {
-  //           Authorization: `Bearer ${userData?.token}`,
-  //         },
-  //       });
+  // Se cargan los mensajes desde el back
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await fetch(`${API_URL}/mensajesVirgen`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${userData?.token}`,
+          },
+        });
 
-  //       if (!response.ok) {
-  //         const errorText = await response.text();    // Intenta leer el mensaje del backend
-  //         throw new Error(`Error al obtener los mensajes: ${errorText}`);
-  //       }
-  //       const data = await response.json();
-  //       setMessages(data);
+        if (!response.ok) {
+          const errorText = await response.text();    // Intenta leer el mensaje del backend
+          throw new Error(`Error al obtener los mensajes: ${errorText}`);
+        }
+        const data = await response.json();
+        setMessages(data);
+        console.log(data);
 
-  //     } catch (error) {
-  //       console.error("Error en fetchMessages:", error);
-  //     }
-  //   };
+      } catch (error) {
+        console.error("Error en fetchMessages:", error);
+      }
+    };
   
-  //   fetchMessages();
-  // }, []);
+    if (userData?.user.idUser) {
+      fetchMessages();
+    }
+  }, [userData?.user.idUser]);  // Dependencia en el idUser
 
   const handleSubmit = async (values: { texto: string }, { resetForm }: { resetForm: () => void }) => {
     if (!userData || !userData.user || !userData.user.idUser) {
@@ -103,7 +106,7 @@ const VirgenView = () => {
 
       
       toast.success("Tu mensaje fue enviado y está en espera de aprobación.", {
-        position: "top-center"
+        position: "top-center", duration: 5000 
       });
   
       resetForm();
