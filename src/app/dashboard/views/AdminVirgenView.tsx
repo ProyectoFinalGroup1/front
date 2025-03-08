@@ -1,13 +1,15 @@
 'use client';
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 const AdminVirgenView = () => {
-
-    const { userData } = useAuth();
+    
+  const { userData } = useAuth();
+  
+  // console.log("token de usuario", userData?.token);
 
     const [messages, setMessages] = useState<{id: string;
                                             texto: string;
@@ -16,41 +18,104 @@ const AdminVirgenView = () => {
                                             estado: boolean;
                                             }[]>([]);
     
-useEffect(() => {
-    const fetchMessages = async () => {
+  useEffect(() => {
+      const fetchMessages = async () => {
+      try {
+          const response = await fetch(`${API_URL}/mensajesVirgen`, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${userData?.token}`,
+          },
+          });
+
+          if (!response.ok) {
+          const errorText = await response.text();    // Intenta leer el mensaje del backend
+          throw new Error(`Error al obtener los mensajes: ${errorText}`);
+          }
+          const data = await response.json();
+          setMessages(data);
+          console.log(data);
+
+      } catch (error) {
+          console.error("Error en fetchMessages:", error);
+          toast.error("No se pudieron cargar las plegarias. Intentá recargando la página", {
+                      position: "top-center",
+                      duration: 5000
+          })
+      }
+      };
+
+      if (userData?.user.idUser) {
+      fetchMessages();
+      }
+  }, [userData?.user.idUser]);
+
+
+  const handleAccept = async(id: string) => {
+    
     try {
-        const response = await fetch(`${API_URL}/mensajesVirgen`, {
-        method: "GET",
+      const response = await fetch(`${API_URL}/mensajesVirgen/${id}`, {
+        method: "PATCH",
         headers: {
-            Authorization: `Bearer ${userData?.token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userData?.token}`,
         },
-        });
-
-        if (!response.ok) {
-        const errorText = await response.text();    // Intenta leer el mensaje del backend
-        throw new Error(`Error al obtener los mensajes: ${errorText}`);
-        }
-        const data = await response.json();
-        setMessages(data);
-        console.log(data);
-
+        body: JSON.stringify({  }),
+      });
+      if (!response.ok) {
+        throw new Error("Error al aceptar el mensaje");
+      }
+    
+      // Si la actualización en la BD fue exitosa, actualizamos el estado en el frontend
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+        msg.id === id ? { ...msg, estado: true } : msg
+        )
+      );
+      toast.success("¡PLEGARIA APROBADA!, ahora es visible en el muro", {
+                    position: "top-center",
+                    duration: 5000
+      })
     } catch (error) {
-        console.error("Error en fetchMessages:", error);
+      console.error("Error al aceptar el mensaje:", error);
+      toast.error("Ocurrió un ERROR al ACEPTAR el mensaje. Porfavor, revisá tu conexión", {
+                  position: "top-center",
+                  duration: 5000
+      })
     }
-    };
-
-    if (userData?.user.idUser) {
-    fetchMessages();
-    }
-}, [userData?.user.idUser]);
-
-
-const handleAccept = (id: string) => {
-    const updatedMessages = messages.map(msg =>
-      msg.id === id ? { ...msg, estado: true } : msg
-    );
-    setMessages(updatedMessages);
   };
+
+  const handleDelete = async(id: string) => {
+    try {
+      const response = await fetch(`${API_URL}/mensajesVirgen/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userData?.token}`,
+        },
+        body: JSON.stringify({  }),
+      });
+      if (!response.ok) {
+        throw new Error("Error al eliminar el mensaje");
+      }
+    
+      // Si la eliminación en la BD fue exitosa, actualizamos el estado en el frontend
+      setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== id));
+      toast.success("¡PLEGARIA ELIMINADA!", {
+                    position: "top-center",
+                    duration: 5000
+      })
+    
+    } catch (error) {
+      console.error("Error al eliminar el mensaje:", error);
+      toast.error("Ocurrió un ERROR al ELIMINAR la plegaria. Porfavor, revisá tu conexión", {
+                  position: "top-center",
+                  duration: 5000
+      })
+    }
+  }
+
+
 
     return (
         <div>
@@ -61,40 +126,78 @@ const handleAccept = (id: string) => {
             <div className="w-full mt-4">
             {messages.map((msg) => (
               <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
-                {msg.estado ? (
-                  <>
-                    <p className={`text-gray-800 font-bold text-lg ${msg.estado ? '' : 'opacity-50'}`}>
-                      {msg.texto}
-                    </p>
+                
+                {/* Etiqueta de estado */}
+                <p className={`font-bold text-sm ${msg.estado ? 'text-green-700' : 'text-red-500'}`}>
+                  {msg.estado ? "Aprobado" : "Pendiente de aprobación"}
+                </p>
 
-                    {msg.imagenUrl && (
-                      <div className="flex justify-center">
-                        <img src={msg.imagenUrl} alt="Imagen del mensaje" className="mt-2 max-w-xs rounded-lg" />
-                      </div>
-                    )}
+                {/* Texto del mensaje */}
+              
+                  <p className="text-sm text-gray-500
+                                px-9 flex justify-start">
+                    Plegaria:
+                  </p>
+                  <p className="text-gray-800 font-bold text-lg
+                                pl-9 flex justify-start">
+                    {msg.texto}
+                  </p>
+                
 
-                    <p className="text-xs text-gray-500">
-                    Mensaje de {userData?.user.nombre} {userData?.user.apellido}. {new Date(msg.fechaPublicacion).toLocaleString()}
-                    </p>
-                  </>
-                ) : (
-                  <div className="flex flex-row">
-                    <div className="flex items-center">
-                        <button onClick={() => handleAccept(msg.id)}>
-                            ACEPTAR
-                        </button>
-                    </div>
-                    <div>
-
-                        <p className="text-gray-500 italic">
-                            Plegaria pendiente de aprobación.
-                        </p>
-                        <p className="text-xs text-gray-500 mt-2">
-                            Fecha de solicitud {new Date(msg.fechaPublicacion).toLocaleString()}
-                        </p>
-                    </div>
+                {/* Imagen si la tiene */}
+                {msg.imagenUrl && (
+                  <div className="flex justify-center">
+                    <img src={msg.imagenUrl} alt="Imagen del mensaje" className="mt-2 max-w-xs rounded-lg" />
                   </div>
                 )}
+
+                {/* Información adicional */}
+                <p className="text-xs text-gray-500
+                              pl-9 flex justify-start">
+                  Mensaje de {userData?.user.nombre} {userData?.user.apellido}. {new Date(msg.fechaPublicacion).toLocaleString()}
+                </p>
+
+                {/* Botones según el estado del mensaje */}
+                  {/* Si el mensaje está pendiente */}
+                  {!msg.estado && (
+                    <div className="flex justify-around my-4">
+                      <div>
+                        <button onClick={() => handleAccept(msg.id)}
+                                className="bg-green-800 hover:bg-green-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150
+                                          mr-2">
+                          ACEPTAR
+                        </button>
+                        <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                          RECHAZAR
+                        </button>
+                      </div>
+                      
+                      <div className="flex justify-end">
+                        <button onClick={() => handleDelete(msg.id)}
+                                className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                          ELIMINAR
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  {/* Si el mensaje ya fue aprobado*/}
+                  {msg.estado && (
+                    <div className="flex justify-around my-4">
+                      <div>
+                        <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                          RECHAZAR
+                        </button>
+                      </div>
+                      
+                      <div>
+                        <button onClick={() => handleDelete(msg.id)}
+                                className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                          ELIMINAR
+                        </button>
+                      </div>
+                    </div>
+                  )}
+              
               </div>
             ))}
           </div>
