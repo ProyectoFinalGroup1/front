@@ -157,28 +157,46 @@ const AdminVirgenView = () => {
                   Mensaje de {userData?.user.nombre} {userData?.user.apellido}. {new Date(msg.fechaPublicacion).toLocaleString()}
                 </p>
 
-                {/* Botones solo si el mensaje NO está aprobado */}
-                {!msg.estado && (
-                  <div className="flex justify-around my-4">
-                    <div>
-                      <button onClick={() => handleAccept(msg.id)}
-                              className="bg-green-800 hover:bg-green-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150
-                                        mr-2">
-                        ACEPTAR
-                      </button>
-                      <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
-                        RECHAZAR
-                      </button>
+                {/* Botones según el estado del mensaje */}
+                  {/* Si el mensaje está pendiente */}
+                  {!msg.estado && (
+                    <div className="flex justify-around my-4">
+                      <div>
+                        <button onClick={() => handleAccept(msg.id)}
+                                className="bg-green-800 hover:bg-green-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150
+                                          mr-2">
+                          ACEPTAR
+                        </button>
+                        <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                          RECHAZAR
+                        </button>
+                      </div>
+                      
+                      <div className="flex justify-end">
+                        <button onClick={() => handleDelete(msg.id)}
+                                className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                          ELIMINAR
+                        </button>
+                      </div>
                     </div>
-                    
-                    <div className="flex justify-end">
-                      <button onClick={() => handleDelete(msg.id)}
-                              className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
-                        ELIMINAR
-                      </button>
+                  )}
+                  {/* Si el mensaje ya fue aprobado*/}
+                  {msg.estado && (
+                    <div className="flex justify-around my-4">
+                      <div>
+                        <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                          RECHAZAR
+                        </button>
+                      </div>
+                      
+                      <div>
+                        <button onClick={() => handleDelete(msg.id)}
+                                className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                          ELIMINAR
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               
               </div>
             ))}
@@ -190,14 +208,3 @@ const AdminVirgenView = () => {
 }
 
 export default AdminVirgenView;
-
-
-
-
-                        {/* <button onClick={() => handleAccept(msg.id)}
-                                className="inline-flex items-center justify-center rounded-xl bg-green-800 hover:bg-green-500 px-4 mr-3
-                                          py-2 text-xs font-bold text-white transition-all duration-150  hover:text-gray-900 
-                                          [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-                                >
-                            ELIMINAR
-                        </button> */}
