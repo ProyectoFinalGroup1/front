@@ -17,7 +17,6 @@ export interface IUserSession {
     idUser: string;
     dni: string | number;
     isAdmin: boolean;
- 
     fechaPago: string | null;
     imagenUrl: string | null;
     recibirRecordatoriosAniversarios: boolean;
@@ -49,10 +48,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const isAuthenticated = !!userData?.token
   const router = useRouter()
 
+  // Función para filtrar datos sensibles antes de guardarlos
+  const getSafeUserDataForStorage = (data: IUserSession) => {
+    // Solo guardamos lo mínimo necesario para identificar al usuario
+    return {
+      token: data.token,
+      user: {
+        email: data.user.email,
+        nombre: data.user.nombre,
+        apellido: data.user.apellido,
+        idUser: data.user.idUser,
+        dni: data.user.dni, // Incluimos el DNI como solicitado
+        isAdmin: data.user.isAdmin,
+        imagenUrl: data.user.imagenUrl,
+        fechaPago: data.user.fechaPago,
+        recibirRecordatoriosAniversarios: data.user.recibirRecordatoriosAniversarios,
+      }
+    };
+  }
+
   useEffect(() => {
     if (userData) {
-      localStorage.setItem("userSession", JSON.stringify({ token: userData.token, user: userData.user }))
-      Cookies.set("userData", JSON.stringify(userData))
+      // Guardar datos filtrados en localStorage (sin contraseña)
+      const safeData = getSafeUserDataForStorage(userData);
+      localStorage.setItem("userSession", JSON.stringify(safeData));
+      
+      // Para cookies, también usar datos filtrados
+      Cookies.set("userData", JSON.stringify(safeData));
     }
   }, [userData])
 
@@ -83,7 +105,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                   idUser: dbUser.idUser,
                   dni: dbUser.dni || 0,
                   isAdmin: dbUser.isAdmin || false,
-           
                   fechaPago: dbUser.fechaPago || null,
                   imagenUrl: dbUser.imagenUrl || null,
                   recibirRecordatoriosAniversarios: dbUser.recibirRecordatoriosAniversarios || true,
@@ -91,7 +112,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               };
               
               setUserData(userInfo)
-              Cookies.set("userData", JSON.stringify(userInfo))
+              
+              // Usar datos filtrados para cookies
+              const safeData = getSafeUserDataForStorage(userInfo);
+              Cookies.set("userData", JSON.stringify(safeData))
             } catch (error) {
               console.error("Error checking/creating user in initializeAuth:", error)
             }
@@ -126,7 +150,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               idUser: dbUser.idUser,
               dni: dbUser.dni || 0,
               isAdmin: dbUser.isAdmin || false,
-           
               fechaPago: dbUser.fechaPago || null,
               imagenUrl: dbUser.imagenUrl || null,
               recibirRecordatoriosAniversarios: dbUser.recibirRecordatoriosAniversarios || true,
@@ -134,7 +157,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           };
 
           setUserData(userInfo)
-          Cookies.set("userData", JSON.stringify(userInfo))
+          
+          // Usar datos filtrados para cookies
+          const safeData = getSafeUserDataForStorage(userInfo);
+          Cookies.set("userData", JSON.stringify(safeData))
 
           // Don't redirect here - let the callback page handle it
         } catch (error) {
@@ -189,7 +215,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isAuthenticated,
         logout,
         signInWithGoogle,
-    
       }}
     >
       {children}
