@@ -24,7 +24,7 @@ export interface IInhumado {
     parcela: number;
     simbolo: number;
     ncliente: number;
-    publicaciones: any[]; // Cambiar según el tipo de datos de las publicaciones
+    publicaciones: []; // Creo que son string, comprobarlo.
     usuario_id: string | null;
   } 
 
@@ -32,7 +32,6 @@ export interface IObituario {
     id: string;
     mensaje: string;
     inhumadoId: string; 
-    // Relacionado con el inhumado
   }
   
 export interface ILoginProps {

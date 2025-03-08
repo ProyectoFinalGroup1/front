@@ -1,5 +1,5 @@
 "use client"
-import { Home, MessageSquare, DollarSign } from "lucide-react";
+import { Home, BookOpenText, HeartHandshake, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogOutButton from "./LogOutButton";
@@ -9,14 +9,22 @@ const Sidebar = () => {
 
   const menuItems = [
     { label: "Inicio", icon: Home, href: "/" },
-    { label: "Mis datos", icon: MessageSquare, href: "/dashboard/user/misdatos" },
-    { label: "Obituarios", icon: MessageSquare, href: "/dashboard/user/obituarios" },
-    { label: "Donaciones", icon: DollarSign, href: "/dashboard/user/donaciones" },
+    { label: "Mis datos", icon:  Users, href: "/dashboard/user/misdatos" },
+    { label: "Obituarios", icon: BookOpenText, href: "/dashboard/user/obituarios" },
+    { label: "Donaciones", icon: HeartHandshake, href: "/dashboard/user/donaciones" },
   ];
 
   return (
-    <aside className="w-64 h-screen bg-gray-900 text-white p-5 flex flex-col">
-      <h2 className="text-xl font-bold mb-6">Panel de Usuario</h2>
+    <aside
+    className="w-64 min-h-screen bg-clip-relleno text-white p-5 flex flex-col"
+    style={{
+      backgroundImage: "url(/images/flores.webp)",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat"
+    }}
+  >
+   <h2 className="text-xl font-bold mb-6">Panel de Usuario</h2>
       <nav className="flex-1">
         {menuItems.map(({ label, icon: Icon, href }) => (
           <Link key={label} href={href} className={`flex items-center p-3 rounded-lg transition-colors ${pathname === href ? "bg-gray-700" : "hover:bg-gray-800"}`}>
