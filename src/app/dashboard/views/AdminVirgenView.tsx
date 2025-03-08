@@ -58,7 +58,7 @@ const AdminVirgenView = () => {
         body: JSON.stringify({  }),
       });
       if (!response.ok) {
-        throw new Error("Error al actualizar el mensaje");
+        throw new Error("Error al aceptar el mensaje");
       }
     
       // Si la actualización en la BD fue exitosa, actualizamos el estado en el frontend
@@ -68,9 +68,32 @@ const AdminVirgenView = () => {
         )
       );
     } catch (error) {
-      console.error("Error al actualizar el mensaje:", error);
+      console.error("Error al aceptar el mensaje:", error);
     }
-};
+  };
+
+  const handleDelete = async(id: string) => {
+    try {
+      const response = await fetch(`${API_URL}/mensajesVirgen/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userData?.token}`,
+        },
+        body: JSON.stringify({  }),
+      });
+      if (!response.ok) {
+        throw new Error("Error al eliminar el mensaje");
+      }
+    
+      // Si la eliminación en la BD fue exitosa, actualizamos el estado en el frontend
+      setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== id));
+    
+    } catch (error) {
+      console.error("Error al eliminar el mensaje:", error);
+    }
+  }
+
 
 
     return (
@@ -128,13 +151,14 @@ const AdminVirgenView = () => {
                     </div>
                     
                     <div className="flex justify-end">
-                      <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                      <button onClick={() => handleDelete(msg.id)}
+                              className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
                         ELIMINAR
                       </button>
                     </div>
                   </div>
                 )}
-                
+              
               </div>
             ))}
           </div>
