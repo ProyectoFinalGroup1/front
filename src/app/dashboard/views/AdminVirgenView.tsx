@@ -82,40 +82,59 @@ const AdminVirgenView = () => {
             <div className="w-full mt-4">
             {messages.map((msg) => (
               <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
-                {msg.estado ? (
-                  <>
-                    <p className={`text-gray-800 font-bold text-lg ${msg.estado ? '' : 'opacity-50'}`}>
-                      {msg.texto}
-                    </p>
+                
+                {/* Etiqueta de estado */}
+                <p className={`font-bold text-sm ${msg.estado ? 'text-green-700' : 'text-red-500'}`}>
+                  {msg.estado ? "Aprobado" : "Pendiente de aprobación"}
+                </p>
 
-                    {msg.imagenUrl && (
-                      <div className="flex justify-center">
-                        <img src={msg.imagenUrl} alt="Imagen del mensaje" className="mt-2 max-w-xs rounded-lg" />
-                      </div>
-                    )}
+                {/* Texto del mensaje */}
+              
+                  <p className="text-sm text-gray-500
+                                px-9 flex justify-start">
+                    Plegaria:
+                  </p>
+                  <p className="text-gray-800 font-bold text-lg
+                                pl-9 flex justify-start">
+                    {msg.texto}
+                  </p>
+                
 
-                    <p className="text-xs text-gray-500">
-                    Mensaje de {userData?.user.nombre} {userData?.user.apellido}. {new Date(msg.fechaPublicacion).toLocaleString()}
-                    </p>
-                  </>
-                ) : (
-                  <div className="flex flex-row">
-                    <div className="flex items-center">
-                        <button onClick={() => handleAccept(msg.id)}>
-                            ACEPTAR
-                        </button>
-                    </div>
+                {/* Imagen si la tiene */}
+                {msg.imagenUrl && (
+                  <div className="flex justify-center">
+                    <img src={msg.imagenUrl} alt="Imagen del mensaje" className="mt-2 max-w-xs rounded-lg" />
+                  </div>
+                )}
+
+                {/* Información adicional */}
+                <p className="text-xs text-gray-500
+                              pl-9 flex justify-start">
+                  Mensaje de {userData?.user.nombre} {userData?.user.apellido}. {new Date(msg.fechaPublicacion).toLocaleString()}
+                </p>
+
+                {/* Botones solo si el mensaje NO está aprobado */}
+                {!msg.estado && (
+                  <div className="flex justify-around my-4">
                     <div>
-
-                        <p className="text-gray-500 italic">
-                            Plegaria pendiente de aprobación.
-                        </p>
-                        <p className="text-xs text-gray-500 mt-2">
-                            Fecha de solicitud {new Date(msg.fechaPublicacion).toLocaleString()}
-                        </p>
+                      <button onClick={() => handleAccept(msg.id)}
+                              className="bg-green-800 hover:bg-green-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150
+                                        mr-2">
+                        ACEPTAR
+                      </button>
+                      <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                        RECHAZAR
+                      </button>
+                    </div>
+                    
+                    <div className="flex justify-end">
+                      <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                        ELIMINAR
+                      </button>
                     </div>
                   </div>
                 )}
+                
               </div>
             ))}
           </div>
@@ -126,3 +145,14 @@ const AdminVirgenView = () => {
 }
 
 export default AdminVirgenView;
+
+
+
+
+                        {/* <button onClick={() => handleAccept(msg.id)}
+                                className="inline-flex items-center justify-center rounded-xl bg-green-800 hover:bg-green-500 px-4 mr-3
+                                          py-2 text-xs font-bold text-white transition-all duration-150  hover:text-gray-900 
+                                          [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
+                                >
+                            ELIMINAR
+                        </button> */}
