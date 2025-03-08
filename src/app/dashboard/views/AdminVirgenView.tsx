@@ -1,6 +1,7 @@
 'use client';
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -37,6 +38,10 @@ const AdminVirgenView = () => {
 
       } catch (error) {
           console.error("Error en fetchMessages:", error);
+          toast.error("No se pudieron cargar las plegarias. Intentá recargando la página", {
+                      position: "top-center",
+                      duration: 5000
+          })
       }
       };
 
@@ -67,8 +72,16 @@ const AdminVirgenView = () => {
         msg.id === id ? { ...msg, estado: true } : msg
         )
       );
+      toast.success("¡PLEGARIA APROBADA!, ahora es visible en el muro", {
+                    position: "top-center",
+                    duration: 5000
+      })
     } catch (error) {
       console.error("Error al aceptar el mensaje:", error);
+      toast.error("Ocurrió un ERROR al ACEPTAR el mensaje. Porfavor, revisá tu conexión", {
+                  position: "top-center",
+                  duration: 5000
+      })
     }
   };
 
@@ -88,9 +101,17 @@ const AdminVirgenView = () => {
     
       // Si la eliminación en la BD fue exitosa, actualizamos el estado en el frontend
       setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== id));
+      toast.success("¡PLEGARIA ELIMINADA!", {
+                    position: "top-center",
+                    duration: 5000
+      })
     
     } catch (error) {
       console.error("Error al eliminar el mensaje:", error);
+      toast.error("Ocurrió un ERROR al ELIMINAR la plegaria. Porfavor, revisá tu conexión", {
+                  position: "top-center",
+                  duration: 5000
+      })
     }
   }
 
