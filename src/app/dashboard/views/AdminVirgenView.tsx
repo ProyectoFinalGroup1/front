@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 const AdminVirgenView = () => {
-
-    const { userData } = useAuth();
+    
+  const { userData } = useAuth();
+  
+  // console.log("token de usuario", userData?.token);
 
     const [messages, setMessages] = useState<{id: string;
                                             texto: string;
@@ -16,41 +17,61 @@ const AdminVirgenView = () => {
                                             estado: boolean;
                                             }[]>([]);
     
-useEffect(() => {
-    const fetchMessages = async () => {
+  useEffect(() => {
+      const fetchMessages = async () => {
+      try {
+          const response = await fetch(`${API_URL}/mensajesVirgen`, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${userData?.token}`,
+          },
+          });
+
+          if (!response.ok) {
+          const errorText = await response.text();    // Intenta leer el mensaje del backend
+          throw new Error(`Error al obtener los mensajes: ${errorText}`);
+          }
+          const data = await response.json();
+          setMessages(data);
+          console.log(data);
+
+      } catch (error) {
+          console.error("Error en fetchMessages:", error);
+      }
+      };
+
+      if (userData?.user.idUser) {
+      fetchMessages();
+      }
+  }, [userData?.user.idUser]);
+
+
+  const handleAccept = async(id: string) => {
+    
     try {
-        const response = await fetch(`${API_URL}/mensajesVirgen`, {
-        method: "GET",
+      const response = await fetch(`${API_URL}/mensajesVirgen/${id}`, {
+        method: "PATCH",
         headers: {
-            Authorization: `Bearer ${userData?.token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userData?.token}`,
         },
-        });
-
-        if (!response.ok) {
-        const errorText = await response.text();    // Intenta leer el mensaje del backend
-        throw new Error(`Error al obtener los mensajes: ${errorText}`);
-        }
-        const data = await response.json();
-        setMessages(data);
-        console.log(data);
-
+        body: JSON.stringify({  }),
+      });
+      if (!response.ok) {
+        throw new Error("Error al actualizar el mensaje");
+      }
+    
+      // Si la actualización en la BD fue exitosa, actualizamos el estado en el frontend
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+        msg.id === id ? { ...msg, estado: true } : msg
+        )
+      );
     } catch (error) {
-        console.error("Error en fetchMessages:", error);
+      console.error("Error al actualizar el mensaje:", error);
     }
-    };
+};
 
-    if (userData?.user.idUser) {
-    fetchMessages();
-    }
-}, [userData?.user.idUser]);
-
-
-const handleAccept = (id: string) => {
-    const updatedMessages = messages.map(msg =>
-      msg.id === id ? { ...msg, estado: true } : msg
-    );
-    setMessages(updatedMessages);
-  };
 
     return (
         <div>
