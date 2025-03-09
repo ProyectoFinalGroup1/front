@@ -41,3 +41,15 @@ export interface IUserSession {
         provider?: string;
     }
 }
+
+export interface IUserDetails {
+  idUser: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  isAdmin: boolean;
+  dni: string;
+  recibirRecordatoriosAniversarios: boolean;
+  phoneNumber: string;
+  fechaPago: Date;
+}
