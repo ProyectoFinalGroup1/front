@@ -1,13 +1,15 @@
 import React from 'react'
+import AdminUsersView from '../../views/AdminUSersView'
 
 
-const page = () => {
+const AdminUsersList = () => {
   return (
     <>
-    <h1>Gestión de usuarios</h1>
+   
+   <AdminUsersView />
     
     </>
   )
 }
 
-export default page
+export default AdminUsersList

@@ -17,7 +17,7 @@ const DashboardAdminView = () => {
       setUserData(JSON.parse(storedUserData));
     }
     setLoading(false);
-  }, []);
+  }, [setUserData]);
 
   useEffect(() => {
     if (!loading && (!userData || userData?.user?.isAdmin !== true)) {
