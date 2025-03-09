@@ -12,6 +12,8 @@ const AdminUserDetailView = () => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+ 
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -97,6 +99,12 @@ const AdminUserDetailView = () => {
     );
   };
 
+
+  const handleBack = () => {
+    router.back();
+  };
+
+
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -146,6 +154,13 @@ const AdminUserDetailView = () => {
           >
             🗑️ Eliminar
           </button>
+          
+            <button
+              onClick={handleBack}
+              className="bg-gray-500 text-white px-6 py-2 rounded-xl hover:bg-gray-700 transition-all"
+            >
+              Volver atrás
+            </button>
         </div>
       </div>
     </div>
