@@ -66,7 +66,13 @@ const VirgenView = () => {
       });
       return;
     }
-  
+    
+    if (!values.texto.trim()) {
+      toast.error("Debes escribir un mensaje para enviar", {
+                  position: "top-center"
+      });
+      return;
+    }
     
     const formData = new FormData();
     formData.append('texto', values.texto);
