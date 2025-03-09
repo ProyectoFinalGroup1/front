@@ -10,7 +10,7 @@ const VirgenView = () => {
 
   const { userData } = useAuth();
   // console.log("id de usuario:", userData?.user.idUser);
-  // console.log("token de usuario", userData?.token);
+  console.log("token de usuario", userData?.token);
   
   
   const [messages, setMessages] = useState<{id: string;
@@ -51,7 +51,7 @@ const VirgenView = () => {
     }
   }, [userData?.user.idUser]);  // Se volverá a montar cuando se loguee otro idUser
 
-  const handleSubmit = async (values: { texto: string }, { resetForm }: { resetForm: () => void }) => {
+  const handleSubmit = async (values: { texto: string; imagen?: File }, { resetForm }: { resetForm: () => void }) => {
     if (!userData || !userData.user || !userData.user.idUser) {
     toast.error("Porfavor, Inicia Sesión para continuar", {
       position: "top-center"
@@ -61,25 +61,33 @@ const VirgenView = () => {
 
     const token = userData.token;
     if (!token) {
-      toast.error("No se encontró el token de autenticación.", {    //cambiar esta alerta por "Autenticación inválida. Intenta iniciar sesión nuevamente."
+      toast.error("Autenticación inválida. Intenta iniciar sesión nuevamente.", {
         position: "top-center"
       });
       return;
     }
-  
+    
+    if (!values.texto.trim()) {
+      toast.error("Debes escribir un mensaje para enviar", {
+                  position: "top-center"
+      });
+      return;
+    }
     
     const formData = new FormData();
     formData.append('texto', values.texto);
     formData.append('usuarioId', userData?.user.idUser) // formData.append("usuarioId", userData.user.idUser.toString());  
     
-    // if (values.imagen) {
-    //   formData.append('file', values.imagen);
-    // }
+    if (values.imagen) {
+      formData.append('file', values.imagen);
+    }
 
     console.log([...formData.entries()].map(([key, value]) => ({ key, value })));
   
     try {
-      toast.success("Enviando tu mensaje...", { position: "top-center" });
+      toast.success("Enviando tu mensaje...", {
+                    position: "top-center"
+      });
 
       const response = await fetch(`${API_URL}/mensajesVirgen/addMensajeVirgen`, {
         method: 'POST',
@@ -111,14 +119,15 @@ const VirgenView = () => {
 
       
       toast.success("Tu mensaje fue enviado y está en espera de aprobación.", {
-        position: "top-center", duration: 5000 
+                    position: "top-center",
+                    duration: 5000 
       });
   
       resetForm();
     } catch (error) {
       console.error("Error al guardar el mensaje:", error);
       toast.error("Hubo un problema al enviar el mensaje. Por favor intenta nuevamente.", {
-        position: "top-center"
+                  position: "top-center"
       });
     }
   };
@@ -139,7 +148,8 @@ const VirgenView = () => {
   //   setEditingId(null);
   //   setEditInput('');
   // };
-
+  const formatosPermitidos = ["image/jpeg", "image/png", "image/webp"];
+  
   return (
     <div className="min-h-screen bg-fixed bg-cover bg-center text-black flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/flores.webp)' }}>
       <div className="bg-white bg-opacity-70 p-6 rounded-2xl shadow-lg max-w-2xl text-center mt-16 flex">
@@ -160,7 +170,34 @@ const VirgenView = () => {
           <Formik initialValues={{ texto: '', image: undefined }} onSubmit={handleSubmit}>
             {({ setFieldValue }) => (
               <Form className="mb-4 flex flex-col items-center">
-                <Field as="textarea" name="texto" className="w-full p-2 border rounded-lg text-center" placeholder="Escribe tu mensaje..." rows={3} />
+                <Field as="textarea"
+                        name="texto"
+                        className="w-full p-2 border rounded-lg text-center"
+                        placeholder="Escribe tu mensaje..."
+                        rows={3} />
+                <div className=" text-sm mt-2 flex flex-col items-center">
+                  <input type="file"
+                        accept="image/*"
+                        className="p-2 border rounded-lg"
+                        onChange={(event) => {
+                          const file = event.currentTarget.files?.[0];
+                          if (file) {
+                            console.log("Archivo seleccionado:", file);
+                            
+                            // verifica si el formato es permitido
+                            if (!formatosPermitidos.includes(file.type)) {
+                              toast.error("Formato de imagen no válido. Usa JPG, PNG, WebP.", {
+                                          position: 'top-center',
+                                          duration: 5000
+                              });
+                              return;
+                            }
+                          }
+
+                          setFieldValue("imagen", file)}}
+                  />
+                  <span className=" text-sm text-gray-600">(Opcional)</span>
+                </div>
 
                 <button type="submit" className="mt-2 px-4 py-2 bg-fuchsia-600 text-white rounded-lg">Publicar</button>
               </Form>
@@ -206,6 +243,7 @@ const VirgenView = () => {
 };
 
 export default VirgenView;
+
 
 
 // {editingId === msg.id ? (
