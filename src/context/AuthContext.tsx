@@ -20,6 +20,9 @@ export interface IUserSession {
     fechaPago: string | null;
     imagenUrl: string | null;
     recibirRecordatoriosAniversarios: boolean;
+    provider?: string; //agrego
+    phoneNumber: number; //agrego
+    password: string; //agrego
   };
 }
 
@@ -63,6 +66,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         imagenUrl: data.user.imagenUrl,
         fechaPago: data.user.fechaPago,
         recibirRecordatoriosAniversarios: data.user.recibirRecordatoriosAniversarios,
+        phoneNumber: data.user.phoneNumber, //agrego
+        password: data.user.password //agrego
       }
     };
   }
@@ -108,6 +113,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                   fechaPago: dbUser.fechaPago || null,
                   imagenUrl: dbUser.imagenUrl || null,
                   recibirRecordatoriosAniversarios: dbUser.recibirRecordatoriosAniversarios || true,
+                  phoneNumber: dbUser.phoneNumber || 0, //agrego
+                  password: dbUser.password || "", //agrego
+              
                 },
               };
               
@@ -153,6 +161,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               fechaPago: dbUser.fechaPago || null,
               imagenUrl: dbUser.imagenUrl || null,
               recibirRecordatoriosAniversarios: dbUser.recibirRecordatoriosAniversarios || true,
+              phoneNumber: dbUser.phoneNumber || 0, //agrego
+              password: dbUser.password || "", //agrego
             },
           };
 

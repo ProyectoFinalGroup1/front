@@ -1,11 +1,24 @@
 'use client'
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
-// import LogOutButton from "./LogOutButton";
 
 const Navbar = () => {
   const { userData } = useAuth();
+  const pathname = usePathname();
+
+  // Ocultar Navbar en estas rutas
+  const hiddenRoutes = [
+    "/dashboard/user/donaciones",
+    "/dashboard/user/obituarios",
+    "/dashboard/user/misdatos"
+  ];
+
+  if (hiddenRoutes.includes(pathname)) {
+    return null; // No renderizar la Navbar en estas rutas
+  }
+
   return (
     <header className="absolute inset-x-0 top-0 z-30 w-full py-3 bg-white bg-opacity-30 shadow-md">
       <div className="px-4">
@@ -38,32 +51,30 @@ const Navbar = () => {
             </Link>
           </nav>
           <div className="flex items-center">
-            {
-              userData?.token ? (
-                userData?.user?.isAdmin ? (
-                  <Link
-                    className="inline-flex items-center justify-center rounded-xl bg-green-800 px-4 py-2 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-                    href="/dashboard/admin"
-                  >
-                    Perfil Admin.
-                  </Link>
-                ) : (
-                  <Link
-                    className="inline-flex items-center justify-center rounded-xl bg-green-800 px-4 py-2 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-                    href="/dashboard/user"
+            {userData?.token ? (
+              userData?.user?.isAdmin ? (
+                <Link
+                  className="inline-flex items-center justify-center rounded-xl bg-green-800 px-4 py-2 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
+                  href="/dashboard/admin"
                 >
-                  Perfil
+                  Perfil Admin.
                 </Link>
-                )
               ) : (
                 <Link
                   className="inline-flex items-center justify-center rounded-xl bg-green-800 px-4 py-2 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-                  href="/login"
+                  href="/dashboard/user"
                 >
-                  Ingresar
+                  Perfil
                 </Link>
+              )
+            ) : (
+              <Link
+                className="inline-flex items-center justify-center rounded-xl bg-green-800 px-4 py-2 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
+                href="/login"
+              >
+                Ingresar
+              </Link>
             )}
-            
           </div>
         </div>
       </div>

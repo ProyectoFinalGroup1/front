@@ -3,23 +3,23 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { IInhumados } from '@/types/index';
-import { useAuth } from '@/context/AuthContext'; // Importar el contexto de autenticación
+import { useAuth } from '@/context/AuthContext'; 
 import { Field, Form, Formik } from 'formik';
 
 export default function InhumadoDetail() {
-  const { id } = useParams(); // Usamos useParams() para obtener el id de la URL
-  const { userData } = useAuth(); // Obtenemos los datos del usuario desde el contexto
+  const { id } = useParams(); // Uso useParams() para obtener el id de la URL
+  const { userData } = useAuth(); // Obtengo los datos del usuario desde el contexto
   const [inhumado, setInhumado] = useState<IInhumados | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [newPublication, setNewPublication] = useState('');
+  const [ error, setError] = useState<string | null>(null); 
+  const [ loading, setLoading] = useState(true); 
+    // const [newPublication, setNewPublication] = useState(''); //lo comento para build
 
   useEffect(() => {
     if (id && userData?.token) {
       const fetchData = async () => {
         const token = userData.token;
         const decodedToken = JSON.parse(atob(token.split('.')[1]));
-        const expirationDate = new Date(decodedToken.exp * 1000); // Convertir la fecha de expiración a milisegundos
+        const expirationDate = new Date(decodedToken.exp * 1000); // fecha de expiración del token
 
         console.log('Expiración del token:', expirationDate);
 
@@ -31,7 +31,7 @@ export default function InhumadoDetail() {
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inhumados/${id}`, {
             headers: {
-              'Authorization': `Bearer ${userData.token}`, // Usar el token de autenticación
+              'Authorization': `Bearer ${userData.token}`, // uso el token 
             },
           });
           if (!response.ok) throw new Error('No se pudo obtener los detalles del inhumado');
@@ -50,7 +50,7 @@ export default function InhumadoDetail() {
 
       fetchData();
     }
-  }, [id, userData?.token]); // Dependencias: ejecuta cuando id o token cambian
+  }, [id, userData?.token]); 
 
    const handlePublicationSubmit = async () => {
     //  if (newPublication.trim() === '') return;
@@ -77,8 +77,8 @@ export default function InhumadoDetail() {
      }
   // };
 
-  // if (loading) return <p>Cargando detalles...</p>;
-  // if (error) return <p>Error: {error}</p>;
+    if (loading) return <p>Cargando detalles...</p>;
+    if (error) return <p>Error: {error}</p>;
 
   if (!inhumado) return <p>No se encontraron detalles para este inhumado.</p>;
 
@@ -98,7 +98,7 @@ export default function InhumadoDetail() {
       </div>
 
       {/* Publicaciones Section */}
-      <div className="mt-6">
+      {/* <div className="mt-6">
         <h3 className="text-2xl font-semibold text-white">Publicaciones</h3>
         {inhumado.publicaciones.length > 0 ? (
           <ul className="space-y-4 mt-4">
@@ -111,7 +111,7 @@ export default function InhumadoDetail() {
         ) : (
           <p className="text-white mt-2">No hay publicaciones disponibles.</p>
         )}
-      </div>
+      </div> */}
 
       {/* Add Publication Section */}
 
