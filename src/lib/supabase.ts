@@ -7,6 +7,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Define the type for your database user
 export interface DbUser {
+  phoneNumber: number;
   idUser: string;
   email: string;
   nombre: string;
@@ -97,6 +98,7 @@ export async function checkAndCreateUser(user: SupabaseAuthUser): Promise<DbUser
       dni: generateDNI(),
       isAdmin: false,
       password: generateRandomPassword(),
+      phoneNumber: 0 //agregado para build
     };
 
     // Usar upsert para garantizar que no hay errores de duplicidad
