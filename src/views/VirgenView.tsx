@@ -148,7 +148,8 @@ const VirgenView = () => {
   //   setEditingId(null);
   //   setEditInput('');
   // };
-
+  const formatosPermitidos = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml", "image/bmp", "image/x-icon", "image/tiff", "image/heif", "image/heic"];
+  
   return (
     <div className="min-h-screen bg-fixed bg-cover bg-center text-black flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/flores.webp)' }}>
       <div className="bg-white bg-opacity-70 p-6 rounded-2xl shadow-lg max-w-2xl text-center mt-16 flex">
@@ -180,7 +181,19 @@ const VirgenView = () => {
                         className="p-2 border rounded-lg"
                         onChange={(event) => {
                           const file = event.currentTarget.files?.[0];
-                          console.log("Archivo seleccionado:", file);
+                          if (file) {
+                            console.log("Archivo seleccionado:", file);
+                            
+                            // verifica si el formato es permitido
+                            if (!formatosPermitidos.includes(file.type)) {
+                              toast.error("Formato de imagen no válido. Usa JPG, PNG, GIF, WebP, SVG, BMP, ICO, TIFF o HEIC.", {
+                                          position: 'top-center',
+                                          duration: 5000
+                              });
+                              return;
+                            }
+                          }
+
                           setFieldValue("imagen", file)}}
                   />
                   <span className=" text-sm text-gray-600">(Opcional)</span>
