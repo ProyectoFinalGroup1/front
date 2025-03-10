@@ -87,6 +87,8 @@ export default function InhumadoDetail() {
       }
     } catch (error) {
       toast.error('Ocurrió un error al enviar la publicación.');
+      console.log(error);
+      
     }
   };
 
