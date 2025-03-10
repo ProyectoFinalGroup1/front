@@ -12,7 +12,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100 py-20">
       <h1 className="text-2xl font-bold mb-6">Gestión de mensajes</h1>
 
       {/* Sección Plegarias a la Virgen */}
