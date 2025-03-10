@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react';
 import React from 'react'
-import AdminVirgenView from '../../views/AdminVirgenView'
 
 
 const Page = () => {

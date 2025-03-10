@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { IInhumados } from '@/types/index';
+import { IInhumados, IPublicacion } from '@/types/index';
 import { useAuth } from '@/context/AuthContext'; 
 import { Field, Form, Formik } from 'formik';
 import { toast } from 'react-hot-toast';
@@ -13,7 +13,7 @@ export default function InhumadoDetail() {
   const [inhumado, setInhumado] = useState<IInhumados | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [publicaciones, setPublicaciones] = useState<any[]>([]);
+  const [publicaciones, setPublicaciones] = useState<IPublicacion[]>([]);
 
   useEffect(() => {
     if (id && userData?.token) {
@@ -87,6 +87,8 @@ export default function InhumadoDetail() {
       }
     } catch (error) {
       toast.error('Ocurrió un error al enviar la publicación.');
+      console.log(error);
+      
     }
   };
 
