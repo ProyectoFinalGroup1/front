@@ -58,6 +58,7 @@ export interface IUserSession {
         nombre: string;
         password: string;
         provider?: string;
+        
     }
 // }
 // export interface IPost {
