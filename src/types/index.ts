@@ -32,6 +32,9 @@ export interface IObituario {
     id: string;
     mensaje: string;
     inhumadoId: string; 
+    imagen?: string; // La imagen opcional que puede adjuntarse al mensaje
+    fecha?: string; // La fecha en la que se realizó la publicación
+    estado?: string;
   }
   
 export interface ILoginProps {
@@ -56,4 +59,12 @@ export interface IUserSession {
         password: string;
         provider?: string;
     }
+}
+export interface IPost {
+  id: string;             // ID único de la publicación
+  mensaje: string;       // El mensaje o texto de la publicación
+  usuarioId: string;     // ID del usuario que hizo la publicación (equivalente a 'usuarioId')
+  imagen?: string;       // URL de la imagen asociada (opcional)
+  createdAt: string;     // Fecha de creación en formato ISO
+  updatedAt: string;     // Fecha de la última actualización en formato ISO
 }
