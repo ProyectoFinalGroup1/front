@@ -28,9 +28,9 @@ const VirgenView = () => {
       try {
         const response = await fetch(`${API_URL}/mensajesVirgen`, {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${userData?.token}`,
-          },
+          // headers: {
+          //   Authorization: `Bearer ${userData?.token}`,
+          // },
         });
 
         if (!response.ok) {
@@ -46,10 +46,11 @@ const VirgenView = () => {
       }
     };
   
-    if (userData?.user.idUser) {
-      fetchMessages();
-    }
-  }, [userData?.user.idUser]);  // Se volverá a montar cuando se loguee otro idUser
+    // if (userData?.user.idUser) {
+    //   fetchMessages();
+    // }
+    fetchMessages();
+  }, []);  // [userData?.user.idUser] Se volverá a montar cuando se loguee otro idUser
 
   const handleSubmit = async (values: { texto: string; imagen?: File }, { resetForm }: { resetForm: () => void }) => {
     if (!userData || !userData.user || !userData.user.idUser) {
@@ -205,11 +206,12 @@ const VirgenView = () => {
           </Formik>
           
           <div className="w-full mt-4">
-            {messages.map((msg) => (
+            {messages
+            .map((msg) => (
               <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
                 {msg.estado ? (
                   <>
-                    <p className={`text-gray-800 font-bold text-lg ${msg.estado ? '' : 'opacity-50'}`}>
+                    <p className="text-gray-800 font-bold text-lg">
                       {msg.texto}
                     </p>
 

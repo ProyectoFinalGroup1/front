@@ -13,7 +13,7 @@ const AdminSidebar = () => {
     { label: "Inicio", icon: Home, href: "/" }, 
     { label: "Usuarios", icon: Users, href: "/dashboard/admin/usuarios" }, 
     { label: "Inhumados", icon: BookOpenText, href: "/dashboard/admin/inhumados" }, 
-    { label: "Mensajes", icon: Mail, href: "/dashboard/admin/mensajes" }, 
+    { label: "Mensajes Inhumados", icon: Mail, href: "/dashboard/admin/mensajes" }, 
     { label: "Plegarias a la Virgen", icon: Heart, href: "/dashboard/admin/mensajesVirgen" }, // Alternativa a HandsPraying
     { label: "Donaciones", icon: HeartHandshake, href: "/dashboard/admin/donaciones" }, 
   ];
