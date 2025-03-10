@@ -59,25 +59,27 @@ export interface IUserSession {
         password: string;
         provider?: string;
     }
-}
-export interface IPost {
-  id: string;             // ID único de la publicación
-  mensaje: string;       // El mensaje o texto de la publicación
-  usuarioId: string;     // ID del usuario que hizo la publicación (equivalente a 'usuarioId')
-  imagen?: string;       // URL de la imagen asociada (opcional)
-  createdAt: string;     // Fecha de creación en formato ISO
-  updatedAt: string;     // Fecha de la última actualización en formato ISO
-}
+// }
+// export interface IPost {
+//   id: string;             // ID único de la publicación
+//   mensaje: string;       // El mensaje o texto de la publicación
+//   usuarioId: string;     // ID del usuario que hizo la publicación (equivalente a 'usuarioId')
+//   imagen?: string;       // URL de la imagen asociada (opcional)
+//   createdAt: string;     // Fecha de creación en formato ISO
+//   updatedAt: string;
+//   fechaPublicacion: string; 
+//   aprobada: boolean;    // Fecha de la última actualización en formato ISO
+// }
 
-
-export interface IUserDetails {
-  idUser: string;
-  nombre: string;
-  apellido: string;
-  email: string;
-  isAdmin: boolean;
-  dni: string;
-  recibirRecordatoriosAniversarios: boolean;
-  phoneNumber: string;
-  fechaPago: Date;
+//   export interface IUserDetails {
+//   idUser: string;
+//   nombre: string;
+//   apellido: string;
+//   email: string;
+//   isAdmin: boolean;
+//   dni: string;
+//   recibirRecordatoriosAniversarios: boolean;
+//   phoneNumber: string;
+//   fechaPago: Date;
+// 
 }

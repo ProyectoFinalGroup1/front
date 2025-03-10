@@ -1,134 +1,152 @@
-'use client';
+'use client'; 
+import React, { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
-import { useEffect, useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { IPost } from '@/types/index'; 
-import { useRouter } from 'next/navigation';
+type Publicacion = {
+  id: string;
+  mensaje: string;
+  imagen: string;
+  fechaPublicacion: string;
+  aprobada: boolean;
+};
 
-export default function UserObituariosView() {
-  const { userData } = useAuth();
-  const [publicaciones, setPublicaciones] = useState<IPost[]>([]);
-  const [error, setError] = useState<string | null>(null);
+const UserPublicacionesView = () => {
+  const { userData } = useAuth(); // Obtenemos los datos del usuario
+  const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const [filtro, setFiltro] = useState<string>("todas"); // Para manejar el filtro (Aprobadas/Pendientes/Todas)
+  const [paginaActual, setPaginaActual] = useState<number>(1);
+  const [publicacionesPorPagina] = useState<number>(5); // Cantidad de publicaciones por página
 
   useEffect(() => {
-    if (!userData?.token) {
-      setError('No estás logueado. Por favor, inicia sesión.');
-      setLoading(false);
-      return;
-    }
-
     const fetchPublicaciones = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/publicaciones`, {
-          headers: {
-            'Authorization': `Bearer ${userData.token}`,
-          },
-        });
-
-        if (!response.ok) throw new Error('No se pudieron cargar las publicaciones.');
-        const responseData = await response.json();
-
-        // Obtener publicaciones aprobadas y pendientes
-        const aprobadas = responseData.Aprobadas || [];
-        const pendientes = responseData.Pendientes || [];
-        const todasPublicaciones = [...aprobadas, ...pendientes];
-
-        // Obtener publicaciones guardadas en localStorage
-        const publicacionesGuardadas = JSON.parse(localStorage.getItem('misPublicaciones') || '[]');
-
-        // Filtrar publicaciones por usuario logueado
-        const publicacionesUsuario = todasPublicaciones.filter(publicacion =>
-          publicacionesGuardadas.some(pub => pub.id === publicacion.id) || 
-          publicacion.usuarioId === userData.user.idUser
-        );
-
-        setPublicaciones(publicacionesUsuario);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Ocurrió un error desconocido.');
+        if (userData?.user?.idUser) {
+          const userId = userData?.user?.idUser;
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/publicaciones/misPublicaciones/${userId}`);
+          if (!response.ok) {
+            throw new Error("Error al obtener las publicaciones");
+          }
+          const data: Publicacion[] = await response.json();
+          setPublicaciones(data);
+        } else {
+          setError("No se pudo obtener el ID del usuario.");
+        }
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Ocurrió un error desconocido");
+        }
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPublicaciones();
+    if (userData?.user?.idUser) {
+      fetchPublicaciones();
+    }
   }, [userData]);
 
-  // ✅ Función para Crear Publicaciones
-  const handleCrearPublicacion = async (mensaje: string, imagen?: string) => {
-    if (!userData?.token || !userData?.user.idUser) {
-      setError('Debes estar logueado para crear una publicación.');
-      return;
-    }
+  const publicacionesFiltradas = publicaciones.filter((publicacion) => {
+    if (filtro === "aprobadas") return publicacion.aprobada;
+    if (filtro === "pendientes") return !publicacion.aprobada;
+    return true; // Devuelve todas si no hay filtro aplicado
+  });
 
-    const nuevaPublicacion = {
-      id: crypto.randomUUID(), // Genera un ID temporal para manejarlo en el front
-      mensaje,
-      imagen: imagen || '',
-      fechaPublicacion: new Date().toISOString(),
-      aprobada: false,
-      usuarioId: userData.user.idUser, // Guardamos el usuarioId localmente
-    };
+  // Lógica de paginado
+  const indexUltimaPublicacion = paginaActual * publicacionesPorPagina;
+  const indexPrimeraPublicacion = indexUltimaPublicacion - publicacionesPorPagina;
+  const publicacionesActuales = publicacionesFiltradas.slice(indexPrimeraPublicacion, indexUltimaPublicacion);
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/publicaciones`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userData.token}`,
-        },
-        body: JSON.stringify(nuevaPublicacion),
-      });
-
-      if (!response.ok) throw new Error('No se pudo crear la publicación.');
-
-      const data = await response.json();
-
-      // Guardar la publicación en localStorage con su usuarioId
-      const publicacionesGuardadas = JSON.parse(localStorage.getItem('misPublicaciones') || '[]');
-      localStorage.setItem('misPublicaciones', JSON.stringify([...publicacionesGuardadas, { ...data, usuarioId: userData.user.idUser }]));
-
-      setPublicaciones([...publicaciones, { ...data, usuarioId: userData.user.idUser }]);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error desconocido.');
-    }
+  // Cambiar de página
+  const cambiarPagina = (pagina: number) => {
+    setPaginaActual(pagina);
   };
 
-  if (loading) return <p>Cargando tus publicaciones...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (publicaciones.length === 0) return <p>No has publicado nada aún.</p>;
-
   return (
-    <div className="min-h-screen bg-fixed bg-cover bg-center text-black flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/fondo.jpg)' }}>
-      <div className="max-w-3xl mx-auto mt-20 p-8 rounded-lg border-2 border-white bg-white bg-opacity-60 bg-fixed">
-        <h2 className="text-3xl font-semibold text-center text-gray-900 mb-4">Tus Publicaciones</h2>
-        <button
-          onClick={() => handleCrearPublicacion('Nuevo mensaje de prueba')}
-          className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 mb-4"
-        >
-          Crear Publicación de Prueba
-        </button>
-        <div className="space-y-4">
-          {publicaciones.map((publicacion) => (
-            <div key={publicacion.id} className="bg-gray-100 p-4 rounded-lg shadow-lg mb-4">
-              <h3 className="text-xl font-semibold">{publicacion.mensaje}</h3>
-              {publicacion.imagen && <img src={publicacion.imagen} alt="Imagen de la publicación" className="mt-2 max-w-full h-auto rounded-lg" />}
-              <div className="flex justify-between items-center mt-2">
-                <button
-                  onClick={() => router.push(`/publicaciones/editar/${publicacion.id}`)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                >
-                  Editar
-                </button>
-              </div>
-            </div>
-          ))}
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-8">
+      <div className="max-w-4xl mx-auto bg-white shadow-xl p-6 w-full rounded-2xl">
+        <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">
+          Mis Publicaciones
+        </h1>
+
+        {loading && <p className="text-center text-gray-500">Cargando...</p>}
+        {error && <p className="text-red-600 text-center">{error}</p>}
+
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex space-x-4">
+            <button
+              onClick={() => setFiltro("todas")}
+              className={`px-4 py-2 rounded-lg text-sm ${filtro === "todas" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            >
+              Todas
+            </button>
+            <button
+              onClick={() => setFiltro("aprobadas")}
+              className={`px-4 py-2 rounded-lg text-sm ${filtro === "aprobadas" ? "bg-green-500 text-white" : "bg-gray-200"}`}
+            >
+              Aprobadas
+            </button>
+            <button
+              onClick={() => setFiltro("pendientes")}
+              className={`px-4 py-2 rounded-lg text-sm ${filtro === "pendientes" ? "bg-yellow-500 text-white" : "bg-gray-200"}`}
+            >
+              Pendientes
+            </button>
+          </div>
+        </div>
+
+        <div>
+          {publicacionesActuales.length === 0 ? (
+            <p className="text-center text-gray-400">No tienes publicaciones en este estado.</p>
+          ) : (
+            <ul className="space-y-6 mt-6">
+              {publicacionesActuales.map((publicacion) => (
+                <li key={publicacion.id} className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <p className="font-medium text-gray-800 text-lg">{publicacion.mensaje}</p>
+                  <p className="text-sm text-gray-500 mt-2">{new Date(publicacion.fechaPublicacion).toLocaleDateString()}</p>
+                  {publicacion.imagen && (
+                    <img 
+                      src={publicacion.imagen} 
+                      alt="Imagen de la publicación" 
+                      className="max-w-[25vw] h-auto mt-4 mx-auto rounded-lg shadow-sm" 
+                    />
+                  )}
+                  <p className={`mt-4 text-sm font-semibold ${publicacion.aprobada ? 'text-green-600' : 'text-red-600'}`}>
+                    {publicacion.aprobada ? 'Aprobada' : 'Pendiente de aprobación'}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Paginado */}
+        <div className="flex justify-center space-x-4 mt-6">
+          <button 
+            onClick={() => cambiarPagina(paginaActual - 1)} 
+            disabled={paginaActual === 1} 
+            className="px-4 py-2 bg-gray-300 rounded-lg text-sm disabled:opacity-50"
+          >
+            Anterior
+          </button>
+          <button 
+            onClick={() => cambiarPagina(paginaActual + 1)} 
+            disabled={paginaActual * publicacionesPorPagina >= publicacionesFiltradas.length} 
+            className="px-4 py-2 bg-gray-300 rounded-lg text-sm disabled:opacity-50"
+          >
+            Siguiente
+          </button>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default UserPublicacionesView;
+
 
 
 
