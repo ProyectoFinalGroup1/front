@@ -68,3 +68,16 @@ export interface IPost {
   createdAt: string;     // Fecha de creación en formato ISO
   updatedAt: string;     // Fecha de la última actualización en formato ISO
 }
+
+
+export interface IUserDetails {
+  idUser: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  isAdmin: boolean;
+  dni: string;
+  recibirRecordatoriosAniversarios: boolean;
+  phoneNumber: string;
+  fechaPago: Date;
+}
