@@ -111,7 +111,7 @@ const VirgenView = () => {
       try {
         newMessage = JSON.parse(responseText);
       } catch (error) {
-        console.warn("La respuesta del servidor no es un JSON válido.");
+        console.warn("La respuesta del servidor no es un JSON válido.", error);
         newMessage = { id: Date.now(), text: values.texto };                  // se usan valores temporales
       }
 
