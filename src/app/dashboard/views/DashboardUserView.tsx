@@ -10,13 +10,13 @@ const DashboardUserView = () => {
 
   // Estados para las preferencias de notificaciones
   const [newsletter, setNewsletter] = useState(false);
-  const [notifications, setNotifications] = useState(false);
+  // const [notifications, setNotifications] = useState(false);
 
   // Cargar las preferencias desde userData
   useEffect(() => {
     if (userData) {
       setNewsletter(userData.user.recibirRecordatoriosAniversarios || false);
-      setNotifications(!!userData.user.fechaPago);
+      // setNotifications(!!userData.user.fechaPago);
 
     }
   }, [userData]);
@@ -38,12 +38,14 @@ const DashboardUserView = () => {
       if (preference === "recibirRecordatoriosAniversarios") {
         setNewsletter(value);
       } else if (preference === "fechaPago") {
-        setNotifications(value);
+        // setNotifications(value);
       }
 
       toast.success("Preferencia actualizada correctamente");
     } catch (error) {
-      toast.error("No se pudo actualizar la preferencia");
+      console.error(error); // Esto evita el warning
+  toast.error("Hubo un problema al actualizar las preferencias.");
+ 
     }
   };
 
@@ -56,7 +58,7 @@ const DashboardUserView = () => {
       <div className="mt-6 space-y-6">
         {/* Recordatorios de aniversarios */}
         <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg">
-          <span className="font-medium">Recibir Recordatorios de Aniversarios de sus Seres Queridos 📩</span>
+          <span className="font-medium">📩 Recibir Recordatorios de Aniversarios de sus Seres Queridos </span>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
@@ -72,15 +74,16 @@ const DashboardUserView = () => {
 
         {/* Notificaciones de pagos */}
         <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg">
-          <span className="font-medium">Recibir Notificaciones de Pagos:🔔</span>
+          <span className="font-medium">🔔 Recibir Notificaciones de Pagos:</span>
           <label className="relative inline-flex items-center cursor-pointer">
           <input
   type="checkbox"
-  checked={true} // Siempre activado
-  className="sr-only peer"
+  checked={true} 
+  readOnly 
   onClick={() =>
     toast.error("Las notificaciones de pago son obligatorias y no pueden desactivarse. 😊")
-  }/>
+  }
+/>
             <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-all relative">
               <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
             </div>

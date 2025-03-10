@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { IInhumados, IPublicacion } from '@/types/index';
 import { useAuth } from '@/context/AuthContext'; 
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { toast } from 'react-hot-toast';
 
 export default function InhumadoDetail() {
@@ -57,7 +57,10 @@ export default function InhumadoDetail() {
     }
   };
 
-  const handlePublicationSubmit = async (values: { text: string, image: File | undefined }, { resetForm }: any) => {
+  const handlePublicationSubmit = async ( values: { text: string; image: File | undefined },
+  { resetForm }: FormikHelpers<{ text: string; image: File | undefined }>
+) => {
+   
     const mensajeConFirma = `${values.text}\n\n— ${userData?.user.nombre} ${userData?.user.apellido || ''}`.trim();
 
 
@@ -106,8 +109,8 @@ export default function InhumadoDetail() {
           <p className="text-lg text-black">Valle: <span className="text-gray-600">{inhumado.valle}</span>, Sector: <span className="text-gray-800">{inhumado.sector}</span></p>
           <p className="text-lg text-black">Manzana: <span className="text-gray-600">{inhumado.manzana}</span>, Parcela: <span className="text-gray-800">{inhumado.parcela}</span></p>
 
-          <Formik initialValues={{ text: '', image: undefined }} onSubmit={handlePublicationSubmit}>
-            {({ setFieldValue }) => (
+          <Formik initialValues={{ text: '', image: undefined as File | undefined }}  onSubmit={handlePublicationSubmit}>
+   {({ setFieldValue }) => (
               <Form className="mb-4 flex flex-col items-center">
                 <Field 
                   as="textarea" 
