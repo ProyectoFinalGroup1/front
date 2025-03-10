@@ -28,9 +28,9 @@ const VirgenView = () => {
       try {
         const response = await fetch(`${API_URL}/mensajesVirgen`, {
           method: "GET",
-          // headers: {
-          //   Authorization: `Bearer ${userData?.token}`,
-          // },
+          headers: {
+            Authorization: `Bearer ${userData?.token}`,
+          },
         });
 
         if (!response.ok) {
@@ -46,11 +46,11 @@ const VirgenView = () => {
       }
     };
   
-    // if (userData?.user.idUser) {
-    //   fetchMessages();
-    // }
-    fetchMessages();
-  }, []);  // [userData?.user.idUser] Se volverá a montar cuando se loguee otro idUser
+    if (userData?.user.idUser) {
+      fetchMessages();
+    }
+    // fetchMessages();
+  }, [userData?.user.idUser]);  // [userData?.user.idUser] Se volverá a montar cuando se loguee otro idUser
 
   const handleSubmit = async (values: { texto: string; imagen?: File }, { resetForm }: { resetForm: () => void }) => {
     if (!userData || !userData.user || !userData.user.idUser) {
