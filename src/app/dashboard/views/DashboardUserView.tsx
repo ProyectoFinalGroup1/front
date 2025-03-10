@@ -1,20 +1,51 @@
-//ORIGINAL FUNCIONANDO SIN BACKK
-
 'use client'
 import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext"; // Ajusta la ruta según la ubicación de tu contexto
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const DashboardUserView = () => {
-  // Estado para la suscripción a newsletter
-  const [newsletter, setNewsletter] = useState(() => localStorage.getItem("newsletter") === "true");
+  const { userData } = useAuth(); // Obtener datos del usuario desde el contexto de autenticación
 
-  // Estado para notificaciones personalizadas
-  const [notifications, setNotifications] = useState(() => localStorage.getItem("notifications") === "true");
+  // Estados para las preferencias de notificaciones
+  const [newsletter, setNewsletter] = useState(false);
+  const [notifications, setNotifications] = useState(false);
 
-  // Guardar cambios en localStorage
+  // Cargar las preferencias desde userData
   useEffect(() => {
-    localStorage.setItem("newsletter", newsletter.toString());
-    localStorage.setItem("notifications", notifications.toString());
-  }, [newsletter, notifications]);
+    if (userData) {
+      setNewsletter(userData.user.recibirRecordatoriosAniversarios || false);
+      setNotifications(!!userData.user.fechaPago);
+
+    }
+  }, [userData]);
+
+  // Manejar cambios en las preferencias
+  const handleToggle = async (preference: string, value: boolean) => {
+    try {
+      const res = await fetch(`${API_URL}/user/${userData?.user.idUser}/preferences`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userData?.token}`, // Enviar token de autenticación
+        },
+        body: JSON.stringify({ [preference]: value }),
+      });
+
+      if (!res.ok) throw new Error("Error al actualizar preferencias");
+
+      if (preference === "recibirRecordatoriosAniversarios") {
+        setNewsletter(value);
+      } else if (preference === "fechaPago") {
+        setNotifications(value);
+      }
+
+      toast.success("Preferencia actualizada correctamente");
+    } catch (error) {
+      toast.error("No se pudo actualizar la preferencia");
+    }
+  };
 
   return (
     <div className="min-h-screen p-6">
@@ -23,14 +54,14 @@ const DashboardUserView = () => {
 
       {/* Configuraciones del usuario */}
       <div className="mt-6 space-y-6">
-        {/* Suscripción a Newsletter */}
+        {/* Recordatorios de aniversarios */}
         <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg">
           <span className="font-medium">Recibir Recordatorios de Aniversarios de sus Seres Queridos 📩</span>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
               checked={newsletter}
-              onChange={() => setNewsletter(!newsletter)}
+              onChange={() => handleToggle("recibirRecordatoriosAniversarios", !newsletter)}
               className="sr-only peer"
             />
             <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-all relative">
@@ -39,16 +70,17 @@ const DashboardUserView = () => {
           </label>
         </div>
 
-        {/* Notificaciones Personalizadas */}
+        {/* Notificaciones de pagos */}
         <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg">
-          <span className="font-medium">Recibir Notificaciones de Pagos 🔔</span>
+          <span className="font-medium">Recibir Notificaciones de Pagos:🔔</span>
           <label className="relative inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              checked={notifications}
-              onChange={() => setNotifications(!notifications)}
-              className="sr-only peer"
-            />
+          <input
+  type="checkbox"
+  checked={true} // Siempre activado
+  className="sr-only peer"
+  onClick={() =>
+    toast.error("Las notificaciones de pago son obligatorias y no pueden desactivarse. 😊")
+  }/>
             <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-all relative">
               <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
             </div>
@@ -60,6 +92,7 @@ const DashboardUserView = () => {
 };
 
 export default DashboardUserView;
+
 
 
 
