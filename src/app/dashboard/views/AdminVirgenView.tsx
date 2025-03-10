@@ -167,9 +167,9 @@ const AdminVirgenView = () => {
                                           mr-2">
                           ACEPTAR
                         </button>
-                        <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
+                        {/* <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
                           RECHAZAR
-                        </button>
+                        </button> */}
                       </div>
                       
                       <div className="flex justify-end">
@@ -183,11 +183,11 @@ const AdminVirgenView = () => {
                   {/* Si el mensaje ya fue aprobado*/}
                   {msg.estado && (
                     <div className="flex justify-around my-4">
-                      <div>
+                      {/* <div>
                         <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
                           RECHAZAR
                         </button>
-                      </div>
+                      </div> */}
                       
                       <div>
                         <button onClick={() => handleDelete(msg.id)}
