@@ -72,6 +72,12 @@ export interface IUserDetails {
   fechaPago: Date;
 }
 
+export interface IPublicacion {
+  mensaje: string;
+  imagen?: string; // Opcional
+  fechaPublicacion: string; // Se asume que viene como string
+}
+
 // }
 // export interface IPost {
 //   id: string;             // ID único de la publicación
