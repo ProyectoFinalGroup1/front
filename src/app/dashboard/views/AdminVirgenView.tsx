@@ -48,7 +48,7 @@ const AdminVirgenView = () => {
       if (userData?.user.idUser) {
       fetchMessages();
       }
-  }, [userData?.user.idUser]);
+  }, [userData?.token, userData?.user.idUser]); //agrego [userData?.token] para build, REVISAR SI FUNCIONA
 
 
   const handleAccept = async(id: string) => {

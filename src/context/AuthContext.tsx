@@ -29,6 +29,7 @@ export interface AuthContextProps {
   setUserData: (userData: IUserSession | null) => void;
   isAuthenticated: boolean;
   isLoading: boolean;
+  updateUser: (updatedUser: IUserSession) => void; // Se agrega updateUser
   logout: () => void;
   signInWithGoogle: () => Promise<void>;
 }
@@ -38,6 +39,7 @@ export const AuthContext = createContext<AuthContextProps>({
   setUserData: () => {},
   isAuthenticated: false,
   isLoading: true,
+  updateUser: () => {}, // Se agrega updateUser
   logout: () => {},
   signInWithGoogle: async () => {},
 });
@@ -49,12 +51,11 @@ export interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
 
-  // Inicializar userData desde localStorage
   const storedUserData = typeof window !== "undefined" ? localStorage.getItem("userSession") : null;
   const initialUserData = storedUserData ? JSON.parse(storedUserData) : null;
 
   const [userData, setUserData] = useState<IUserSession | null>(initialUserData);
-  const [isLoading, setIsLoading] = useState(true); // Nuevo estado de carga
+  const [isLoading, setIsLoading] = useState(true);
   const isAuthenticated = !!userData?.token;
 
   const getSafeUserDataForStorage = (data: IUserSession) => {
@@ -117,7 +118,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } catch (error) {
         console.error("Error fetching session:", error);
       } finally {
-        setIsLoading(false); // Marca que la carga ha terminado
+        setIsLoading(false);
       }
     };
 
@@ -126,7 +127,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [userData]); //era array vacio, agrego userData para build
 
   useEffect(() => {
     const {
@@ -200,13 +201,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Paso 1: Función updateUser
+  const updateUser = (updatedUser: IUserSession) => {
+    setUserData((prev) => (prev ? { ...prev, user: { ...prev.user, ...updatedUser.user } } : prev));
+
+    if (userData) {
+      const safeData = getSafeUserDataForStorage({
+        ...userData,
+        user: { ...userData.user, ...updatedUser.user },
+      });
+      localStorage.setItem("userSession", JSON.stringify(safeData));
+      Cookies.set("userData", JSON.stringify(safeData));
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
         userData,
         setUserData,
         isAuthenticated,
-        isLoading, // Nuevo estado
+        isLoading,
+        updateUser, // Paso 2: Se agrega a AuthContext
         logout,
         signInWithGoogle,
       }}
@@ -217,6 +233,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+
 
 
 

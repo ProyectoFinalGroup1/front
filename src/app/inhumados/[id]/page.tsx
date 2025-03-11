@@ -1,4 +1,4 @@
- 'use client'
+  'use client'
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
@@ -18,13 +18,14 @@ export default function InhumadoDetail() {
   useEffect(() => {
     if (id && userData?.token) {
       fetchInhumado();
+      
     }
   }, [id, userData?.token]);
 
   useEffect(() => {
     if (inhumado?.nombre) {
       fetchPublicaciones(inhumado.nombre);
-    }
+    } 
   }, [inhumado]);
 
   const fetchInhumado = async () => {
