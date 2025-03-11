@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { IInhumados, IPublicacion } from '@/types/index';
 import { useAuth } from '@/context/AuthContext'; 
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
+import toast from 'react-hot-toast';
 // import { toast } from 'react-hot-toast';
 
 export default function InhumadoDetail() {
@@ -52,6 +53,46 @@ export default function InhumadoDetail() {
       console.error('Error:', err);
     }
   };
+///
+
+const handlePublicationSubmit = async ( values: { text: string; image: File | undefined },
+  { resetForm }: FormikHelpers<{ text: string; image: File | undefined }>
+) => {
+   
+    const mensajeConFirma = `${values.text}\n\n— ${userData?.user.nombre} ${userData?.user.apellido || ''}`.trim();
+
+
+    const formData = new FormData();
+    formData.append('mensaje', mensajeConFirma);
+    formData.append('inhumadoId', inhumado?.id || '');
+    formData.append('usuarioId', userData?.user.idUser || '');
+
+    if (values.image) {
+      formData.append('file', values.image);
+    }
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/publicaciones/addPublicacion`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${userData?.token}` },
+        body: formData,
+      });
+
+      if (response.ok) {
+        toast.success('Tu mensaje fue enviado y será publicado luego de la aprobación.');
+        resetForm();
+        fetchPublicaciones(inhumado?.nombre || '');
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message);
+      }
+    } catch (error) {
+      toast.error('Ocurrió un error al enviar la publicación.');
+      console.log(error);
+      
+    }
+  };
+//
 
   if (loading) return <p>Cargando detalles...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -84,8 +125,8 @@ export default function InhumadoDetail() {
       </div>
 
       {/* Formulario para dejar mensaje */}
-      <Formik initialValues={{ text: '', image: undefined as File | undefined }} onSubmit={() => {}}>
-        {({ setFieldValue }) => (
+      <Formik initialValues={{ text: '', image: undefined as File | undefined }}  onSubmit={handlePublicationSubmit}>
+      {({ setFieldValue }) => (
           <Form className="mt-6 w-full max-w-3xl flex flex-col items-center space-y-4">
             <Field
               as="textarea"
