@@ -141,7 +141,7 @@ const AdminVirgenView = () => {
                   </p>
                   <p className="text-gray-800 font-bold text-lg
                                 pl-9 flex justify-start">
-                    {msg.texto}
+                    {JSON.parse(msg.texto).texto}
                   </p>
                 
 
