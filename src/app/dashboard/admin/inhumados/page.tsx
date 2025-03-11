@@ -1,13 +1,17 @@
 import React from 'react'
+import AdminInhumadosView from '../../views/AdminInhumadosView'
 
 
-const page = () => {
+
+
+const AdminInhumadosList = () => {
   return (
     <>
-    <h1>Gestión de inhumados</h1>
-
+   
+   <AdminInhumadosView />
+    
     </>
   )
 }
 
-export default page
+export default AdminInhumadosList

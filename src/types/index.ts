@@ -73,6 +73,35 @@ export interface IUserDetails {
   fechaPago: Date;
 }
 
+
+export interface IInhumadoDetail {
+  id: string;
+  nombre: string;
+  apellido: string;
+  fnac: string;
+  ffal: string;
+  valle: string;
+  sector: string;
+  manzana: string;
+  parcela: string;
+  simbolo?: string;
+  ncliente?: string;
+  imagenUrl?: string;
+}
+
+export interface IInhumadoFormData {
+  nombre: string;
+  apellido: string;
+  fnac: string;
+  ffal: string;
+  valle: string;
+  sector: string;
+  manzana: string;
+  parcela: string;
+  simbolo: string;
+  ncliente: string;
+}
+
 export interface IPublicacion {
   mensaje: string;
   imagen?: string; // Opcional
@@ -90,3 +119,4 @@ export interface IPublicacion {
 //   fechaPublicacion: string; 
 //   aprobada: boolean;    // Fecha de la última actualización en formato ISO
 // }
+
