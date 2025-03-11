@@ -2,13 +2,14 @@
 
 import type React from "react"
 import { Formik, Form, Field, ErrorMessage } from "formik"
-import { validateRegisterForm } from "@/helpers/registerValidate"
+
 import Link from "next/link"
 import { register } from "@/helpers/auth.helper"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useAuth } from '@/context/AuthContext'
 import Image from "next/image"
+import { validateRegisterForm } from "@/helpers/validate"
 
 const RegisterView: React.FC = () => {
   const { signInWithGoogle } = useAuth();
