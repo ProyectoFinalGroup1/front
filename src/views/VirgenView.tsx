@@ -91,7 +91,7 @@ const VirgenView = () => {
                     position: "top-center"
       });
 
-      const response = await fetch(`${API_URL}/mensajesVirgen/addMensajeVirgen`, {
+      const response = await fetch(`${API_URL}/mensajesVirgen/addMensajeVirgen/${userData.user.idUser}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
