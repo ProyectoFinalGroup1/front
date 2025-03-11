@@ -54,8 +54,8 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
   if (error) return <p className="text-center text-red-600">Error: {error}</p>;
 
   return (
-    <div className="max-w-2xl mx-auto mt-4 p-2 bg-white bg-opacity-30 shadow-md rounded-xl backdrop-blur-sm">
-      <h2 className="text-2xl font-semibold text-center text-white">Lista de Inhumados</h2>
+    <div className="max-w-2xl mx-auto mt-4 p-3 bg-white bg-opacity-30 shadow-md rounded-xl backdrop-blur-sm">
+      <h2 className="text-2xl font-semibold text-center text-white">🕊️🕊️🕊️🕊️🕊️🕊️🕊️🕊️🕊️</h2>
        
        <div className="flex justify-center gap-4 mt-2">        
          <select
@@ -90,7 +90,7 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
           filteredInhumados.map((inhumado) => (
             <li key={inhumado.id} className="p-4 border-b border-gray-300 flex flex-col items-center text-center">
               <span className="font-bold text-lg">
-                <Link href={`/inhumados/${inhumado.id}`} className="text-blue-600 hover:underline">
+                <Link href={`/inhumados/${inhumado.id}`} className="text-green-800 hover:underline">
                   {inhumado.apellido}, {inhumado.nombre}
                 </Link>
               </span>

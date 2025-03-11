@@ -6,7 +6,7 @@ const Obituarios = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-900 via-green-700 to-green-500 text-white flex flex-col items-center justify-center p-8">
+    <div className="min-h-screen bg-fixed bg-cover bg-center text-black flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/fondo8.png)' }}>
       <div className="mt-12 bg-black bg-opacity-50 p-6 rounded-2xl shadow-lg max-w-4xl text-center w-full">
         <h1 className="text-4xl font-bold text-white mb-6">OBITUARIOS</h1>
 

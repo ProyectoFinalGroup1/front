@@ -21,9 +21,11 @@ const Sidebar = () => {
       backgroundImage: "url(/images/flores.webp)",
       backgroundPosition: "center",
       backgroundSize: "cover",
-      backgroundRepeat: "no-repeat"
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed" // Mantiene la imagen fija al hacer scroll
     }}
   >
+  
    <h2 className="text-xl font-bold mb-6">Panel de Usuario</h2>
       <nav className="flex-1">
         {menuItems.map(({ label, icon: Icon, href }) => (
