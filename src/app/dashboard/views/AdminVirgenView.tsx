@@ -16,7 +16,7 @@ const AdminVirgenView = () => {
                                             imagenUrl?: string;
                                             fechaPublicacion: string;
                                             estado: boolean;
-                                            usuario_id: string;
+                                            idUser: string;
                                             }[]>([]);
     
   useEffect(() => {

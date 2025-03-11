@@ -18,7 +18,7 @@ const VirgenView = () => {
                                             imagenUrl?: string;
                                             fechaPublicacion: string;
                                             estado: boolean;
-                                            usuario_id: string;
+                                            idUser: string;
                                           }[]>([]);
   // const [editingId, setEditingId] = useState<number | null>(null);
   // const [editInput, setEditInput] = useState('');  
