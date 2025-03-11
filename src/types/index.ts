@@ -32,6 +32,9 @@ export interface IObituario {
     id: string;
     mensaje: string;
     inhumadoId: string; 
+    imagen?: string; // La imagen opcional que puede adjuntarse al mensaje
+    fecha?: string; // La fecha en la que se realizó la publicación
+    estado?: string;
   }
   
 export interface ILoginProps {
@@ -55,9 +58,9 @@ export interface IUserSession {
         nombre: string;
         password: string;
         provider?: string;
+        
     }
 }
-
 export interface IUserDetails {
   idUser: string;
   nombre: string;
@@ -69,6 +72,7 @@ export interface IUserDetails {
   phoneNumber: string;
   fechaPago: Date;
 }
+
 
 export interface IInhumadoDetail {
   id: string;
@@ -97,3 +101,22 @@ export interface IInhumadoFormData {
   simbolo: string;
   ncliente: string;
 }
+
+export interface IPublicacion {
+  mensaje: string;
+  imagen?: string; // Opcional
+  fechaPublicacion: string; // Se asume que viene como string
+}
+
+// }
+// export interface IPost {
+//   id: string;             // ID único de la publicación
+//   mensaje: string;       // El mensaje o texto de la publicación
+//   usuarioId: string;     // ID del usuario que hizo la publicación (equivalente a 'usuarioId')
+//   imagen?: string;       // URL de la imagen asociada (opcional)
+//   createdAt: string;     // Fecha de creación en formato ISO
+//   updatedAt: string;
+//   fechaPublicacion: string; 
+//   aprobada: boolean;    // Fecha de la última actualización en formato ISO
+// }
+
