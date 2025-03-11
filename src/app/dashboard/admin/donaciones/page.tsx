@@ -1,12 +1,13 @@
 import React from 'react'
+import AdminDonacionesView from '../../views/AdminDonacionesView'
 
 
 const page = () => {
   return (
     <>
-    <h1>Gestión de donaciones</h1>
+     <AdminDonacionesView />
     </>
   )
 }
 
-export default page
+export default page
