@@ -11,13 +11,13 @@ type Publicacion = {
 };
 
 const UserPublicacionesView = () => {
-  const { userData } = useAuth(); // Obtenemos los datos del usuario
+  const { userData } = useAuth(); 
   const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filtro, setFiltro] = useState<string>("todas"); // Para manejar el filtro (Aprobadas/Pendientes/Todas)
   const [paginaActual, setPaginaActual] = useState<number>(1);
-  const [publicacionesPorPagina] = useState<number>(5); // Cantidad de publicaciones por página
+  const [publicacionesPorPagina] = useState<number>(5); 
 
   useEffect(() => {
     const fetchPublicaciones = async () => {
@@ -52,23 +52,23 @@ const UserPublicacionesView = () => {
   const publicacionesFiltradas = publicaciones.filter((publicacion) => {
     if (filtro === "aprobadas") return publicacion.aprobada;
     if (filtro === "pendientes") return !publicacion.aprobada;
-    return true; // Devuelve todas si no hay filtro aplicado
+    return true; 
   });
 
-  // Lógica de paginado
+  
   const indexUltimaPublicacion = paginaActual * publicacionesPorPagina;
   const indexPrimeraPublicacion = indexUltimaPublicacion - publicacionesPorPagina;
   const publicacionesActuales = publicacionesFiltradas.slice(indexPrimeraPublicacion, indexUltimaPublicacion);
 
-  // Cambiar de página
+  
   const cambiarPagina = (pagina: number) => {
     setPaginaActual(pagina);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-8">
-      <div className="max-w-4xl mx-auto bg-white shadow-xl p-6 w-full rounded-2xl">
-        <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">
+    <div className="min-h-screen flex items-center justify-center py-8">
+      <div className="max-w-4xl mx-auto p-6 w-full rounded-2xl">
+        <h1 className="text-3xl font-semibold text-center mb-6">
           Mis Publicaciones
         </h1>
 
@@ -105,8 +105,8 @@ const UserPublicacionesView = () => {
             <ul className="space-y-6 mt-6">
               {publicacionesActuales.map((publicacion) => (
                 <li key={publicacion.id} className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                  <p className="font-medium text-gray-800 text-lg">{publicacion.mensaje}</p>
-                  <p className="text-sm text-gray-500 mt-2">{new Date(publicacion.fechaPublicacion).toLocaleDateString()}</p>
+                  <p className="flex font-medium text-gray-800 text-md"> Mensaje: {publicacion.mensaje}</p>
+                  <p className="flex text-sm text-gray-500 mt-2">Fecha: {new Date(publicacion.fechaPublicacion).toLocaleDateString()}</p>
                   {publicacion.imagen && (
                     <img 
                       src={publicacion.imagen} 
@@ -114,8 +114,8 @@ const UserPublicacionesView = () => {
                       className="max-w-[25vw] h-auto mt-4 mx-auto rounded-lg shadow-sm" 
                     />
                   )}
-                  <p className={`mt-4 text-sm font-semibold ${publicacion.aprobada ? 'text-green-600' : 'text-red-600'}`}>
-                    {publicacion.aprobada ? 'Aprobada' : 'Pendiente de aprobación'}
+                  <p className={`mt-4 text-sm font-semibold ${publicacion.aprobada ? 'text-green-600' : 'text-red-600'}`}>  
+                  Estado: {publicacion.aprobada ? 'Aprobada' : 'Pendiente de aprobación'}
                   </p>
                 </li>
               ))}
