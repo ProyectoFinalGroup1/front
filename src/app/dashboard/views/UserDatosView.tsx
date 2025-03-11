@@ -39,7 +39,7 @@ const UserDatosView = () => {
         const data = await response.json();
         setUser(data.Usuario);
       } catch (err) {
-        setError('Error al cargar los datos del usuario');
+        setError(`Error al cargar los datos del usuario: ${String(err)}`);
       } finally {
         setLoading(false);
       }
