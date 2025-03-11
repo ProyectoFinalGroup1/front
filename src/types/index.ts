@@ -69,3 +69,31 @@ export interface IUserDetails {
   phoneNumber: string;
   fechaPago: Date;
 }
+
+export interface IInhumadoDetail {
+  id: string;
+  nombre: string;
+  apellido: string;
+  fnac: string;
+  ffal: string;
+  valle: string;
+  sector: string;
+  manzana: string;
+  parcela: string;
+  simbolo?: string;
+  ncliente?: string;
+  imagenUrl?: string;
+}
+
+export interface IInhumadoFormData {
+  nombre: string;
+  apellido: string;
+  fnac: string;
+  ffal: string;
+  valle: string;
+  sector: string;
+  manzana: string;
+  parcela: string;
+  simbolo: string;
+  ncliente: string;
+}
