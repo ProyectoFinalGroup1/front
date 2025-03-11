@@ -213,7 +213,7 @@ const VirgenView = () => {
                 {msg.estado ? (
                   <>
                     <p className="text-gray-800 font-bold text-lg">
-                      {msg.texto}
+                      {JSON.parse(msg.texto).texto}
                     </p>
 
                     {msg.imagenUrl && (
