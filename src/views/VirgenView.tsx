@@ -222,7 +222,7 @@ const VirgenView = () => {
                     )}
 
                     <p className="text-xs text-gray-500">
-                    Mensaje de {userData?.user.nombre} {userData?.user.apellido}. {new Date(msg.fechaPublicacion).toLocaleString()}
+                    Fecha {new Date(msg.fechaPublicacion).toLocaleString()}
                     </p>
                   </>
                 ) : (
