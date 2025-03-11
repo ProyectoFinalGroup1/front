@@ -103,6 +103,8 @@ export interface IInhumadoFormData {
 }
 
 export interface IPublicacion {
+  aprobada: unknown;
+  id: string;
   mensaje: string;
   imagen?: string; // Opcional
   fechaPublicacion: string; // Se asume que viene como string
