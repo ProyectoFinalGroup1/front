@@ -38,9 +38,10 @@ const UserDatosView = () => {
 
         const data = await response.json();
         setUser(data.Usuario);
-      } catch (err) { 
-        console.error(err); //agrego para build
-        setError('Error al cargar los datos del usuario');
+
+      } catch (err) {
+        setError(`Error al cargar los datos del usuario: ${String(err)}`);
+
       } finally {
         setLoading(false);
       }

@@ -16,6 +16,7 @@ const AdminVirgenView = () => {
                                             imagenUrl?: string;
                                             fechaPublicacion: string;
                                             estado: boolean;
+                                            usuario_id: string;
                                             }[]>([]);
     
   useEffect(() => {
@@ -154,7 +155,7 @@ const AdminVirgenView = () => {
                 {/* Información adicional */}
                 <p className="text-xs text-gray-500
                               pl-9 flex justify-start">
-                  Mensaje de {userData?.user.nombre} {userData?.user.apellido}. {new Date(msg.fechaPublicacion).toLocaleString()}
+                  Fecha {new Date(msg.fechaPublicacion).toLocaleString()}
                 </p>
 
                 {/* Botones según el estado del mensaje */}
