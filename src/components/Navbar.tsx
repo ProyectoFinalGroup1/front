@@ -2,11 +2,13 @@
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import { Menu, X } from "lucide-react"; // Iconos de menú
 
 const Navbar = () => {
   const { userData } = useAuth();
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
   // Ocultar Navbar en estas rutas
   const hiddenRoutes = [
@@ -14,68 +16,36 @@ const Navbar = () => {
     "/dashboard/user/obituarios",
     "/dashboard/user/misdatos"
   ];
-
-  if (hiddenRoutes.includes(pathname)) {
-    return null; // No renderizar la Navbar en estas rutas
-  }
+  if (hiddenRoutes.includes(pathname)) return null;
 
   return (
-    <header className="absolute inset-x-0 top-0 z-30 w-full py-3 bg-white bg-opacity-30 shadow-md">
-      <div className="px-4">
-        <div className="flex items-center justify-between">
-          <nav className="flex-1 flex justify-center gap-10">
-            <Link
-              aria-current="page"
-              className="text-lg font-bold text-white rounded-xl px-4 py-2 transition-all duration-200 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-              href="/"
-            >
-              Inicio
-            </Link>
-            <Link
-              className="text-lg font-bold text-white rounded-xl px-4 py-2 transition-all duration-200 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-              href="/nuestraempresa"
-            >
-              Nuestra Empresa
-            </Link>
-            <Link
-              className="text-lg font-bold text-white rounded-xl px-4 py-2 transition-all duration-200 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-              href="/obituarios"
-            >
-              Obituarios
-            </Link>
-            <Link
-              className="text-lg font-bold text-white rounded-xl px-4 py-2 transition-all duration-200 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-              href="/virgenmaria"
-            >
-              Virgen María De San Nicolás
-            </Link>
-          </nav>
-          <div className="flex items-center">
-            {userData?.token ? (
-              userData?.user?.isAdmin ? (
-                <Link
-                  className="inline-flex items-center justify-center rounded-xl bg-green-800 px-4 py-2 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-                  href="/dashboard/admin"
-                >
-                  Perfil Admin.
-                </Link>
-              ) : (
-                <Link
-                  className="inline-flex items-center justify-center rounded-xl bg-green-800 px-4 py-2 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-                  href="/dashboard/user"
-                >
-                  Perfil
-                </Link>
-              )
+    <header className="absolute inset-x-0 top-0 z-30 w-full py-2 bg-white bg-opacity-30 shadow-md">
+      <div className="px-4 flex items-center justify-between">
+        
+        {/* Botón de menú en móviles */}
+        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-white">
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+
+        {/* Menú de navegación */}
+        <nav className={`absolute md:static top-12 left-0 w-full bg-white bg-opacity-90 md:bg-transparent p-2 md:p-0 flex flex-col md:flex-row md:items-center justify-between md:justify-evenly transition-all duration-300 ${isOpen ? "block" : "hidden md:flex"}`}>
+          <Link className="text-lg font-bold text-black rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/">Inicio</Link>
+          <Link className="text-lg font-bold text-black rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/nuestraempresa">Nuestra Empresa</Link>
+          <Link className="text-lg font-bold text-black rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/obituarios">Obituarios</Link>
+          <Link className="text-lg font-bold text-black rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/virgenmaria">Virgen María De San Nicolás</Link>
+        </nav>
+
+        {/* Botón de perfil o login */}
+        <div className="flex items-center">
+          {userData?.token ? (
+            userData?.user?.isAdmin ? (
+              <Link className="inline-flex items-center justify-center rounded-lg bg-green-800 px-3 py-1 text-md font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 text-shadow-md stroke-black whitespace-nowrap" href="/dashboard/admin">Perfil Admin.</Link>
             ) : (
-              <Link
-                className="inline-flex items-center justify-center rounded-xl bg-green-800 px-4 py-2 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)] [webkit-text-stroke:1px_black]"
-                href="/login"
-              >
-                Ingresar
-              </Link>
-            )}
-          </div>
+              <Link className="inline-flex items-center justify-center rounded-xl bg-green-800 px-3 py-1 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 text-shadow-md stroke-black" href="/dashboard/user">Perfil</Link>
+            )
+          ) : (
+            <Link className="inline-flex items-center justify-center rounded-xl bg-green-800 px-3 py-1 text-lg font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 text-shadow-md stroke-black" href="/login">Ingresar</Link>
+          )}
         </div>
       </div>
     </header>
@@ -83,3 +53,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+

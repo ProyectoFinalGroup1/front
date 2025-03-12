@@ -14,6 +14,7 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
   const [valle, setValle] = useState<string>('');
   const [year, setYear] = useState<string>('');
 
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,6 +53,8 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
 
   if (loading) return <p className="text-center text-white-600">Cargando...</p>;
   if (error) return <p className="text-center text-red-600">Error: {error}</p>;
+
+
 
   return (
     <div className="max-w-2xl mx-auto mt-4 p-3 bg-white bg-opacity-30 shadow-md rounded-xl backdrop-blur-sm">
@@ -98,8 +101,10 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
                 <p>Nacido el {inhumado.fnac}</p>
                 <p>Fallecido el {inhumado.ffal}</p>
                 <p>Valle: {inhumado.valle}, Sector: {inhumado.sector}, Manzana {inhumado.manzana}, Parcela {inhumado.parcela}</p>
+                    
               </div>
             </li>
+
           ))
         ) : (
           <p className="text-center text-white-500">No se encontraron resultados.</p>

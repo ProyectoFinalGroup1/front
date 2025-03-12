@@ -15,6 +15,15 @@ export default function InhumadoDetail() {
   const [loading, setLoading] = useState(true);
   const [publicaciones, setPublicaciones] = useState<IPublicacion[]>([]);
 
+ // Mapeo de valles con sus ubicaciones de Google Maps
+ const ubicacionesMap: Record<string, string> = {
+  Cipreses: "https://maps.app.goo.gl/kQuQRr7XRJZWaJpH9?g_st=iw",
+  Robles: "https://maps.app.goo.gl/pJdnoZHMSRHgCsuYA?g_st=iw",
+  Nogales: "https://maps.app.goo.gl/AoA38hgxgcftJimS8?g_st=iw",
+  Sauces: "https://maps.app.goo.gl/DWG9ycwPU4gWVj6G9?g_st=iw",
+  Magnolias: "https://maps.app.goo.gl/wmSPizGr1v3rCb4w5?g_st=iw"
+};
+
   useEffect(() => {
     if (id && userData?.token) fetchInhumado();
   }, [id, userData?.token]);
@@ -80,6 +89,20 @@ export default function InhumadoDetail() {
           <p className="text-lg text-black">Fallecido el: <span className="text-gray-600">{inhumado.ffal}</span></p>
           <p className="text-lg text-black">Valle: <span className="text-gray-600">{inhumado.valle}</span>, Sector: <span className="text-gray-800">{inhumado.sector}</span></p>
           <p className="text-lg text-black">Manzana: <span className="text-gray-600">{inhumado.manzana}</span>, Parcela: <span className="text-gray-800">{inhumado.parcela}</span></p>
+        
+        {/* Agregar enlace de Google Maps si el valle tiene una ubicación asignada */}
+        
+        {ubicacionesMap[inhumado.valle] && (   
+    <a 
+     href={ubicacionesMap[inhumado.valle]} 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     className="text-blue-500 underline mt-2">
+     Ver ubicación en Google Maps 
+    </a>          
+        )}
+        
+        
         </div>
       </div>
 
