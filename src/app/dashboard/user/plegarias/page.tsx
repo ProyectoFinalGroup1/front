@@ -1,9 +1,9 @@
+import UserPlegariasView from "../../views/UserPlegariasView";
+
 const Plegarias = () => {
     return(
         <div>
-            <h1>
-                Recuento de plegarias por usuario
-            </h1>
+            <UserPlegariasView/>
         </div>
     );
 }
