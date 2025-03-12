@@ -52,13 +52,7 @@ const UserPlegariasView = () => {
             fetchAllMessagges();
         }
 
-    }, [userData]);  // [userData?.user.idUser] Se volverá a montar cuando se loguee otro idUser
-
-
-    //  const parsedTexto = JSON.parse(mensaje.texto);
-    //  const texto = parsedTexto.texto;
-    //  const usuarioId = parsedTexto.usuarioId;
-    //  const estado = mensaje.estado;
+    }, [userData]);  
 
     const getApprovedMessages = () => {
         return allMessagges.filter(msg => msg.estado);
@@ -129,7 +123,7 @@ const UserPlegariasView = () => {
                     </div>
                 </div>
     
-
+                {/* Lista de mensajes */}
                 {displayedMessages.length === 0 ? (
                     <p className="text-center text-gray-400">
                         No tienes publicaciones en este estado.
@@ -140,9 +134,8 @@ const UserPlegariasView = () => {
                         return (
                             <div key={msg.id} className="message-card border p-4 rounded-lg shadow-md my-4">
                                 <p><strong>Texto:</strong> {parsedTexto.texto}</p>
-                                <p><strong>Usuario ID:</strong> {parsedTexto.usuarioId}</p>
-                                <p><strong>Estado:</strong> {msg.estado ? "Aprobado" : "Pendiente"}</p>
 
+                                {/* Edición */}
                                 <input
                                     type="text"
                                     value={editedMessages[msg.id] || ""}
@@ -155,6 +148,17 @@ const UserPlegariasView = () => {
                                     className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                                     Guardar cambios
                                 </button>
+                                <p className="flex text-sm text-gray-500 mt-2">Fecha: {new Date(msg.fechaPublicacion).toLocaleDateString()}</p>
+                                    {msg.imagenUrl && (
+                                        <img 
+                                        src={msg.imagenUrl} 
+                                        alt="Imagen de la publicación" 
+                                        className="max-w-[25vw] h-auto mt-4 mx-auto rounded-lg shadow-sm" 
+                                        />
+                                    )}
+                                    <p className={`mt-4 text-sm font-semibold ${msg.estado ? 'text-green-600' : 'text-red-600'}`}>  
+                                    Estado: {msg.estado ? 'Aprobada' : 'Pendiente de aprobación'}
+                                </p>
                             </div>
                         );
                     })
