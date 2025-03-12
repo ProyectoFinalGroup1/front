@@ -5,10 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from 'next/image';
 
 const images = [
-  "/images/fondo3.png",
-  "/images/fondo5.png",
-  "/images/fondo4.png",
+  "/images/fondo9.png",
   "/images/fondo66.webp",
+  "/images/fondo5.png",
+  "/images/IMG_4240.jpg",
+  "/images/IMG_3869.jpg",
+  "/images/fondo4.png",
+  "/images/fondo8.png",
+  
 ];
 
 const NuestraEmpresaView = () => {
@@ -17,7 +21,7 @@ const NuestraEmpresaView = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000);
+    }, 2500);
     return () => clearInterval(interval);
 }, []);
 
