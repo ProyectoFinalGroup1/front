@@ -2,7 +2,7 @@
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
+import Calendario from '@/app/dashboard/components/calendario';
 
 const DashboardAdminView = () => {
   const { userData, setUserData } = useAuth()
@@ -35,8 +35,9 @@ const DashboardAdminView = () => {
 
     return (
       <div className="p-6">
-        <h1 className="text-3xl font-semibold text-gray-800">Bienvenido al Dashboard</h1>
-        <p className="mt-2 text-gray-600">Aquí puedes ver estadísticas y gestionar tu cuenta.</p>
+        <h1 className="text-3xl font-semibold text-gray-800">Bienvenido al Panel de Gestiones de Valle de Paz</h1>
+        <p className="mt-2 text-gray-600">Aquí puedes ver estadísticas, gestionar usuarios y citas con clientes.</p>
+        <Calendario />
       </div>
     );
   }
