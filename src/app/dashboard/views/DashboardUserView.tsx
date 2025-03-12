@@ -65,7 +65,7 @@ const DashboardUserView = () => {
               onChange={() => handleToggle("recibirRecordatoriosAniversarios", !newsletter)}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-grey-300 rounded-full peer-checked:bg-green-500 transition-all relative">
+            <div className="w-11 h-6 bg-gray-300 rounded-full border border-gray-400 shadow-inner peer-checked:bg-green-500 transition-all relative">
               <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
             </div>
           </label>
@@ -75,10 +75,9 @@ const DashboardUserView = () => {
           <span className="font-medium">🔔 Recibir Notificaciones de Pagos:</span>
           <label className="relative inline-flex items-center cursor-pointer">
           <input
-  
-  checked={true} 
-  readOnly 
-  onClick={() =>
+    checked={true} 
+    readOnly 
+    onClick={() =>
     toast.error("Las notificaciones de pago son obligatorias y no pueden desactivarse. 😊")
   }
 />

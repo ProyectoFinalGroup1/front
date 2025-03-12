@@ -14,7 +14,14 @@ const Navbar = () => {
   const hiddenRoutes = [
     "/dashboard/user/donaciones",
     "/dashboard/user/obituarios",
-    "/dashboard/user/misdatos"
+    "/dashboard/user/misdatos",
+    //admin
+    "/dashboard/admin/usuarios",
+    "/dashboard/admin/inhumados",
+    "/dashboard/admin/mensajes",
+    "/dashboard/admin/mensajesVirgen",
+    "/dashboard/admin/donaciones"
+
   ];
   if (hiddenRoutes.includes(pathname)) return null;
 
