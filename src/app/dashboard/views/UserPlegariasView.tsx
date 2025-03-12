@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import toast from 'react-hot-toast';
+import WhatsAppButton from '@/components/WhatsappButton';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -190,6 +191,9 @@ const UserPlegariasView = () => {
                                 />
                                 <p className={`mt-4 text-sm italic ${msg.estado ? '' : 'hidden'}`}>
                                     Si necesitás editar este mensaje contactate con Valle de Paz.
+                                    <span className="inline-block ml-2"style={{ verticalAlign: '-3px' }}>
+                                        <WhatsAppButton/>
+                                    </span>
                                 </p>
 
                                 {/* Oculta botón si la plegaria ya está aprobada */}
