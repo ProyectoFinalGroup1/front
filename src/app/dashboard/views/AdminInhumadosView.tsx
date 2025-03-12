@@ -148,10 +148,10 @@ const AdminInhumadosView = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 pt-20">
-      <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-5xl m-16">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="rounded-2xl p-6 w-full max-w-5xl m-16">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-center text-gray-700 mb-4">Gestión de Inhumados</h1>
+          <h1 className="text-2xl font-bold text-center mb-4">Gestión de Inhumados</h1>
           <Link 
             href="/dashboard/admin/inhumados/altaInhumado" 
             className="inline-flex items-center justify-center rounded-xl bg-green-800 px-3 py-1.5 text-sm font-bold text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:1px_1px_2px_rgba(0,0,0,0.8)] [webkit-text-stroke:0.5px_black]"
@@ -183,65 +183,67 @@ const AdminInhumadosView = () => {
             <p>{error}</p>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-lg shadow-md bg-white">
-            <table className="min-w-full border-collapse table-auto">
-              <thead className="bg-gray-200">
-                <tr>
-                  <th className="py-3 px-6 text-center font-medium text-gray-700 border border-gray-300">Nombre</th>
-                  <th className="py-3 px-6 text-center font-medium text-gray-700 border border-gray-300">Apellido</th>
-                  <th className="py-3 px-6 text-center font-medium text-gray-700 border border-gray-300">Fecha Nacimiento</th>
-                  <th className="py-3 px-6 text-center font-medium text-gray-700 border border-gray-300">Fecha Fallecimiento</th>
-                  <th className="py-3 px-6 text-center font-medium text-gray-700 border border-gray-300">Valle</th>
-                  <th className="py-3 px-6 text-center font-medium text-gray-700 border border-gray-300">Ubicación</th>
-                  <th className="py-3 px-6 text-center font-medium text-gray-700 border border-gray-300">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredInhumados.length === 0 ? (
-                  <tr>
-                    <td colSpan={7} className="text-center py-4 border border-gray-300">
-                      No se encontraron inhumados
-                    </td>
-                  </tr>
-                ) : (
-                  filteredInhumados.map((inhumado) => (
-                    <tr key={inhumado.id} className="border-b text-center">
-                      <td className="py-3 px-6 text-sm text-gray-700 border border-gray-300">{inhumado.nombre}</td>
-                      <td className="py-3 px-6 text-sm text-gray-700 border border-gray-300">{inhumado.apellido}</td>
-                      <td className="py-3 px-6 text-sm text-gray-700 border border-gray-300">{inhumado.fnac}</td>
-                      <td className="py-3 px-6 text-sm text-gray-700 border border-gray-300">{inhumado.ffal}</td>
-                      <td className="py-3 px-6 text-sm text-gray-700 border border-gray-300">{inhumado.valle}</td>
-                      <td className="py-3 px-6 text-sm text-gray-700 border border-gray-300">
-                        Sector: {inhumado.sector}, Manzana: {inhumado.manzana}, Parcela: {inhumado.parcela}
-                      </td>
-                      <td className="py-3 px-6 text-xs border border-gray-300">
-                        <div className="flex justify-center gap-1">
-                          <Link 
-                            href={`/dashboard/admin/inhumados/detalle/${inhumado.id}`}
-                            className="inline-flex items-center justify-center rounded-md bg-green-800 px-2 py-1 text-xs font-medium text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900 [text-shadow:0.5px_0.5px_1px_rgba(0,0,0,0.8)]"
-                          >
-                            Ver
-                          </Link>
-                          <Link 
-                            href={`/dashboard/admin/inhumados/editar/${inhumado.id}`}
-                            className="inline-flex items-center justify-center rounded-md bg-yellow-600 px-2 py-1 text-xs font-medium text-white transition-all duration-150 hover:bg-yellow-500 hover:text-gray-900 [text-shadow:0.5px_0.5px_1px_rgba(0,0,0,0.8)]"
-                          >
-                            Editar
-                          </Link>
-                          <button 
-                            onClick={() => handleDelete(inhumado.id)}
-                            className="inline-flex items-center justify-center rounded-md bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all duration-150 hover:bg-red-500 hover:text-gray-900 [text-shadow:0.5px_0.5px_1px_rgba(0,0,0,0.8)]"
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+          <div className="overflow-x-auto rounded-lg shadow-md bg-white max-w-[800px] mx-auto">
+  <table className="w-auto border-collapse table-auto">
+    <thead className="bg-gray-200">
+      <tr>
+        <th className="py-3 px-4 text-center font-medium text-gray-700 border border-gray-300">Nombre</th>
+        <th className="py-3 px-4 text-center font-medium text-gray-700 border border-gray-300">Apellido</th>
+        <th className="py-3 px-4 text-center font-medium text-gray-700 border border-gray-300">Fecha Nacimiento</th>
+        <th className="py-3 px-4 text-center font-medium text-gray-700 border border-gray-300">Fecha Fallecimiento</th>
+        <th className="py-3 px-4 text-center font-medium text-gray-700 border border-gray-300">Valle</th>
+        <th className="py-3 px-4 text-center font-medium text-gray-700 border border-gray-300">Ubicación</th>
+        <th className="py-3 px-4 text-center font-medium text-gray-700 border border-gray-300">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {filteredInhumados.length === 0 ? (
+        <tr>
+          <td colSpan={7} className="text-center py-4 border border-gray-300">
+            No se encontraron inhumados
+          </td>
+        </tr>
+      ) : (
+        filteredInhumados.map((inhumado) => (
+          <tr key={inhumado.id} className="border-b text-center">
+            <td className="py-2 px-4 text-sm text-gray-700 border border-gray-300">{inhumado.nombre}</td>
+            <td className="py-2 px-4 text-sm text-gray-700 border border-gray-300">{inhumado.apellido}</td>
+            <td className="py-2 px-4 text-sm text-gray-700 border border-gray-300">{inhumado.fnac}</td>
+            <td className="py-2 px-4 text-sm text-gray-700 border border-gray-300">{inhumado.ffal}</td>
+            <td className="py-2 px-4 text-sm text-gray-700 border border-gray-300">{inhumado.valle}</td>
+            <td className="py-2 px-4 text-sm text-gray-700 border border-gray-300">
+              Sector: {inhumado.sector}, Manzana: {inhumado.manzana}, Parcela: {inhumado.parcela}
+            </td>
+            <td className="py-2 px-4 text-xs border border-gray-300">
+              <div className="flex flex-col items-center gap-1">
+                <Link 
+                  href={`/dashboard/admin/inhumados/detalle/${inhumado.id}`}
+                  className="inline-flex items-center justify-center rounded-md bg-green-800 px-2 py-1 text-xs font-medium text-white transition-all duration-150 hover:bg-green-500 hover:text-gray-900"
+                >
+                  Ver
+                </Link>
+                <Link 
+                  href={`/dashboard/admin/inhumados/editar/${inhumado.id}`}
+                  className="inline-flex items-center justify-center rounded-md bg-yellow-600 px-2 py-1 text-xs font-medium text-white transition-all duration-150 hover:bg-yellow-500 hover:text-gray-900"
+                >
+                  Editar
+                </Link>
+                <button 
+                  onClick={() => handleDelete(inhumado.id)}
+                  className="inline-flex items-center justify-center rounded-md bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all duration-150 hover:bg-red-500 hover:text-gray-900"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
+
+        
         )}
       </div>
     </div>

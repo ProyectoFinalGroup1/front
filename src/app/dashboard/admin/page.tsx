@@ -3,9 +3,9 @@ import DashboardAdminView from "../views/DashboardAdminView";
 
 const AdminDashboard = () => {
   return (
-    <AdminDashboardLayout>
+  
       <DashboardAdminView />
-    </AdminDashboardLayout>
+  
   );
 };
 

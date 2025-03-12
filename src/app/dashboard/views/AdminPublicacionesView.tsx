@@ -98,11 +98,13 @@ const AdminPublicacionesView = () => {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-8">
-      <div className="max-w-4xl mx-auto p-6 w-full rounded-2xl">
-        <h1 className="text-xl font-semibold text-center mb-6">
-          Panel para aprobar o eliminar publicaciones
-        </h1>
+    <div>
+          <div className="flex justify-center items-center mb-6">
+          <h1 className="text-2xl font-bold text-center mb-4">Publicaciones a Inhumados</h1>
+          </div>
+          <div className="flex justify-center items-center mb-6">
+          <h2 className="text-lg font-bold text-center mb-4">Desde este panel vas a poder aceptar publicaciones pendientes o eliminarlas.</h2>
+          </div>
 
         {loading && <p className="text-center text-gray-500">Cargando...</p>}
         {error && <p className="text-red-600 text-center">{error}</p>}
@@ -128,7 +130,7 @@ const AdminPublicacionesView = () => {
           ) : (
             <ul className="space-y-6 mt-6">
               {publicacionesFiltradas.map(publicacion => (
-                <li key={publicacion.id} className="bg-white p-6 rounded-2xl shadow-lg">
+                <li key={publicacion.id} className="p-6 rounded-2xl shadow-lg">
                   <p className="text-lg font-semibold">{publicacion.mensaje}</p>
                   <p className="text-sm text-gray-500 mt-2">
                     Fecha: {new Date(publicacion.fechaPublicacion).toLocaleDateString()}
@@ -146,7 +148,7 @@ const AdminPublicacionesView = () => {
                   {!publicacion.aprobada && (
                     <button
                       onClick={() => handleApprove(publicacion.id)}
-                      className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                      className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-300"
                     >
                       Aprobar
                     </button>
@@ -163,7 +165,7 @@ const AdminPublicacionesView = () => {
           )}
         </div>
       </div>
-    </div>
+    
   );
 };
 
