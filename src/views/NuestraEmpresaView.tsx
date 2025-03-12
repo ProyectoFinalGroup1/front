@@ -65,7 +65,7 @@ const NuestraEmpresaView = () => {
       </div>
       
 
-    <div className="mt-10 p-3 rounded-2xl max-w-5xl relative w-full h-[500px]
+    <div className="mt-10 p-3 rounded-2xl max-w-5xl relative w-full h-[600px]
                     bg-white bg-opacity-70 shadow-lg overflow-hidden">
 
       {/* Contenedor del carrusel */}
