@@ -11,6 +11,7 @@ const Sidebar = () => {
     { label: "Inicio", icon: Home, href: "/" },
     { label: "Mis datos", icon:  Users, href: "/dashboard/user/misdatos" },
     { label: "Obituarios", icon: BookOpenText, href: "/dashboard/user/obituarios" },
+    { label: "Plegarias", icon: BookOpenText, href: "/dashboard/user/plegarias" },
     { label: "Donaciones", icon: HeartHandshake, href: "/dashboard/user/donaciones" },
   ];
 
