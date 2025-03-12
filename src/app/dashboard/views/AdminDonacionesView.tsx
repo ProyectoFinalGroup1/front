@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, RefreshCw, TrendingUp } from 'lucide-react';
+import { jsPDF } from "jspdf";
+
+
 
 interface Donacion {
   id: string;
@@ -128,6 +131,61 @@ const AdminDonacionesView = () => {
   const avgDonacion = donaciones.length > 0 
     ? total / donaciones.length 
     : 0;
+    const generarPDF = async () => {
+  const doc = new jsPDF();
+  const imgUrl = "/images/logo.jpg"; 
+
+  // Cargar la imagen y agregarla al PDF
+  const img = new Image();
+  img.src = imgUrl;
+  img.onload = () => {
+    doc.addImage(img, "PNG", 20, 10, 30, 30); // Posición y tamaño del logo
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("Reporte de Donaciones", 70, 25);
+
+    let y = 50;
+    let totalRecaudado = 0;
+
+    // Encabezados de la tabla
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text("Nombre", 20, y);
+    doc.text("Monto", 100, y);
+    doc.text("Fecha", 150, y);
+    y += 10;
+
+    // Dibujar línea separadora
+    doc.setDrawColor(0);
+    doc.line(20, y, 180, y);
+    y += 10;
+
+    // Datos de donaciones
+    doc.setFont("helvetica", "normal");
+    donaciones.forEach((donacion, index) => {
+      const monto = donacion.monto;
+      totalRecaudado += monto;
+
+      doc.text(`${donacion.DonacionUser.nombre} ${donacion.DonacionUser.apellido}`, 20, y);
+      doc.text(`$${monto.toFixed(2)}`, 100, y);
+      doc.text(formatDate(donacion.Date), 150, y);
+      y += 10;
+    });
+
+    // Línea separadora antes del total
+    doc.setDrawColor(0);
+    doc.line(20, y, 180, y);
+    y += 10;
+
+    // Total Recaudado
+    doc.setFont("helvetica", "bold");
+    doc.text(`Total Recaudado: $${totalRecaudado.toFixed(2)}`, 100, y);
+
+    // Guardar el PDF
+    doc.save("reporte_donaciones.pdf");
+  };
+};
+
 
   return (
     <div className="">
@@ -142,6 +200,12 @@ const AdminDonacionesView = () => {
               <RefreshCw size={18} />
               <span>Actualizar</span>
             </button>
+            <button 
+  onClick={generarPDF}
+  className="bg-green-50 text-green-600 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-100 transition-colors"
+>
+  <span>Descargar PDF</span>
+</button>
           </div>
         </div>
 
