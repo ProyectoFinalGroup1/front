@@ -66,7 +66,26 @@ const UserPlegariasView = () => {
     };
       
     return (
-        <div></div>
+        <div>
+        <div>
+          <button onClick={() => setFilter("all")}>Todos</button>
+          <button onClick={() => setFilter("approved")}>Aprobados</button>
+          <button onClick={() => setFilter("pending")}>Pendientes</button>
+        </div>
+  
+        <div>
+          {getFilteredMessages().map((msg) => {
+            const parsedTexto = JSON.parse(msg.texto);
+            return (
+              <div key={msg.id} className="message-card">
+                <p><strong>Texto:</strong> {parsedTexto.texto}</p>
+                <p><strong>Usuario ID:</strong> {parsedTexto.usuarioId}</p>
+                <p><strong>Estado:</strong> {msg.estado ? "Aprobado" : "Pendiente"}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     );
 };
 
