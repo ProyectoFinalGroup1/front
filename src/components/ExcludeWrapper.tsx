@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-const excludePaths = ["/login", "/register", "/dashboard/user", "/dashboard/admin", "/dashboard/user/plegarias"];
+const excludePaths = ["/login", "/register", "/dashboard/user", "/dashboard/admin", "/dashboard/user/plegarias","/dashboard/admin/userInhumado"];
 
 const ExcludeWrapper = ({ children }: { children: React.ReactNode }) => {
   const path = usePathname();
