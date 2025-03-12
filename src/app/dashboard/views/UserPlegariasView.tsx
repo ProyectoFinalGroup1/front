@@ -72,8 +72,18 @@ const UserPlegariasView = () => {
     const totalPages = Math.ceil(filteredMessages.length / messagesPerPage);
     const displayedMessages = filteredMessages.slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage);
 
-    const handleEdit = async (id: string) => {
+    const handleEdit = async (id: string, estado: boolean) => {
+        if (estado) {
+            toast.error("Solo puedes editar plegarias pendientes.", {
+                position: 'top-center',
+            });
+            return;
+        }
+        
         try {
+            // console.log("Editando plegaria con id:", id);
+            // console.log("Nuevo texto:", editedMessages[id]);
+
             const response = await fetch(`${API_URL}/mensajesVirgen/editar/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json", 
@@ -83,7 +93,10 @@ const UserPlegariasView = () => {
                 
             });
 
-            if (!response.ok) throw new Error("Error al editar la plegaria");
+        if (!response.ok) {
+            const errorText = await response.text(); // Captura el error del backend
+            throw new Error(`Error al editar la plegaria: ${errorText}`);
+        }
 
             setAllMessagges(prev => prev.map(msg => msg.id === id ? { ...msg, texto: editedMessages[id], estado: false } : msg));
             setEditedMessages(prev => ({ ...prev, [id]: "" }));
@@ -151,7 +164,7 @@ const UserPlegariasView = () => {
                                     className="w-full border px-2 py-1 mt-2 rounded"
                                 />
                                 <button
-                                    onClick={() => handleEdit(msg.id)}
+                                    onClick={() => handleEdit(msg.id, msg.estado)}
                                     className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                                     Guardar cambios
                                 </button>
