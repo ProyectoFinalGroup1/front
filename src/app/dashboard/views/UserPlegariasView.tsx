@@ -73,12 +73,12 @@ const UserPlegariasView = () => {
     const displayedMessages = filteredMessages.slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage);
 
     const handleEdit = async (id: string, estado: boolean) => {
-        if (estado) {
-            toast.error("Solo puedes editar plegarias pendientes.", {
-                position: 'top-center',
-            });
-            return;
-        }
+        // if (estado) {
+        //     toast.error("Solo puedes editar plegarias pendientes.", {
+        //         position: 'top-center',
+        //     });
+        //     return;
+        // }
         
         try {
             // console.log("Editando plegaria con id:", id);
@@ -162,12 +162,20 @@ const UserPlegariasView = () => {
                                     onChange={(e) => setEditedMessages(prev => ({ ...prev, [msg.id]: e.target.value }))}
                                     placeholder="Editar plegaria..."
                                     className="w-full border px-2 py-1 mt-2 rounded"
+                                    disabled={msg.estado} // Deshabilita el textarea si el mensaje está aprobado
                                 />
-                                <button
-                                    onClick={() => handleEdit(msg.id, msg.estado)}
-                                    className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                                    Guardar cambios
-                                </button>
+                                <p className={`mt-4 text-sm italic ${msg.estado ? '' : 'hidden'}`}>
+                                    Si necesitás editar este mensaje contactate con Valle de Paz.
+                                </p>
+
+                                {/* Oculta botón si la plegaria ya está aprobada */}
+                                {!msg.estado && (
+                                    <button
+                                        onClick={() => handleEdit(msg.id, msg.estado)}
+                                        className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                        Guardar cambios
+                                    </button>
+                                )}
                                 <p className="flex text-sm text-gray-500 mt-2">Fecha: {new Date(msg.fechaPublicacion).toLocaleDateString()}</p>
                                     {msg.imagenUrl && (
                                         <img 
