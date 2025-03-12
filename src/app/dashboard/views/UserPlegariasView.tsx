@@ -54,20 +54,44 @@ const UserPlegariasView = () => {
 
     }, [userData]);  
 
-    const getApprovedMessages = () => {
-        return allMessagges.filter(msg => msg.estado);
-    };
+    // const getApprovedMessages = () => {
+    //     return allMessagges.filter(msg => msg.estado);
+    // };
       
-    const getPendingMessages = () => {
-        return allMessagges.filter(msg => !msg.estado);
-    };
+    // const getPendingMessages = () => {
+    //     return allMessagges.filter(msg => !msg.estado);
+    // };
 
     const getFilteredMessages = () => {
-        if (filter === "approved") return getApprovedMessages();
-        if (filter === "pending") return getPendingMessages();
-        return allMessagges;
+        let filteredMessages = allMessagges;
+
+        // Filtrar por estado
+        if (filter === "approved") {
+            filteredMessages = filteredMessages.filter(msg => msg.estado);
+        } else if (filter === "pending") {
+            filteredMessages = filteredMessages.filter(msg => !msg.estado);
+        }
+    
+        // Filtrar por usuarioId dentro del texto
+        if (userData?.user.idUser) {
+            filteredMessages = filteredMessages.filter((msg) => {
+                let parsedTexto;
+                try {
+                    parsedTexto = typeof msg.texto === "string" ? JSON.parse(msg.texto) : msg.texto;
+                } catch {
+                    parsedTexto = msg.texto; // Si falla el parseo, asumimos que ya es un string plano
+                }
+    
+                return parsedTexto.usuarioId === userData.user.idUser;
+            });
+        }
+    
+        return filteredMessages;
     };
     
+    
+    
+
     const filteredMessages = getFilteredMessages();
     const totalPages = Math.ceil(filteredMessages.length / messagesPerPage);
     const displayedMessages = filteredMessages.slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage);
