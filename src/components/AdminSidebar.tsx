@@ -1,5 +1,5 @@
 "use client"
-import { Home, Users, BookOpenText, Mail, HeartHandshake, Heart } from "lucide-react";
+import { Home, Users, BookOpenText, Mail, HeartHandshake, Heart, Cross } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogOutButton from "./LogOutButton";
@@ -13,6 +13,7 @@ const AdminSidebar = () => {
     { label: "Inicio", icon: Home, href: "/" }, 
     { label: "Usuarios", icon: Users, href: "/dashboard/admin/usuarios" }, 
     { label: "Inhumados", icon: BookOpenText, href: "/dashboard/admin/inhumados" }, 
+    { label: "Vinculación", icon: Cross, href: "/dashboard/admin/userInhumado" }, 
     { label: "Mensajes Inhumados", icon: Mail, href: "/dashboard/admin/mensajes" }, 
     { label: "Plegarias a la Virgen", icon: Heart, href: "/dashboard/admin/mensajesVirgen" }, // Alternativa a HandsPraying
     { label: "Donaciones", icon: HeartHandshake, href: "/dashboard/admin/donaciones" }, 
