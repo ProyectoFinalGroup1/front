@@ -116,7 +116,16 @@ const AdminVirgenView = () => {
     }
   }
 
-
+  const isJsonString = (str: string) => {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (e) {
+      console.log(e);
+      
+      return false;
+    }
+  };
 
     return (
         <div>
@@ -141,7 +150,7 @@ const AdminVirgenView = () => {
                   </p>
                   <p className="text-gray-800 font-bold text-lg
                                 pl-9 flex justify-start">
-                    {JSON.parse(msg.texto).texto}
+                    {isJsonString(msg.texto) ? JSON.parse(msg.texto).texto : msg.texto}
                   </p>
                 
 
