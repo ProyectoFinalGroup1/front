@@ -10,7 +10,7 @@ const VirgenView = () => {
 
   const { userData } = useAuth();
   // console.log("id de usuario:", userData?.user.idUser);
-  console.log("token de usuario", userData?.token);
+  //console.log("token de usuario", userData?.token);
   
   
   const [messages, setMessages] = useState<{id: string;
@@ -20,8 +20,6 @@ const VirgenView = () => {
                                             estado: boolean;
                                             idUser: string;
                                           }[]>([]);
-  // const [editingId, setEditingId] = useState<number | null>(null);
-  // const [editInput, setEditInput] = useState('');  
 
   // Se cargan los mensajes desde el back
   useEffect(() => {
@@ -134,29 +132,16 @@ const VirgenView = () => {
     }
   };
 
-  // const handleDelete = (id: number) => {
-  //   const updatedMessages = messages.filter(msg => msg.id !== id);
-  //   setMessages(updatedMessages);
-  // };
 
-  // const handleEdit = (id: number, text: string) => {
-  //   setEditingId(id);
-  //   setEditInput(text);
-  // };
-
-  // const handleSaveEdit = () => {
-  //   const updatedMessages = messages.map(msg => (msg.id === editingId ? { ...msg, text: editInput } : msg));
-  //   setMessages(updatedMessages);
-  //   setEditingId(null);
-  //   setEditInput('');
-  // };
   const formatosPermitidos = ["image/jpeg", "image/png", "image/webp"];
 
   const isValidJson = (str: string) => {
     try {
       JSON.parse(str);
       return true;
-    } catch (e) {
+    } catch (error) {
+      console.log(error);
+      
       return false;
     }
   };
@@ -255,20 +240,3 @@ const VirgenView = () => {
 };
 
 export default VirgenView;
-
-
-
-// {editingId === msg.id ? (
-//   <div>
-//     <textarea className="w-full p-2 border rounded-lg" value={editInput} onChange={(e) => setEditInput(e.target.value)}></textarea>
-//     <button onClick={handleSaveEdit} className="mt-2 px-3 py-1 bg-green-600 text-white rounded-lg">Guardar</button>
-//   </div>
-// ) : (
-//   <>
-//     <p className="text-gray-800">{msg.text}</p>
-//     <div className="mt-2 flex justify-center gap-4">
-//       <button onClick={() => handleEdit(msg.id, msg.text)} className="text-blue-500">Editar</button>
-//       <button onClick={() => handleDelete(msg.id)} className="text-red-500">Eliminar</button>
-//     </div>
-//   </>
-// )}
