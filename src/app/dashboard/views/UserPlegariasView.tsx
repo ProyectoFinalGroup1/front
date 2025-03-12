@@ -59,6 +59,12 @@ const UserPlegariasView = () => {
         return allMessagges.filter(msg => !msg.estado);
     };
 
+    const getFilteredMessages = () => {
+        if (filter === "approved") return getApprovedMessages();
+        if (filter === "pending") return getPendingMessages();
+        return allMessagges;
+    };
+      
     return (
         <div></div>
     );
