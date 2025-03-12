@@ -149,6 +149,7 @@ const VirgenView = () => {
   return (
     <div className="min-h-screen bg-fixed bg-cover bg-center text-black flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/flores.webp)' }}>
       <div className="bg-white bg-opacity-70 p-6 rounded-2xl shadow-lg max-w-2xl text-center mt-16 flex">
+  
         
         {/* Imagen al costado izquierdo */}
         <div className="hidden md:block w-48  flex-shrink-0 p-3">
@@ -189,9 +190,9 @@ const VirgenView = () => {
                               return;
                             }
                           }
-
+                          
                           setFieldValue("imagen", file)}}
-                  />
+                          />
                   <span className=" text-sm text-gray-600">(Opcional)</span>
                 </div>
 
@@ -199,43 +200,46 @@ const VirgenView = () => {
               </Form>
             )}
           </Formik>
-          
-          <div className="w-full mt-4">
-            {messages
-            .map((msg) => (
-              <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
-                {msg.estado ? (
-                  <>
-                    <p className="text-gray-800 font-bold text-lg">
-                    {isValidJson(msg.texto) ? JSON.parse(msg.texto).texto : msg.texto}
-                    </p>
-
-                    {msg.imagenUrl && (
-                      <div className="flex justify-center">
-                        <img src={msg.imagenUrl} alt="Imagen del mensaje" className="mt-2 max-w-xs rounded-lg" />
-                      </div>
-                    )}
-
-                    <p className="text-xs text-gray-500">
-                    Fecha {new Date(msg.fechaPublicacion).toLocaleString()}
-                    </p>
-                  </>
-                ) : (
-                  <div>
-                  <p className="text-gray-500 italic">
-                    Plegaria pendiente de aprobación.
-                  </p>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Fecha de solicitud {new Date(msg.fechaPublicacion).toLocaleString()}
-                  </p>
-                  </div>
-                )}
-              </div>
-            ))}
           </div>
+      </div>
+          
+      <div className="w-full max-w-2xl mt-8">
+  {messages.map((msg) => (
+    <div key={msg.id} className="flex items-center bg-white opacity-85 p-4 rounded-lg shadow-md mb-4">
+      {msg.imagenUrl && (
+        <div className="w-24 h-24 flex-shrink-0">
+          <img
+            src={msg.imagenUrl}
+            alt="Imagen del mensaje"
+            className="w-full h-full object-cover rounded-lg"
+          />
         </div>
+      )}
+
+      <div className="flex-1 text-center px-4">
+        {msg.estado ? (
+          <>
+            <p className="text-gray-800 font-bold text-lg">
+              {isValidJson(msg.texto) ? JSON.parse(msg.texto).texto : msg.texto}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              Fecha: {new Date(msg.fechaPublicacion).toLocaleString()}
+            </p>
+          </>
+        ) : (
+          <div>
+            <p className="text-gray-500 italic">Plegaria pendiente de aprobación.</p>
+            <p className="text-xs text-gray-500 mt-2">
+              Fecha de solicitud: {new Date(msg.fechaPublicacion).toLocaleString()}
+            </p>
+          </div>
+        )}
       </div>
     </div>
+  ))}
+
+  </div>
+        </div>
   );
 };
 
