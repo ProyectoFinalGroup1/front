@@ -41,7 +41,7 @@ export default function AuthCallbackPage() {
             toast.success('¡Has iniciado sesión!');
 
             // Redirige al dashboard solo si el usuario fue creado/verificado correctamente
-            setTimeout(() => router.push("/dashboard/user"), 1000);
+            setTimeout(() => router.push("/"), 1000);
           } else {
             setError("Error al crear usuario");
             setTimeout(() => router.push("/login?error=user-creation-failed"), 2000);
