@@ -66,25 +66,45 @@ const UserPlegariasView = () => {
     };
       
     return (
-        <div>
-        <div>
-          <button onClick={() => setFilter("all")}>Todos</button>
-          <button onClick={() => setFilter("approved")}>Aprobados</button>
-          <button onClick={() => setFilter("pending")}>Pendientes</button>
-        </div>
-  
-        <div>
-          {getFilteredMessages().map((msg) => {
-            const parsedTexto = JSON.parse(msg.texto);
-            return (
-              <div key={msg.id} className="message-card">
-                <p><strong>Texto:</strong> {parsedTexto.texto}</p>
-                <p><strong>Usuario ID:</strong> {parsedTexto.usuarioId}</p>
-                <p><strong>Estado:</strong> {msg.estado ? "Aprobado" : "Pendiente"}</p>
-              </div>
-            );
-          })}
-        </div>
+        <div className="min-h-screen flex items-center justify-center py-8">
+            <div className="max-w-4xl mx-auto p-6 w-full rounded-2xl">
+                <h1 className="text-3xl font-semibold text-center mb-6">
+                    Mis Plegarias
+                </h1>
+                
+                <div className="flex justify-between items-center mb-6">
+                    <div className="flex space-x-4">
+                        <button onClick={() => setFilter("all")}
+                                className={`px-4 py-2 rounded-lg text-sm ${filter === "all" ? "bg-blue-500 text-white" : "bg-gray-200"}`}>
+                            Todas
+                        </button>
+
+                        <button onClick={() => setFilter("approved")}
+                                className={`px-4 py-2 rounded-lg text-sm ${filter === "approved" ? "bg-green-500 text-white" : "bg-gray-200"}`}>
+                            Aprobadas
+                        </button>
+
+                        <button onClick={() => setFilter("pending")}
+                                className={`px-4 py-2 rounded-lg text-sm ${filter === "pending" ? "bg-yellow-500 text-white" : "bg-gray-200"}`}>
+                            Pendientes
+                        </button>
+                    </div>
+                </div>
+    
+                <div>
+                {getFilteredMessages().map((msg) => {
+                    const parsedTexto = JSON.parse(msg.texto);
+                    return (
+                        <div key={msg.id} className="message-card">
+                        <p><strong>Texto:</strong> {parsedTexto.texto}</p>
+                        <p><strong>Usuario ID:</strong> {parsedTexto.usuarioId}</p>
+                        <p><strong>Estado:</strong> {msg.estado ? "Aprobado" : "Pendiente"}</p>
+                    </div>
+                    );
+                })}
+                </div>
+
+            </div>
       </div>
     );
 };
