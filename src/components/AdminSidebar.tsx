@@ -20,7 +20,15 @@ const AdminSidebar = () => {
   
 
   return (
-    <aside className="w-64 h-screen bg-gray-900 text-white p-5 flex flex-col">
+    <aside 
+    className="w-64 min-h-screen bg-clip-relleno text-white p-5 flex flex-col"
+    style={{
+      backgroundImage: "url(/images/flores.webp)",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed" // Mantiene la imagen fija al hacer scroll
+    }}>
       <h2 className="text-xl font-bold mb-6">Panel de Administrador</h2>
       <nav className="flex-1">
         {menuItems.map(({ label, icon: Icon, href }) => (
