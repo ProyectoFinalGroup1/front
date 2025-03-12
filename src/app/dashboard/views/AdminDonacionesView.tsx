@@ -130,7 +130,7 @@ const AdminDonacionesView = () => {
     : 0;
 
   return (
-    <div className="bg-gray-100">
+    <div className="">
       <div className="container mx-auto p-6 max-w-6xl m-16 ">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Donaciones</h1>
@@ -147,38 +147,38 @@ const AdminDonacionesView = () => {
 
         {/* Tarjetas de estadísticas */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <div className="rounded-xl shadow-sm p-6 border border-gray-100">
             <div className="flex items-center">
               <div className="bg-blue-50 p-3 rounded-lg mr-4">
-                <TrendingUp className="text-blue-600" size={24} />
+                <TrendingUp className="" size={24} />
               </div>
               <div>
-                <p className="text-sm text-gray-500 font-medium">Total Recaudado</p>
-                <h3 className="text-2xl font-bold text-gray-800">${total.toFixed(2)}</h3>
+                <p className="text-sm font-medium">Total Recaudado</p>
+                <h3 className="text-2xl font-bold">${total.toFixed(2)}</h3>
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <div className="rounded-xl shadow-sm p-6 border border-gray-100">
             <div className="flex items-center">
-              <div className="bg-purple-50 p-3 rounded-lg mr-4">
+              <div className=" p-3 rounded-lg mr-4">
                 <TrendingUp className="text-purple-600" size={24} />
               </div>
               <div>
-                <p className="text-sm text-gray-500 font-medium">Donación Promedio</p>
-                <h3 className="text-2xl font-bold text-gray-800">${avgDonacion.toFixed(2)}</h3>
+                <p className="text-sm font-medium">Donación Promedio</p>
+                <h3 className="text-2xl font-bold">${avgDonacion.toFixed(2)}</h3>
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <div className="rounded-xl shadow-sm p-6 border border-gray-100">
             <div className="flex items-center">
-              <div className="bg-indigo-50 p-3 rounded-lg mr-4">
-                <TrendingUp className="text-indigo-600" size={24} />
+              <div className=" p-3 rounded-lg mr-4">
+                <TrendingUp className="" size={24} />
               </div>
               <div>
-                <p className="text-sm text-gray-500 font-medium">Mayor Donación</p>
-                <h3 className="text-2xl font-bold text-gray-800">${maxDonacion.toFixed(2)}</h3>
+                <p className="text-sm font-medium">Mayor Donación</p>
+                <h3 className="text-2xl font-bold">${maxDonacion.toFixed(2)}</h3>
               </div>
             </div>
           </div>
