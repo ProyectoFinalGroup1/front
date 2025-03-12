@@ -19,6 +19,12 @@ const UserPlegariasView = () => {
         idUser: string;
     }[]>([]);
 
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const messagesPerPage = 5;
+    const [editedMessages, setEditedMessages] = useState<{ [key: string]: string }>({});
+
     useEffect(() => {
         const fetchAllMessagges = async () => {
             try {
@@ -35,7 +41,10 @@ const UserPlegariasView = () => {
                 console.log(data);
 
             } catch (error) {
-                console.error("Error en fetAllchMessages:", error);
+                setError("Error al cargar las plegarias.");
+                console.error(error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -43,7 +52,7 @@ const UserPlegariasView = () => {
             fetchAllMessagges();
         }
 
-    }, []);  // [userData?.user.idUser] Se volverá a montar cuando se loguee otro idUser
+    }, [userData]);  // [userData?.user.idUser] Se volverá a montar cuando se loguee otro idUser
 
 
     //  const parsedTexto = JSON.parse(mensaje.texto);
@@ -64,6 +73,31 @@ const UserPlegariasView = () => {
         if (filter === "pending") return getPendingMessages();
         return allMessagges;
     };
+    
+    const filteredMessages = getFilteredMessages();
+    const totalPages = Math.ceil(filteredMessages.length / messagesPerPage);
+    const displayedMessages = filteredMessages.slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage);
+
+    const handleEdit = async (id: string) => {
+        try {
+            const response = await fetch(`${API_URL}/mensajesVirgen/editar/${id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ texto: editedMessages[id] }),
+            });
+
+            if (!response.ok) throw new Error("Error al editar la plegaria");
+
+            setAllMessagges(prev => prev.map(msg => msg.id === id ? { ...msg, texto: editedMessages[id], estado: false } : msg));
+            setEditedMessages(prev => ({ ...prev, [id]: "" }));
+        } catch (error) {
+            console.error("Error al editar la plegaria:", error);
+            toast.error("No se pudo editar la plegaria.", {
+                        position: 'top-center'
+            });
+        }
+    };
+
       
     return (
         <div className="min-h-screen flex items-center justify-center py-8">
@@ -71,6 +105,10 @@ const UserPlegariasView = () => {
                 <h1 className="text-3xl font-semibold text-center mb-6">
                     Mis Plegarias
                 </h1>
+
+                {loading && <p className="text-center text-gray-500">Cargando...</p>}
+                {error && <p className="text-red-600 text-center">{error}</p>}
+
                 
                 <div className="flex justify-between items-center mb-6">
                     <div className="flex space-x-4">
@@ -91,17 +129,48 @@ const UserPlegariasView = () => {
                     </div>
                 </div>
     
-                <div>
-                {getFilteredMessages().map((msg) => {
-                    const parsedTexto = JSON.parse(msg.texto);
-                    return (
-                        <div key={msg.id} className="message-card">
-                        <p><strong>Texto:</strong> {parsedTexto.texto}</p>
-                        <p><strong>Usuario ID:</strong> {parsedTexto.usuarioId}</p>
-                        <p><strong>Estado:</strong> {msg.estado ? "Aprobado" : "Pendiente"}</p>
-                    </div>
-                    );
-                })}
+
+                {displayedMessages.length === 0 ? (
+                    <p className="text-center text-gray-400">
+                        No tienes publicaciones en este estado.
+                    </p>
+                ) : (
+                    displayedMessages.map((msg) => {
+                        const parsedTexto = JSON.parse(msg.texto);
+                        return (
+                            <div key={msg.id} className="message-card border p-4 rounded-lg shadow-md my-4">
+                                <p><strong>Texto:</strong> {parsedTexto.texto}</p>
+                                <p><strong>Usuario ID:</strong> {parsedTexto.usuarioId}</p>
+                                <p><strong>Estado:</strong> {msg.estado ? "Aprobado" : "Pendiente"}</p>
+
+                                <input
+                                    type="text"
+                                    value={editedMessages[msg.id] || ""}
+                                    onChange={(e) => setEditedMessages(prev => ({ ...prev, [msg.id]: e.target.value }))}
+                                    placeholder="Editar plegaria..."
+                                    className="w-full border px-2 py-1 mt-2 rounded"
+                                />
+                                <button
+                                    onClick={() => handleEdit(msg.id)}
+                                    className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                    Guardar cambios
+                                </button>
+                            </div>
+                        );
+                    })
+                )}
+
+                {/* Paginación */}
+                <div className="flex justify-center mt-4 space-x-2">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
+                        <button key={num}
+                            onClick={() => setCurrentPage(num)}
+                            className={`px-3 py-1 rounded-lg text-sm ${
+                                num === currentPage ? "bg-blue-500 text-white" : "bg-gray-200"
+                            }`}>
+                            {num}
+                        </button>
+                    ))}
                 </div>
 
             </div>
