@@ -75,9 +75,12 @@ const UserPlegariasView = () => {
     const handleEdit = async (id: string) => {
         try {
             const response = await fetch(`${API_URL}/mensajesVirgen/editar/${id}`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                method: "PUT",
+                headers: { "Content-Type": "application/json", 
+                            "Authorization": `Bearer ${userData?.token}`
+                },
                 body: JSON.stringify({ texto: editedMessages[id] }),
+                
             });
 
             if (!response.ok) throw new Error("Error al editar la plegaria");
@@ -130,15 +133,19 @@ const UserPlegariasView = () => {
                     </p>
                 ) : (
                     displayedMessages.map((msg) => {
-                        const parsedTexto = JSON.parse(msg.texto);
+                        // const parsedTexto = typeof msg.texto === "string" ? { texto: msg.texto } : JSON.parse(msg.texto);
+                        let parsedTexto;
+                            try {
+                                parsedTexto = typeof msg.texto === "string" ? JSON.parse(msg.texto) : msg.texto;
+                            } catch {
+                                parsedTexto = msg.texto; // Si falla el parseo, asumimos que ya es un string plano
+                            }
                         return (
                             <div key={msg.id} className="message-card border p-4 rounded-lg shadow-md my-4">
-                                <p><strong>Texto:</strong> {parsedTexto.texto}</p>
 
                                 {/* Edición */}
-                                <input
-                                    type="text"
-                                    value={editedMessages[msg.id] || ""}
+                                <textarea
+                                    value={editedMessages[msg.id] ?? parsedTexto.texto}
                                     onChange={(e) => setEditedMessages(prev => ({ ...prev, [msg.id]: e.target.value }))}
                                     placeholder="Editar plegaria..."
                                     className="w-full border px-2 py-1 mt-2 rounded"
