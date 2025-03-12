@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import toast from 'react-hot-toast';
+import WhatsAppButton from '@/components/WhatsappButton';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -54,31 +55,55 @@ const UserPlegariasView = () => {
 
     }, [userData]);  
 
-    const getApprovedMessages = () => {
-        return allMessagges.filter(msg => msg.estado);
-    };
+    // const getApprovedMessages = () => {
+    //     return allMessagges.filter(msg => msg.estado);
+    // };
       
-    const getPendingMessages = () => {
-        return allMessagges.filter(msg => !msg.estado);
-    };
+    // const getPendingMessages = () => {
+    //     return allMessagges.filter(msg => !msg.estado);
+    // };
 
     const getFilteredMessages = () => {
-        if (filter === "approved") return getApprovedMessages();
-        if (filter === "pending") return getPendingMessages();
-        return allMessagges;
+        let filteredMessages = allMessagges;
+
+        // Filtrar por estado
+        if (filter === "approved") {
+            filteredMessages = filteredMessages.filter(msg => msg.estado);
+        } else if (filter === "pending") {
+            filteredMessages = filteredMessages.filter(msg => !msg.estado);
+        }
+    
+        // Filtrar por usuarioId dentro del texto
+        if (userData?.user.idUser) {
+            filteredMessages = filteredMessages.filter((msg) => {
+                let parsedTexto;
+                try {
+                    parsedTexto = typeof msg.texto === "string" ? JSON.parse(msg.texto) : msg.texto;
+                } catch {
+                    parsedTexto = msg.texto; // Si falla el parseo, asumimos que ya es un string plano
+                }
+    
+                return parsedTexto.usuarioId === userData.user.idUser;
+            });
+        }
+    
+        return filteredMessages;
     };
     
+    
+    
+
     const filteredMessages = getFilteredMessages();
     const totalPages = Math.ceil(filteredMessages.length / messagesPerPage);
     const displayedMessages = filteredMessages.slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage);
 
-    const handleEdit = async (id: string, estado: boolean) => {
-        if (estado) {
-            toast.error("Solo puedes editar plegarias pendientes.", {
-                position: 'top-center',
-            });
-            return;
-        }
+    const handleEdit = async (id: string) => {
+        // if (estado) {
+        //     toast.error("Solo puedes editar plegarias pendientes.", {
+        //         position: 'top-center',
+        //     });
+        //     return;
+        // }
         
         try {
             // console.log("Editando plegaria con id:", id);
@@ -162,12 +187,23 @@ const UserPlegariasView = () => {
                                     onChange={(e) => setEditedMessages(prev => ({ ...prev, [msg.id]: e.target.value }))}
                                     placeholder="Editar plegaria..."
                                     className="w-full border px-2 py-1 mt-2 rounded"
+                                    disabled={msg.estado} // Deshabilita el textarea si el mensaje está aprobado
                                 />
-                                <button
-                                    onClick={() => handleEdit(msg.id, msg.estado)}
-                                    className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                                    Guardar cambios
-                                </button>
+                                <p className={`mt-4 text-sm italic ${msg.estado ? '' : 'hidden'}`}>
+                                    Si necesitás editar este mensaje contactate con Valle de Paz.
+                                    <span className="inline-block ml-2"style={{ verticalAlign: '-3px' }}>
+                                        <WhatsAppButton/>
+                                    </span>
+                                </p>
+
+                                {/* Oculta botón si la plegaria ya está aprobada */}
+                                {!msg.estado && (
+                                    <button
+                                        onClick={() => handleEdit(msg.id)}
+                                        className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                        Guardar cambios
+                                    </button>
+                                )}
                                 <p className="flex text-sm text-gray-500 mt-2">Fecha: {new Date(msg.fechaPublicacion).toLocaleDateString()}</p>
                                     {msg.imagenUrl && (
                                         <img 
