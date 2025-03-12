@@ -129,26 +129,32 @@ const AdminVirgenView = () => {
 
     return (
         <div>
-            <h1>
-                Aquí podés Aceptar mensajes pendientes o Eliminar mensajes que ya fueron aprobados
-            </h1>
-
+          <div className="flex justify-center items-center mb-6">
+          <h1 className="text-2xl font-bold text-center mb-4">Plegarias a la Virgen</h1>
+          </div>
+          <div className="flex justify-center items-center mb-6">
+          <h2 className="text-lg font-bold text-center mb-4">Desde este panel vas a poder aceptar mensajes pendientes o eliminar mensajes.</h2>
+          </div>
+          {/* <div className="flex justify-center items-center mb-6">
+          <h2 className="text-2xl font-bold text-center mb-4">aceptar mensajes pendientes o eliminar mensajes.</h2>
+          </div> */}
+            
             <div className="w-full mt-4">
             {messages.map((msg) => (
               <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
                 
                 {/* Etiqueta de estado */}
-                <p className={`font-bold text-sm ${msg.estado ? 'text-green-700' : 'text-red-500'}`}>
-                  {msg.estado ? "Aprobado" : "Pendiente de aprobación"}
+                <p className={`font-bold text-md ${msg.estado ? 'text-green-500' : 'text-red-500'}`}> Estado: 
+                   {msg.estado ? " Aprobado " : " Pendiente de aprobación "}
                 </p>
 
                 {/* Texto del mensaje */}
               
-                  <p className="text-sm text-gray-500
+                  <p className="text-lg text-gray-500 font-bold
                                 px-9 flex justify-start">
                     Plegaria:
                   </p>
-                  <p className="text-gray-800 font-bold text-lg
+                  <p className="text-gray-800 font-bold text-md
                                 pl-9 flex justify-start">
                     {isJsonString(msg.texto) ? JSON.parse(msg.texto).texto : msg.texto}
                   </p>
@@ -173,7 +179,7 @@ const AdminVirgenView = () => {
                     <div className="flex justify-around my-4">
                       <div>
                         <button onClick={() => handleAccept(msg.id)}
-                                className="bg-green-800 hover:bg-green-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150
+                                className="bg-green-500 hover:bg-green-300 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150
                                           mr-2">
                           ACEPTAR
                         </button>

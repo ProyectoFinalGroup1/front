@@ -1,5 +1,3 @@
-
-
 import DashboardAdminView from "../views/DashboardAdminView";
 
 const AdminDashboard = () => {

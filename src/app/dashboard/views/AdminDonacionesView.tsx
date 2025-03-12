@@ -162,7 +162,7 @@ const AdminDonacionesView = () => {
 
     // Datos de donaciones
     doc.setFont("helvetica", "normal");
-    donaciones.forEach((donacion, index) => {
+    donaciones.forEach((donacion) => {
       const monto = donacion.monto;
       totalRecaudado += monto;
 
