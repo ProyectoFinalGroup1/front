@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+
 import toast, { Toaster } from "react-hot-toast";
 import { XCircle } from "lucide-react";
 
@@ -276,7 +276,7 @@ export default function EditarInhumado({
                 Fecha de Nacimiento
               </label>
               <input
-                type="date"
+               
                 name="fnac"
                 className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={formData.fnac || ""}
@@ -289,7 +289,7 @@ export default function EditarInhumado({
                 Fecha de Fallecimiento
               </label>
               <input
-                type="date"
+                
                 name="ffal"
                 className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={formData.ffal || ""}
@@ -406,11 +406,11 @@ export default function EditarInhumado({
               <div className="mt-2 relative inline-block">
              
                 <div className="relative h-20 w-20 border rounded overflow-hidden">
-                  <Image
+                  <img
                     src={imagePreview}
                     alt="Vista previa"
-                    layout="fill"
-                    objectFit="cover"
+                    
+                     className="w-20 h-20 object-cover border rounded"
                   />
                 </div>
                 {/* Botón para cerrar la vista previa */}
