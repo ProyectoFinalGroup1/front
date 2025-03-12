@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import WhatsAppButton from "./WhatsappButton";
 // <Link href="/"> <Image src="/images/logo.jpg" alt="Logo" width={25} height={25}™ /></Link>
 const Footer = () => {
   return (
@@ -37,9 +38,7 @@ const Footer = () => {
               </p>
             </Link>
 
-            <p>
-              <Image src="/images/logoWP.png" alt="Logo" width={20} height={20}/>
-            </p>
+            <WhatsAppButton/>
           </div>
 
       </div>
