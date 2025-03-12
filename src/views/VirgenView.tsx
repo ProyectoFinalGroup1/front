@@ -151,6 +151,15 @@ const VirgenView = () => {
   //   setEditInput('');
   // };
   const formatosPermitidos = ["image/jpeg", "image/png", "image/webp"];
+
+  const isValidJson = (str: string) => {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
   
   return (
     <div className="min-h-screen bg-fixed bg-cover bg-center text-black flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/flores.webp)' }}>
@@ -213,7 +222,7 @@ const VirgenView = () => {
                 {msg.estado ? (
                   <>
                     <p className="text-gray-800 font-bold text-lg">
-                      {JSON.parse(msg.texto).texto}
+                    {isValidJson(msg.texto) ? JSON.parse(msg.texto).texto : msg.texto}
                     </p>
 
                     {msg.imagenUrl && (
