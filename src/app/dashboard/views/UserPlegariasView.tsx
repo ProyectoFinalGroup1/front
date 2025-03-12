@@ -7,6 +7,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const UserPlegariasView = () => {
     const { userData } = useAuth();
+    const [filter, setFilter] = useState<"all" | "approved" | "pending">("all");
+
 
     const [allMessagges, setAllMessagges] = useState<{
         id: string;
