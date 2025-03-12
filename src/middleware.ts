@@ -1,22 +1,40 @@
 import { NextURL } from 'next/dist/server/web/next-url';
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server';
  
-// This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  //console.log(request);
-  const {pathname, origin} = request.nextUrl;
+  const { pathname, origin } = request.nextUrl;
+  const userDataCookie = request.cookies.get("userData")?.value;
   
-  // rutas a proteger
-  if((pathname === "/dashboard/user" || pathname === "/obituarios") && !request.cookies.get("userData")?.value){
-    const LoginUrl = new NextURL("/login", origin)
-    const response = NextResponse.redirect(LoginUrl)
+  // Si no hay sesión y trata de acceder a rutas protegidas
+  if ((pathname.startsWith("/dashboard") || pathname === "/obituarios") && !userDataCookie) {
+    const LoginUrl = new NextURL("/login", origin);
+    const response = NextResponse.redirect(LoginUrl);
 
     response.cookies.set("authError", "Tenés que Iniciar Sesión para acceder", {
       path: "/",
       maxAge: 10,
-    })
-    return response
-  } else {
-    return NextResponse.next();
+    });
+
+    return response;
   }
+
+  // Si hay sesión, verificar el rol del usuario
+  if (userDataCookie) {
+    try {
+      const userData = JSON.parse(userDataCookie);
+      const isAdmin = userData.user?.isAdmin; // Accediendo a user.isAdmin
+      
+      // Si es usuario normal y trata de acceder al dashboard de admin
+      if (!isAdmin && pathname.startsWith("/dashboard/admin")) {
+        return NextResponse.redirect(new NextURL("/dashboard/user", origin));
+      }
+
+      // **El admin puede acceder a ambos dashboards, así que no se le redirige**
+      
+    } catch (error) {
+      console.error("Error al parsear userData:", error);
+    }
+  }
+  
+  return NextResponse.next();
 }

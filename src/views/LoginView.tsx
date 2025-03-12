@@ -85,9 +85,9 @@ const LoginView = () => {
               setUserData({ token: response.token, user: response.userExisting });
               Cookies.set("userData", JSON.stringify({ token: response.token, user: response.userExisting }));
               if (response.userExisting.isAdmin) {
-                router.push("/dashboard/admin");
+                router.push("/");
               } else {
-                router.push("/dashboard/user");
+                router.push("/");
               }
             } catch (error) {
               console.log("Error al Iniciar Sesión:", error);
