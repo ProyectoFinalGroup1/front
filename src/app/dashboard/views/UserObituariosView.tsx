@@ -1,6 +1,7 @@
 'use client'; 
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import toast from "react-hot-toast";
 
 type Publicacion = {
   id: string;
@@ -29,7 +30,9 @@ const UserPublicacionesView = () => {
           const userId = userData?.user?.idUser;
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/publicaciones/misPublicaciones/${userId}`);
           if (!response.ok) {
-            throw new Error("Error al obtener las publicaciones");
+            toast.error("No tenes publicaciones realizadas");
+            return;
+            // throw new Error("Error al obtener las publicaciones");
           }
           const data: Publicacion[] = await response.json();
           setPublicaciones(data);
@@ -74,7 +77,7 @@ const UserPublicacionesView = () => {
       setMensajeEditado((prev) => ({ ...prev, [id]: "" }));
     } catch (error) {
       console.error("Error al editar la publicación:", error);
-      alert("Error al editar la publicación",);
+      toast.error("Error al editar la publicación",);
     }
   };
 

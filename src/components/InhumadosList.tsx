@@ -60,11 +60,11 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
     <div className="max-w-2xl mx-auto mt-4 p-3 bg-white bg-opacity-30 shadow-md rounded-xl backdrop-blur-sm">
       <h2 className="text-2xl font-semibold text-center text-white">🕊️🕊️🕊️🕊️🕊️🕊️🕊️🕊️🕊️</h2>
        
-       <div className="flex justify-center gap-4 mt-2">        
+       <div className="flex flex-wrap justify-center gap-4 mt-2">        
          <select
                    value={valle} 
                 onChange={(e) => setValle(e.target.value)}
-                className="p-2 border rounded-lg bg-white text-black" >
+                className="w-full max-w-[250px] sm:w-auto p-2 border rounded-lg bg-white text-black" >
                  <option value="">Ubicacion por Valle(Todos)</option> 
                   {uniqueValles.map((val) => ( 
                    <option key={val} value={val}> 
@@ -77,7 +77,7 @@ export default function InhumadosList({ searchTerm }: InhumadosListProps) {
                  <select 
                    value={year} 
                    onChange={(e) => setYear(e.target.value)} 
-                  className="p-2 border rounded-lg bg-white text-black">
+                  className="w-full max-w-[250px] sm:w-auto p-2 border rounded-lg bg-white text-black">
                    <option value="">Año de Fallecimiento(Todos)</option> 
                  {uniqueYears.map((y) => ( 
                      <option key={y} value={y}> 

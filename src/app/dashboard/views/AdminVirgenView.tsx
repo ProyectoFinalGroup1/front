@@ -163,7 +163,7 @@ const filteredMessages = messages.filter((msg) => {
   </button>
   <button
     onClick={() => setFilter("pendientes")}
-    className={`px-4 py-2 rounded-lg font-bold transition-all ${filter === "pendientes" ? "bg-red-500 text-white" : "bg-gray-300"}`}>
+    className={`px-4 py-2 rounded-lg font-bold transition-all ${filter === "pendientes" ? "bg-yellow-500 text-white" : "bg-gray-300"}`}>
     Pendientes
   </button>
 </div>

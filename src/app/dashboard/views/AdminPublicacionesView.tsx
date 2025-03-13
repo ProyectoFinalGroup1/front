@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import toast from "react-hot-toast";
 
 type Publicacion = {
   id: string;
@@ -28,7 +29,9 @@ const AdminPublicacionesView = () => {
         });
 
         if (!response.ok) {
-          throw new Error("Error al obtener las publicaciones");
+          toast.error("Error al obtener las publicaciones");
+          return;
+          // throw new Error("Error al obtener las publicaciones");
         }
 
         const data = await response.json();
@@ -60,12 +63,13 @@ const AdminPublicacionesView = () => {
         throw new Error("Error al eliminar la publicación");
       }
 
-      setPublicaciones(prev => prev.filter(pub => pub.id !== id));
-      alert("Publicación eliminada correctamente");
-    } catch (error) {
-      console.error("Error al eliminar la publicación:", error);
-      alert("Error al eliminar la publicación");
-    }
+      setPublicaciones((prev) => prev.filter((pub) => pub.id !== id));
+toast.success("Publicación eliminada correctamente");
+} catch (error) {
+  console.error("Error al eliminar la publicación:", error);
+  toast.error("Error al eliminar la publicación");
+}
+
   };
 
   const handleApprove = async (id: string) => {
@@ -84,10 +88,10 @@ const AdminPublicacionesView = () => {
       setPublicaciones(prev =>
         prev.map(pub => (pub.id === id ? { ...pub, aprobada: true } : pub))
       );
-      alert("Publicación aprobada correctamente");
+      toast.success("Publicación aprobada correctamente");
     } catch (error) {
       console.error("Error al aprobar la publicación:", error);
-      alert("Error al aprobar la publicación");
+      toast.error("Error al aprobar la publicación");
     }
   };
 
