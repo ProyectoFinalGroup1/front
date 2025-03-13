@@ -1,18 +1,26 @@
-'use client'
 import { useAuth } from "@/context/AuthContext";
-// import { useRouter } from "next/navigation";
-// import Cookies from 'js-cookie'
-// import { log } from "console";
+import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie'
+import { supabase } from "@/lib/supabase";
+
 
 
 const LogOutButton = () => {
-    const {  logout } = useAuth();
-   
-   
+    const { setUserData } = useAuth();
+    const router = useRouter();
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        setUserData(null);
+        localStorage.removeItem("sb-wbdarmsigbqzvkvcezkt-auth-token");
+        localStorage.removeItem("userSession")
+        localStorage.removeItem("chatbot_session_id")
+        localStorage.removeItem("darkMode")
+        Cookies.remove("userData", { path:''} )
+        router.push("/")
 
-    const handleLogout = () => {
-        logout();
-        
+
+
+
     }
     return (
         <button onClick={handleLogout}
