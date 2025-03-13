@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-// import { XCircle } from "lucide-react";
+import { XCircle } from "lucide-react";
 
 interface Inhumado {
   id: string;
@@ -84,10 +84,10 @@ export default function EditarInhumado({
   };
 
   //comento para build
-  // const removeImage = () => {
-  //   setImagePreview(null);
-  //   setImageFile(null);
-  // };
+  const removeImage = () => {
+    setImagePreview(null);
+    setImageFile(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
