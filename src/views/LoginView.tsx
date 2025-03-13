@@ -60,7 +60,7 @@ const LoginView = () => {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center mt-20">
+    <div className="flex flex-row justify-center items-center">
       <div className="w-full md:w-1/2">
 
         <div>
@@ -195,28 +195,25 @@ const LoginView = () => {
         </Formik>
       </div>
 
-      <div className="w-full md:w-1/2 h-full relative">
-        <Image
-          src="/images/fondo2.JPG"
-          alt=""
-          width={900}
-          height={900}
-          className="box-border rounded-tl-2xl rounded-bl-2xl"
-        />
-        <Link href="/">
-          <Image
-            src="/images/logo.jpg"
-            alt=""
-            width={250}
-            height={250}
-            className="absolute
-            top-1/2 left-1/2
-            transform -translate-x-1/2 -translate-y-1/2
-            transition-transform duration-300 ease-in-out 
-            hover:scale-150"
-          />
-        </Link>
-      </div>
+      <div className="top-0 right-0 w-full md:w-1/2 h-screen relative">
+  <Image
+    src="/images/fondo2.JPG"
+    alt=""
+    layout="fill" 
+    objectFit="cover" 
+    className="rounded-tl-2xl rounded-bl-2xl"
+  />
+  <Link href="/">
+    <Image
+      src="/images/logo.jpg"
+      alt=""
+      width={250}
+      height={250}
+      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 ease-in-out hover:scale-150"
+    />
+  </Link>
+</div>
+
     </div>
   );
 };

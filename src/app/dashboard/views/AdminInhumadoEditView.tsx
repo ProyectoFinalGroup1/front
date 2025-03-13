@@ -3,9 +3,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import toast, { Toaster } from "react-hot-toast";
-import { XCircle } from "lucide-react";
+// import { XCircle } from "lucide-react";
 
 interface Inhumado {
   id: string;
@@ -84,10 +83,11 @@ export default function EditarInhumado({
     }
   };
 
-  const removeImage = () => {
-    setImagePreview(null);
-    setImageFile(null);
-  };
+  //comento para build
+  // const removeImage = () => {
+  //   setImagePreview(null);
+  //   setImageFile(null);
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -233,10 +233,10 @@ export default function EditarInhumado({
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen">
       <Toaster position="top-right" />
-      <div className="bg-white shadow-lg rounded-2xl p-6 max-w-4xl w-full m-20">
-        <h1 className="text-2xl font-bold text-center text-gray-700 mb-4">
+      <div className=" shadow-lg rounded-2xl p-6 max-w-4xl w-full m-20">
+        <h1 className="text-2xl font-bold text-center mb-4">
           Editar Inhumado
         </h1>
 

@@ -8,7 +8,7 @@ export default function Home() {
       <div 
         className="relative px-6 py-24 text-center min-h-screen flex items-center justify-center transition-opacity duration-1000 ease-in-out"
         style={{ 
-          backgroundImage: "url('/images/mural.png')", 
+          backgroundImage: "url('/webp/mural.webp')", 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -26,7 +26,7 @@ export default function Home() {
       <div 
         className="relative px-6 py-8 text-center min-h-screen flex items-center justify-center"
         style={{ 
-          backgroundImage: "url('/images/fondo.jpg')", 
+          backgroundImage: "url('/webp/fondo.webp')", 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -79,7 +79,7 @@ export default function Home() {
       <div 
         className="relative px-6 py-24 text-center min-h-screen flex items-center justify-center"
         style={{ 
-          backgroundImage: "url('/images/fondo4.png')", 
+          backgroundImage: "url('/webp/fondo4.webp')", 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -87,7 +87,7 @@ export default function Home() {
       >
         <div className="w-full max-w-[90%] md:max-w-2xl bg-white bg-opacity-30 shadow-md rounded-xl p-6 backdrop-blur-sm">
           <p className="text-lg md:text-xl font-medium leading-relaxed text-gray-900 mb-4">
-            Encuentra la ubicación exacta de Valle de Paz en el mapa a continuación.
+            Encontrá la ubicación exacta de Valle de Paz en el mapa
           </p>
       
           <div className="w-full h-64 md:h-96 border-4 border-gray-300 rounded-lg overflow-hidden">

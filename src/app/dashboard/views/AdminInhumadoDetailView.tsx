@@ -190,7 +190,7 @@ export default function DetalleInhumado({ params }: { params: { inhumadoId: stri
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-10 px-4">
+    <div className="min-h-screen bg-gradient-to-b py-10 px-4">
       <div className="max-w-5xl mx-auto m-16">
         {/* Cabecera con nombre y acciones rápidas */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden mb-4">

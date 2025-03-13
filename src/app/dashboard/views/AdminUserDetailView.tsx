@@ -116,9 +116,9 @@ const AdminUserDetailView = () => {
   if (!user) return <p className="text-gray-500 text-center">No se encontró el usuario</p>;
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-2xl p-6 max-w-lg w-full">
-        <h1 className="text-2xl font-bold text-center text-gray-700 mb-4">Detalles del Usuario</h1>
+    <div className="flex justify-center items-center min-h-screen">
+      <div className=" shadow-lg rounded-2xl p-6 max-w-lg w-full">
+        <h1 className="text-2xl font-bold text-center mb-4">Detalles del Usuario</h1>
         <div className="space-y-3">
           <p className="text-lg">
             <strong>👤 Nombre:</strong> {user.nombre} {user.apellido}

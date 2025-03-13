@@ -34,7 +34,7 @@ const RegisterView: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center mt-20">
+    <div className="flex flex-row justify-center items-center">
 
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-white p-6 lg:p-10">
         <div className="w-full max-w-md">
@@ -192,13 +192,13 @@ const RegisterView: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-full md:w-1/2 h-full relative">
+      <div className="top-0 right-0 w-full md:w-1/2 h-screen relative">
         <Image
           src="/images/fondo2.JPG"
           alt=""
-          width={900}
-          height={900}
-          className="box-border rounded-tl-2xl rounded-bl-2xl"
+          layout="fill" 
+          objectFit="cover" 
+          className="rounded-tl-2xl rounded-bl-2xl"
         />
         <Link href="/">
           <Image
@@ -206,11 +206,7 @@ const RegisterView: React.FC = () => {
             alt=""
             width={250}
             height={250}
-            className="absolute
-            top-1/2 left-1/2
-            transform -translate-x-1/2 -translate-y-1/2
-            transition-transform duration-300 ease-in-out 
-	          hover:scale-150"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 ease-in-out hover:scale-150"
           />
         </Link>
       </div>

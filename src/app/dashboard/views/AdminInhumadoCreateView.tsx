@@ -98,9 +98,9 @@ const AdminInhumadoCreateView = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-2xl p-6 max-w-4xl w-full m-20">
-        <h1 className="text-2xl font-bold text-center text-gray-700 mb-4">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className=" shadow-lg rounded-2xl p-6 max-w-4xl w-full m-20">
+        <h1 className="text-2xl font-bold text-center mb-4">
           Agregar Nuevo Inhumado
         </h1>
 

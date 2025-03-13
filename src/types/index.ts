@@ -71,6 +71,7 @@ export interface IUserDetails {
   recibirRecordatoriosAniversarios: boolean;
   phoneNumber: string;
   fechaPago: Date;
+  imagenUrl: File;
 }
 
 
