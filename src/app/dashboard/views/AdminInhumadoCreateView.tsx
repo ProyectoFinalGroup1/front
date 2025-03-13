@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { XCircle } from "lucide-react";
 import { IInhumadoFormData } from "@/types";
-import Image from "next/image";
+
 
 
 
@@ -183,7 +183,7 @@ const AdminInhumadoCreateView = () => {
               <div className="mt-2 relative inline-block">
                
                 <div className="relative inline-block">
-                  <Image
+                  <img
                     src={imagePreview}
                     alt="Vista previa"
                     className="w-20 h-20 object-cover border rounded"
