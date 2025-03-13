@@ -6,7 +6,13 @@ export function middleware(request: NextRequest) {
   const userDataCookie = request.cookies.get("userData")?.value;
   
   // Si no hay sesión y trata de acceder a rutas protegidas
-  if ((pathname.startsWith("/dashboard") || pathname === "/obituarios") && !userDataCookie) {
+  if ((pathname.startsWith("/dashboard") ||
+      pathname === "/obituarios" ||
+      pathname === "/donacion" ||
+      pathname === "/donacion/success" ||
+      pathname === "/donacion/failure" ||
+      pathname === "/donacion/pending"
+      ) && !userDataCookie) {
     const LoginUrl = new NextURL("/login", origin);
     const response = NextResponse.redirect(LoginUrl);
 
