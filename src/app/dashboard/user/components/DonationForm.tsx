@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { IUserSession } from "@/types/index";
+import toast from "react-hot-toast";
 
 const DonationForm = () => {
   const { userData } = useAuth() as { userData: IUserSession | null };
@@ -49,7 +50,7 @@ const DonationForm = () => {
       }
     } catch (error) {
       console.error("Error en la donación:", error);
-      alert("Hubo un problema con la donación. Inténtalo nuevamente.");
+      toast.error("Hubo un problema con la donación. Inténtalo nuevamente.");
     }
   };
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import DonationForm from "@/app/dashboard/user/components/DonationForm";
 import { useAuth } from "@/context/AuthContext";
 import jsPDF from "jspdf";
+import {toast} from "react-hot-toast"
 
 type Donacion = {
   idDonacion: string;
@@ -29,8 +30,11 @@ const UserDonacionesView = () => {
           const userId = userData?.user?.idUser;
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/mercadopago/donaciones-aprobadas/${userId}`);
           if (!response.ok) {
-            throw new Error("Error al obtener las donaciones");
-          }
+            toast.error("No se detectó ninguna donacion por el momento");
+        return;
+      }
+          //   throw new Error("no tenes donaciones aún");
+          // }
           const data: Donacion[] = await response.json();
           setDonaciones(data);
         } else {
