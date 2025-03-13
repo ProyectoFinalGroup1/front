@@ -12,8 +12,6 @@ const AdminUserDetailView = () => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
- 
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -99,11 +97,30 @@ const AdminUserDetailView = () => {
     );
   };
 
-
   const handleBack = () => {
     router.push('/dashboard/admin/usuarios');
   };
 
+  // Formatear la fecha correctamente sin desplazamientos de zona horaria
+  const formatDisplayDate = (dateString: string | null | undefined) => {
+    if (!dateString) return 'No disponible';
+    
+    try {
+      // Crear fecha a partir del string ISO
+      const date = new Date(dateString);
+      
+      // Extraer componentes de fecha en UTC para evitar desplazamientos de zona horaria
+      const day = String(date.getUTCDate()).padStart(2, '0');
+      const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+      const year = date.getUTCFullYear();
+      
+      // Formato DD/MM/YYYY para mostrar
+      return `${day}/${month}/${year}`;
+    } catch (e) {
+      console.error("Error formatting date:", e);
+      return 'Fecha inválida';
+    }
+  };
 
   if (loading)
     return (
@@ -137,7 +154,7 @@ const AdminUserDetailView = () => {
             <span className="ml-2">{user.recibirRecordatoriosAniversarios ? '✅' : '❌'}</span>
           </p>
           <p className="text-lg">
-            <strong>💰 Fecha de pago:</strong> {user.fechaPago ? new Date(user.fechaPago).toLocaleDateString() : 'No disponible'}
+            <strong>💰 Fecha de pago:</strong> {formatDisplayDate(user.fechaPago?.toString())}
           </p>
         </div>
 
@@ -155,12 +172,12 @@ const AdminUserDetailView = () => {
             🗑️ Eliminar
           </button>
           
-            <button
-              onClick={handleBack}
-              className="bg-gray-500 text-white px-6 py-2 rounded-xl hover:bg-gray-700 transition-all"
-            >
-              Volver a la lista
-            </button>
+          <button
+            onClick={handleBack}
+            className="bg-gray-500 text-white px-6 py-2 rounded-xl hover:bg-gray-700 transition-all"
+          >
+            Volver a la lista
+          </button>
         </div>
       </div>
     </div>
