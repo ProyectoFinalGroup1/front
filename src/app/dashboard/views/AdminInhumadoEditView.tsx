@@ -443,7 +443,7 @@ export default function EditarInhumado({
                 saving ? "opacity-70 cursor-not-allowed" : ""
               }`}
             >
-              {saving ? "Guardando..." : "Guardar Cambios"}
+              {saving ? "Guardando..." : "Guardar Cambios"} 
             </button>
           </div>
         </form>
