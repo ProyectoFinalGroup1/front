@@ -40,7 +40,18 @@ export default function DetalleInhumado({ params }: { params: { inhumadoId: stri
       try {
         console.log("Obteniendo inhumado con ID:", inhumadoId);
         
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inhumados/${inhumadoId}`);
+        const tokenData = localStorage.getItem('userSession');
+        const parsedToken = tokenData ? JSON.parse(tokenData) : null;
+        const token = parsedToken?.token;
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/inhumados/${inhumadoId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
         
         console.log("Respuesta:", response.status, response.statusText);
         

@@ -39,8 +39,17 @@ export default function EditarInhumado({
   useEffect(() => {
     const fetchInhumado = async () => {
       try {
+        const tokenData = localStorage.getItem('userSession');
+        const parsedToken = tokenData ? JSON.parse(tokenData) : null;
+        const token = parsedToken?.token;
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/inhumados/${inhumadoId}`
+          `${process.env.NEXT_PUBLIC_API_URL}/inhumados/${inhumadoId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         if (!response.ok) {
           throw new Error("No se pudo obtener la información del inhumado");
@@ -131,9 +140,7 @@ export default function EditarInhumado({
               toast.loading("Guardando cambios...");
 
               try {
-                const tokenData = localStorage.getItem("userSession");
-                const parsedToken = tokenData ? JSON.parse(tokenData) : null;
-                const token = parsedToken?.token;
+                
 
                 // Crear un FormData para enviar tanto los datos como la imagen en un solo request
                 const completeFormData = new FormData();
@@ -155,6 +162,9 @@ export default function EditarInhumado({
                 }
 
                 // Enviar todos los datos en un solo request
+                const tokenData = localStorage.getItem("userSession");
+                const parsedToken = tokenData ? JSON.parse(tokenData) : null;
+                const token = parsedToken?.token
                 const updateResponse = await fetch(
                   `${process.env.NEXT_PUBLIC_API_URL}/inhumados/${inhumadoId}`,
                   {
