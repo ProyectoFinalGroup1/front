@@ -19,6 +19,8 @@ const UserPublicacionesView = () => {
   const [paginaActual, setPaginaActual] = useState<number>(1);
   const [publicacionesPorPagina] = useState<number>(5); 
   const [mensajeEditado, setMensajeEditado] = useState<{ [key: string]: string }>({});
+  const [edicionHabilitada, setEdicionHabilitada] = useState({});
+
 
   useEffect(() => {
     const fetchPublicaciones = async () => {
@@ -100,7 +102,7 @@ const UserPublicacionesView = () => {
         {loading && <p className="text-center text-gray-500">Cargando...</p>}
         {error && <p className="text-red-600 text-center">{error}</p>}
 
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-center items-center mb-6">
 
            <div className="flex space-x-4">
              <button
@@ -130,29 +132,61 @@ const UserPublicacionesView = () => {
           ) : (
             <ul className="space-y-6 mt-6">
               {publicacionesActuales.map((publicacion) => (
-                <li key={publicacion.id} className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                  <textarea
-                    value={mensajeEditado[publicacion.id] ?? publicacion.mensaje}
-                    onChange={(e) => setMensajeEditado({ ...mensajeEditado, [publicacion.id]: e.target.value })}
-                    className="w-full border border-gray-300 rounded-md p-2 mt-2"
-                  />
-                  <button
-                    onClick={() => handleEdit(publicacion.id)}
-                    className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                  >
-                    Guardar Cambios
-                  </button>
+                <li key={publicacion.id} className="p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
                   <p className="flex text-sm text-gray-500 mt-2">Fecha: {new Date(publicacion.fechaPublicacion).toLocaleDateString()}</p>
                   {publicacion.imagen && (
                     <img 
-                      src={publicacion.imagen} 
-                      alt="Imagen de la publicación" 
-                      className="max-w-[25vw] h-auto mt-4 mx-auto rounded-lg shadow-sm" 
+                    src={publicacion.imagen} 
+                    alt="Imagen de la publicación" 
+                    className="max-w-[25vw] h-auto mt-4 mx-auto rounded-lg shadow-sm" 
                     />
                   )}
-                  <p className={`mt-4 text-sm font-semibold ${publicacion.aprobada ? 'text-green-600' : 'text-red-600'}`}>  
-                  Estado: {publicacion.aprobada ? 'Aprobada' : 'Pendiente de aprobación'}
-                  </p>
+                   
+                   <p className={`mt-4 text-center text-sm font-semibold ${publicacion.aprobada ? 'text-green-600' : 'text-red-600'}`}>  
+  Estado: {publicacion.aprobada ? 'Aprobada' : 'Pendiente de aprobación'}
+
+  <label className="block text-left font-semibold mt-2">Publicación:</label>
+  <textarea
+    value={mensajeEditado[publicacion.id] ?? publicacion.mensaje}
+    onChange={(e) => setMensajeEditado({ ...mensajeEditado, [publicacion.id]: e.target.value })}
+    className="w-full border border-gray-300 rounded-md p-2 mt-2"
+    disabled={!edicionHabilitada[publicacion.id]}
+  />
+
+  <div className="flex justify-center gap-2 mt-2">
+    {!edicionHabilitada[publicacion.id] ? (
+      <button
+        onClick={() => setEdicionHabilitada({ ...edicionHabilitada, [publicacion.id]: true })}
+        className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+      >
+        Modificar
+      </button>
+    ) : (
+      <>
+        <button
+          onClick={() => {
+            setMensajeEditado({ ...mensajeEditado, [publicacion.id]: publicacion.mensaje });
+            setEdicionHabilitada({ ...edicionHabilitada, [publicacion.id]: false });
+          }}
+          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+        >
+          Cancelar
+        </button>
+
+        <button
+          onClick={() => {
+            handleEdit(publicacion.id);
+            setEdicionHabilitada({ ...edicionHabilitada, [publicacion.id]: false });
+          }}
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        >
+          Guardar Cambios
+        </button>
+      </>
+    )}
+  </div>
+</p>
+
                 </li>
               ))}
             </ul>

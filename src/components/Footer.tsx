@@ -1,50 +1,38 @@
 import Link from "next/link";
 import Image from "next/image";
 import WhatsAppButton from "./WhatsappButton";
-// <Link href="/"> <Image src="/images/logo.jpg" alt="Logo" width={25} height={25}™ /></Link>
+
 const Footer = () => {
   return (
-    <footer className="bg-white bg-opacity-30 shadow-md
-                      w-full
-                      py-4
-                      text-center
-                      text-m text-gray-500 font-semibold
-                      ">
-      <div className="flex flex-row justify-around">
-          <div className="flex flex-row">
-            <Link href="/">
-              <p>
-                VALLE DE PAZ ©2025.
-              </p>
-            </Link>
-          </div>
-          
-          <div>
-            <p>
-              ®All Rights Reserved
-            </p>
-          </div>
+    <footer className="bg-white bg-opacity-30 shadow-md w-full py-4 text-center text-sm text-gray-500 font-semibold">
+      <div className="flex flex-wrap justify-center md:justify-between items-center gap-4 px-4 max-w-5xl mx-auto">
+        {/* Nombre y copyright */}
+        <div>
+          <Link href="/">
+            <p className="hover:text-gray-700 transition-colors">VALLE DE PAZ ©2025.</p>
+          </Link>
+        </div>
 
-          <div className="flex flex-row">
-            <Link href="https://www.facebook.com/share/19qtxcDyzh/?mibextid=wwXIfr">
-              <p>
-                <Image src="/images/logoFB.png" alt="Logo" width={25} height={25}/>
-              </p>
-            </Link>
+        {/* Derechos reservados */}
+        <div>
+          <p>®All Rights Reserved</p>
+        </div>
 
-            <Link href="https://www.instagram.com/valledepaz.cp?igsh=MWtrYnkzaDNsdnA3NA==">
-              <p className="px-8">
-                <Image src="/images/logoIG.png" alt="Logo" width={25} height={25}/>
-              </p>
-            </Link>
+        {/* Redes sociales y WhatsApp */}
+        <div className="flex items-center gap-4">
+          <Link href="https://www.facebook.com/share/19qtxcDyzh/?mibextid=wwXIfr">
+            <Image src="/images/logoFB.png" alt="Facebook" width={25} height={25} className="hover:scale-110 transition-transform" />
+          </Link>
 
-            <WhatsAppButton/>
-          </div>
+          <Link href="https://www.instagram.com/valledepaz.cp?igsh=MWtrYnkzaDNsdnA3NA==">
+            <Image src="/images/logoIG.png" alt="Instagram" width={25} height={25} className="hover:scale-110 transition-transform" />
+          </Link>
 
+          <WhatsAppButton />
+        </div>
       </div>
-
     </footer>
   );
-}
+};
 
 export default Footer;

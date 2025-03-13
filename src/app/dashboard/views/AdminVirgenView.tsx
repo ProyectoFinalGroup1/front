@@ -18,6 +18,9 @@ const AdminVirgenView = () => {
                                             estado: boolean;
                                             idUser: string;
                                             }[]>([]);
+
+  const [filter, setFilter] = useState<"todos" | "aprobados" | "pendientes">("todos"); // Estado del filtro
+
     
   useEffect(() => {
       const fetchMessages = async () => {
@@ -127,6 +130,13 @@ const AdminVirgenView = () => {
     }
   };
 
+// Función para filtrar mensajes según el estado seleccionado
+const filteredMessages = messages.filter((msg) => {
+  if (filter === "aprobados") return msg.estado === true;
+  if (filter === "pendientes") return msg.estado === false;
+  return true; // "todos"
+});
+
     return (
         <div>
           <div className="flex justify-center items-center mb-6">
@@ -138,13 +148,32 @@ const AdminVirgenView = () => {
           {/* <div className="flex justify-center items-center mb-6">
           <h2 className="text-2xl font-bold text-center mb-4">aceptar mensajes pendientes o eliminar mensajes.</h2>
           </div> */}
-            
+       
+        {/* Botones de filtro */}
+<div className="flex justify-center gap-4 mb-6">
+  <button
+    onClick={() => setFilter("todos")}
+    className={`px-4 py-2 rounded-lg font-bold transition-all ${filter === "todos" ? "bg-blue-500 text-white" : "bg-gray-300"}`}>
+    Todos
+  </button>
+  <button
+    onClick={() => setFilter("aprobados")}
+    className={`px-4 py-2 rounded-lg font-bold transition-all ${filter === "aprobados" ? "bg-green-500 text-white" : "bg-gray-300"}`}>
+    Aprobados
+  </button>
+  <button
+    onClick={() => setFilter("pendientes")}
+    className={`px-4 py-2 rounded-lg font-bold transition-all ${filter === "pendientes" ? "bg-red-500 text-white" : "bg-gray-300"}`}>
+    Pendientes
+  </button>
+</div>
+
             <div className="w-full mt-4">
-            {messages.map((msg) => (
-              <div key={msg.id} className="p-3 rounded-lg shadow-md mb-2 text-center">
+            {filteredMessages.map((msg) => (
+              <div key={msg.id} className="mt-4 text-sm font-semibold text-red-600">
                 
                 {/* Etiqueta de estado */}
-                <p className={`font-bold text-md ${msg.estado ? 'text-green-500' : 'text-red-500'}`}> Estado: 
+                <p className={`font-bold text-md text-center ${msg.estado ? 'text-green-500' : 'text-red-500'}`}> Estado: 
                    {msg.estado ? " Aprobado " : " Pendiente de aprobación "}
                 </p>
 
@@ -152,7 +181,7 @@ const AdminVirgenView = () => {
               
                   <p className="text-lg text-gray-500 font-bold
                                 px-9 flex justify-start">
-                    Plegaria:
+                    Mensaje:
                   </p>
                   <p className="text-gray-800 font-bold text-md
                                 pl-9 flex justify-start">
@@ -163,25 +192,24 @@ const AdminVirgenView = () => {
                 {/* Imagen si la tiene */}
                 {msg.imagenUrl && (
                   <div className="flex justify-center">
-                    <img src={msg.imagenUrl} alt="Imagen del mensaje" className="mt-2 max-w-xs rounded-lg" />
+                    <img src={msg.imagenUrl} alt="Imagen del mensaje" className="max-w-[25vw] h-auto mt-4 mx-auto rounded-lg shadow-sm" />
                   </div>
                 )}
 
                 {/* Información adicional */}
-                <p className="text-xs text-gray-500
-                              pl-9 flex justify-start">
-                  Fecha {new Date(msg.fechaPublicacion).toLocaleString()}
-                </p>
+                <p className="text-sm text-gray-500 font-bold
+                                px-9 flex justify-start">
+                    Fecha: {new Date(msg.fechaPublicacion).toLocaleString()}</p>
+                
 
                 {/* Botones según el estado del mensaje */}
                   {/* Si el mensaje está pendiente */}
                   {!msg.estado && (
-                    <div className="flex justify-around my-4">
+                    <div className="flex justify-center my-4">
                       <div>
                         <button onClick={() => handleAccept(msg.id)}
-                                className="bg-green-500 hover:bg-green-300 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150
-                                          mr-2">
-                          ACEPTAR
+                                className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-300">
+                          Aprobar
                         </button>
                         {/* <button className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
                           RECHAZAR
@@ -190,8 +218,8 @@ const AdminVirgenView = () => {
                       
                       <div className="flex justify-end">
                         <button onClick={() => handleDelete(msg.id)}
-                                className="bg-red-700 hover:bg-red-500 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-150">
-                          ELIMINAR
+                                className="mt-4 ml-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                          Eliminar
                         </button>
                       </div>
                     </div>

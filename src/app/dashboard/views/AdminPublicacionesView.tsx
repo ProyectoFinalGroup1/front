@@ -94,6 +94,7 @@ const AdminPublicacionesView = () => {
   const publicacionesFiltradas = publicaciones.filter(publicacion => {
     if (filtro === "aprobadas") return publicacion.aprobada;
     if (filtro === "pendientes") return !publicacion.aprobada;
+    if (filtro === "aprobadas" && "pendientes") return !publicacion.aprobada && publicacion.aprobada;
     return true;
   });
 
@@ -109,18 +110,26 @@ const AdminPublicacionesView = () => {
         {loading && <p className="text-center text-gray-500">Cargando...</p>}
         {error && <p className="text-red-600 text-center">{error}</p>}
 
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center gap-4 mb-6">
+        <button
+            onClick={() => setFiltro("todas")}
+            className={`px-4 py-2 rounded-lg mx-2 ${filtro === "todas" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+          >
+            Todos
+          </button>
+
+          <button
+            onClick={() => setFiltro("aprobadas")}
+            className={`px-4 py-2 rounded-lg mx-2 ${filtro === "aprobadas" ? "bg-green-500 text-white" : "bg-gray-200"}`}
+          >
+            Aprobados
+          </button>
+
           <button
             onClick={() => setFiltro("pendientes")}
             className={`px-4 py-2 rounded-lg mx-2 ${filtro === "pendientes" ? "bg-yellow-500 text-white" : "bg-gray-200"}`}
           >
             Pendientes
-          </button>
-          <button
-            onClick={() => setFiltro("aprobadas")}
-            className={`px-4 py-2 rounded-lg mx-2 ${filtro === "aprobadas" ? "bg-green-500 text-white" : "bg-gray-200"}`}
-          >
-            Aprobadas
           </button>
         </div>
 

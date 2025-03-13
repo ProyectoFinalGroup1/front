@@ -86,6 +86,8 @@ const ChatbotComponent: React.FC = () => {
              }}>
           
           <div className="flex justify-between items-center p-4 border-b border-gray-200">
+          <img src="/images/paloma2sinfondo.png" alt="Asistente Virtual" className=" h-7 rounded-full mr-2" />
+
             <h2 className="text-xl font-semibold text-green-600">Asistente Virtual</h2>
             <button 
               onClick={() => setIsOpen(false)} 
@@ -105,34 +107,37 @@ const ChatbotComponent: React.FC = () => {
             ) : (
               latestExchange.map((msg, index) => (
                 <div key={index} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className="flex flex-col max-w-[90%] sm:max-w-[80%]">
-                    <span
-                      className={`inline-block px-4 py-2 rounded-2xl text-sm ${
-                        msg.sender === "user" ? "bg-green-200 text-green-800" : "bg-gray-200 text-gray-800"
-                      }`}
-                    >
-                      {msg.text}
-                    </span>
-                    {msg.timestamp && (
-                      <span className="text-xs text-gray-500 mt-1 px-1">
-                        {formatTimestamp(msg.timestamp)}
-                      </span>
-                    )}
-                  </div>
-                </div>
+  <div className="flex flex-col max-w-[90%] sm:max-w-[80%]">
+    <span
+      className={`inline-block px-4 py-2 rounded-2xl text-sm shadow-md ${
+        msg.sender === "user"
+          ? "bg-green-200 text-green-800 font-semibold"
+          : "bg-gray-200 text-gray-800 font-medium"
+      }`}
+    >
+      {msg.text}
+    </span>
+    {msg.timestamp && (
+      <span className="text-xs text-gray-500 mt-1 px-1">{formatTimestamp(msg.timestamp)}</span>
+    )}
+  </div>
+</div>
+
               ))
             )}
             {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-gray-200 text-gray-800 px-4 py-2 rounded-2xl text-sm">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
-                  </div>
-                </div>
-              </div>
-            )}
+  <div className="flex justify-start">
+    <div className="bg-gray-200 text-gray-800 px-4 py-2 rounded-2xl text-sm shadow-md flex items-center space-x-2">
+      <span>Escribiendo</span>
+      <div className="flex space-x-1">
+        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+      </div>
+    </div>
+  </div>
+)}
+
           </div>
 
           {/* Área de input */}

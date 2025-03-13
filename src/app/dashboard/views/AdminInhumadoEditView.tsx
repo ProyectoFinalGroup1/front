@@ -3,9 +3,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import toast, { Toaster } from "react-hot-toast";
-import { XCircle } from "lucide-react";
+// import { XCircle } from "lucide-react";
 
 interface Inhumado {
   id: string;
@@ -84,10 +83,11 @@ export default function EditarInhumado({
     }
   };
 
-  const removeImage = () => {
-    setImagePreview(null);
-    setImageFile(null);
-  };
+  //comento para build
+  // const removeImage = () => {
+  //   setImagePreview(null);
+  //   setImageFile(null);
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -233,10 +233,10 @@ export default function EditarInhumado({
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen">
       <Toaster position="top-right" />
-      <div className="bg-white shadow-lg rounded-2xl p-6 max-w-4xl w-full m-20">
-        <h1 className="text-2xl font-bold text-center text-gray-700 mb-4">
+      <div className=" shadow-lg rounded-2xl p-6 max-w-4xl w-full m-20">
+        <h1 className="text-2xl font-bold text-center mb-4">
           Editar Inhumado
         </h1>
 
@@ -391,38 +391,30 @@ export default function EditarInhumado({
             </div>
           </div>
 
-          <div>
-            <label className="block mb-2 text-gray-700">
-              Imagen <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="file"
-              accept="image/jpeg, image/png"
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onChange={handleImageChange}
-            />
+          <div className="flex flex-col items-center gap-3">
+  <label className="block text-gray-700 font-medium">Imagen <span className="text-red-500">*</span></label>
 
-            {imagePreview && (
-              <div className="mt-2 relative inline-block">
-             
-                <div className="relative h-20 w-20 border rounded overflow-hidden">
-                  <Image
-                    src={imagePreview}
-                    alt="Vista previa"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-                {/* Botón para cerrar la vista previa */}
-                <button
-                  onClick={removeImage}
-                  className="absolute top-0 right-0 bg-white rounded-full p-1 shadow-md hover:bg-gray-200"
-                >
-                  <XCircle size={16} className="text-red-500" />
-                </button>
-              </div>
-            )}
-          </div>
+  <label className="cursor-pointer bg-blue-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-600 transition-all flex items-center gap-2">
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"></path>
+    </svg>
+    Subir Imagen
+    <input 
+      type="file" 
+      accept="image/jpeg, image/png" 
+      className="hidden" 
+      onChange={handleImageChange} 
+    />
+  </label>
+
+  {imagePreview && (
+    <img 
+      src={imagePreview} 
+      alt="Vista previa" 
+      className="w-32 h-32 object-cover rounded-full border shadow-md"
+    />
+  )}
+</div>
 
           {error && (
             <div className="p-3 bg-red-100 text-red-700 rounded">{error}</div>

@@ -10,20 +10,31 @@ const Navbar = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Ocultar Navbar en estas rutas
+  // Ocultar Navbar en estas rutas estáticas
   const hiddenRoutes = [
     "/dashboard/user/donaciones",
     "/dashboard/user/obituarios",
     "/dashboard/user/misdatos",
-    //admin
     "/dashboard/admin/usuarios",
     "/dashboard/admin/inhumados",
     "/dashboard/admin/mensajes",
     "/dashboard/admin/mensajesVirgen",
-    "/dashboard/admin/donaciones"
-
+    "/dashboard/admin/donaciones",
+    "/dashboard/admin/inhumados/altaInhumado", 
   ];
-  if (hiddenRoutes.includes(pathname)) return null;
+
+  // Ocultar Navbar en rutas dinámicas
+  const dynamicRoutes = [
+    /^\/dashboard\/admin\/usuarios\/detalle\/[a-f0-9-]+$/,
+    /^\/dashboard\/admin\/usuarios\/editar\/[a-f0-9-]+$/,
+    /^\/dashboard\/admin\/inhumados\/detalle\/[a-f0-9-]+$/,
+    /^\/dashboard\/admin\/inhumados\/editar\/[a-f0-9-]+$/
+  ];
+  
+  // Verificar si la ruta actual coincide con alguna de las rutas ocultas
+  const isDynamicRoute = dynamicRoutes.some(pattern => pattern.test(pathname));
+
+  if (hiddenRoutes.includes(pathname) || isDynamicRoute) return null;
 
   return (
     <header className="absolute inset-x-0 top-0 z-30 w-full py-2 bg-white bg-opacity-30 shadow-md">
@@ -36,10 +47,10 @@ const Navbar = () => {
 
         {/* Menú de navegación */}
         <nav className={`absolute md:static top-12 left-0 w-full bg-white bg-opacity-90 md:bg-transparent p-2 md:p-0 flex flex-col md:flex-row md:items-center justify-between md:justify-evenly transition-all duration-300 ${isOpen ? "block" : "hidden md:flex"}`}>
-          <Link className="text-lg font-bold text-black rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/">Inicio</Link>
-          <Link className="text-lg font-bold text-black rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/nuestraempresa">Nuestra Empresa</Link>
-          <Link className="text-lg font-bold text-black rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/obituarios">Obituarios</Link>
-          <Link className="text-lg font-bold text-black rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/virgenmaria">Virgen María De San Nicolás</Link>
+          <Link className="text-lg font-bold text-gray-800 rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/">Inicio</Link>
+          <Link className="text-lg font-bold text-gray-800 rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/nuestraempresa">Nuestra Empresa</Link>
+          <Link className="text-lg font-bold text-gray-800 rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/obituarios">Obituarios</Link>
+          <Link className="text-lg font-bold text-gray-800 rounded-xl px-4 py-1 transition-all duration-200 hover:bg-green-800 hover:text-white text-shadow-md stroke-black" href="/virgenmaria">Virgen María De San Nicolás</Link>
         </nav>
 
         {/* Botón de perfil o login */}
@@ -60,5 +71,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 

@@ -179,7 +179,7 @@ const UserPlegariasView = () => {
                                 parsedTexto = msg.texto; // Si falla el parseo, asumimos que ya es un string plano
                             }
                         return (
-                            <div key={msg.id} className="message-card border p-4 rounded-lg shadow-md my-4">
+                            <div key={msg.id} className="message-card p-4 rounded-lg shadow-md my-4">
 
                                 {/* Edición */}
                                 <textarea
