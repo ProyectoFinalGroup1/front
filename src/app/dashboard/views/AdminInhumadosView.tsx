@@ -22,7 +22,15 @@ const AdminInhumadosView = () => {
   const fetchInhumados = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inhumados`);
+      const tokenData = localStorage.getItem('userSession');
+      const parsedToken = tokenData ? JSON.parse(tokenData) : null;
+      const token = parsedToken?.token;
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inhumados`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
         throw new Error('Error al cargar los inhumados');
       }

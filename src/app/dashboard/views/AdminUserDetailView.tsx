@@ -101,7 +101,7 @@ const AdminUserDetailView = () => {
 
 
   const handleBack = () => {
-    router.back();
+    router.push('/dashboard/admin/usuarios');
   };
 
 
@@ -159,7 +159,7 @@ const AdminUserDetailView = () => {
               onClick={handleBack}
               className="bg-gray-500 text-white px-6 py-2 rounded-xl hover:bg-gray-700 transition-all"
             >
-              Volver atrás
+              Volver a la lista
             </button>
         </div>
       </div>

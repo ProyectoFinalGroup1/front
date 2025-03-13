@@ -75,9 +75,15 @@ const AdminInhumadoCreateView = () => {
         submitData.append(key, value);
       });
 
+      const tokenData = localStorage.getItem('userSession');
+      const parsedToken = tokenData ? JSON.parse(tokenData) : null;
+      const token = parsedToken?.token;
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/inhumados/addInhumado`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           method: "POST",
           body: submitData,
         }
